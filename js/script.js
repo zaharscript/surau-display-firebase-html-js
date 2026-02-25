@@ -1,10 +1,15 @@
-import { db } from "./firebase.js";
+import { db, auth } from "./firebase.js";
 import {
   collection,
   onSnapshot,
   query,
   orderBy,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { formatDateDDMMYYYY, formatTime12h } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -50,6 +55,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Start Poster Slider
     setupPosterSlider();
+
+    // Background cleanup of old activities (Admin only)
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        cleanupOldActivities();
+      }
+    });
+  }
+
+  async function cleanupOldActivities() {
+    try {
+      const today = new Date();
+      // Threshold: Delete activities that are older than 1 day.
+      // We use (today - 2 days) to ensure an activity stays for the full day it ends + 1 full day after.
+      const thresholdDate = new Date(today);
+      thresholdDate.setDate(today.getDate() - 2);
+
+      const yyyy = thresholdDate.getFullYear();
+      const mm = String(thresholdDate.getMonth() + 1).padStart(2, '0');
+      const dd = String(thresholdDate.getDate()).padStart(2, '0');
+      const thresholdStr = `${yyyy}-${mm}-${dd}`;
+
+      console.log("Checking for activities to cleanup (on or before):", thresholdStr);
+
+      const q = query(collection(db, "activities"), where("tarikh", "<=", thresholdStr));
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) return;
+
+      console.log(`Cleaning up ${snapshot.size} expired activities...`);
+      const deletePromises = snapshot.docs.map(docSnap => deleteDoc(doc(db, "activities", docSnap.id)));
+      await Promise.all(deletePromises);
+      console.log("Cleanup complete.");
+    } catch (error) {
+      console.error("Error during activity cleanup:", error);
+    }
   }
 
   // Poster Slider Logic

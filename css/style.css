@@ -245,6 +245,11 @@ body {
     .hijri-date {
         font-size: 1.4rem;
     }
+
+    /* Hide login button on large screen */
+    #login-btn {
+        display: none !important;
+    }
 }
 
 /* Main Content Layout */
