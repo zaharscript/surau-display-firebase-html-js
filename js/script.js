@@ -283,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const prayers = [
       { name: "Subuh", time: prayerTimes.Fajr },
-      { name: "Terbit Matahari (Syuruq)", time: prayerTimes.Sunrise },
+      { name: "Syuruq", time: prayerTimes.Sunrise },
       { name: "Zuhur", time: prayerTimes.Dhuhr },
       { name: "Asar", time: prayerTimes.Asr },
       { name: "Maghrib", time: prayerTimes.Maghrib },
