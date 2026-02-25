@@ -5,6 +5,7 @@ import {
   query,
   orderBy,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { formatDateDDMMYYYY, formatTime12h } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Configuration
@@ -369,21 +370,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function formatTime12h(time24) {
-    const [h, m] = time24.split(":");
-    let hour = parseInt(h);
-    const ampm = hour >= 12 ? "PM" : "AM";
-    hour = hour % 12;
-    hour = hour ? hour : 12;
-    return `${hour}:${m}`;
-    // return `${hour}:${m} ${ampm}`; // removed ampm for cleaner list look
-  }
+  // Date formatting moved to utils.js
 
-  function formatDateDDMMYYYY(dateString) {
-    if (!dateString) return "";
-    const [year, month, day] = dateString.split("-");
-    return `${day}-${month}-${year}`;
-  }
 
   function initAdRotator() {
     const adContainer = document.getElementById("ad-container");
