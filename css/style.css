@@ -55,7 +55,7 @@ body {
 @media (min-width: 1025px) {
     .display-container {
         height: 100vh;
-        padding: 5vh 5vw;
+        padding: 2vh 5vw;
         /* TV Safe Area / Overscan Protection */
         overflow: hidden;
     }
@@ -97,8 +97,8 @@ body {
     align-items: center;
     text-align: center;
     border-bottom: 1px solid var(--glass-border);
-    padding-bottom: 1.5rem;
-    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -124,7 +124,7 @@ body {
 }
 
 .mosque-logo {
-    height: 100px;
+    height: 60px;
     width: auto;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
@@ -133,7 +133,7 @@ body {
 
 @media (min-width: 1025px) {
     .mosque-logo {
-        height: 200px;
+        height: 120px;
     }
 }
 
@@ -810,13 +810,13 @@ body {
 
 /* Footer */
 .main-footer {
-    margin-top: 2vh;
+    margin-top: 1vh;
     border-top: 1px solid var(--glass-border);
-    padding-top: 1.5vh;
+    padding-top: 0.5vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .ticker-wrap {

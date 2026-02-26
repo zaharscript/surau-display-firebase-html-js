@@ -145,6 +145,88 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(nextSlide, 60000);
   }
 
+  function initAdRotator() {
+    const adContainer = document.getElementById("ad-container");
+    if (!adContainer) return;
+
+    let currentSlide = 0;
+    let slides = [];
+    let rotatorInterval = null;
+
+    // Listen for real-time updates to advertisements
+    const q = query(
+      collection(db, "advertisements"),
+      orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(q, (snapshot) => {
+      // Clear container
+      adContainer.innerHTML = "";
+      slides = [];
+
+      if (snapshot.empty) {
+        adContainer.innerHTML =
+          '<div style="text-align: center; color: var(--text-dim); padding: 2rem;">Tiada iklan aktif.</div>';
+        if (rotatorInterval) clearInterval(rotatorInterval);
+        return;
+      }
+
+      snapshot.forEach((doc, index) => {
+        const data = doc.data();
+        const slide = document.createElement("div");
+        slide.className = `ad-slide ad${index + 1}`;
+        if (index === 0) slide.classList.add("active");
+
+        slide.innerHTML = `
+          <h3>${data.header}</h3>
+          <div class="ad-content">
+            <div class="ad-highlight">${data.highlight}</div>
+            <div>${data.line1}</div>
+            ${data.line2 ? `<div style="margin: 10px 0;">${data.line2}</div>` : ""}
+            ${data.contact1 ? `<div class="ad-contact">${data.contact1}</div>` : ""}
+            ${data.contact2 ? `<div class="ad-contact">${data.contact2}</div>` : ""}
+          </div>
+        `;
+        adContainer.appendChild(slide);
+        slides.push(slide);
+      });
+
+      // Restart rotator if multiple slides exist
+      if (slides.length > 1) {
+        startRotator();
+      } else {
+        if (rotatorInterval) clearInterval(rotatorInterval);
+      }
+    });
+
+    function startRotator() {
+      if (rotatorInterval) clearInterval(rotatorInterval);
+      currentSlide = 0;
+      const slideInterval = 8000; // 8 seconds
+
+      rotatorInterval = setInterval(() => {
+        if (slides.length <= 1) return;
+
+        // Current slide exits
+        const prevIndex = currentSlide;
+        slides[prevIndex].classList.remove("active");
+        slides[prevIndex].classList.add("exit");
+
+        // Increment index
+        currentSlide = (currentSlide + 1) % slides.length;
+
+        // Next slide enters
+        slides[currentSlide].classList.remove("exit");
+        slides[currentSlide].classList.add("active");
+
+        // Reset previous slide after transition
+        setTimeout(() => {
+          if (slides[prevIndex]) slides[prevIndex].classList.remove("exit");
+        }, 800);
+      }, slideInterval);
+    }
+  }
+
   function setupTVOptimization() {
     const fsBtn = document.getElementById("fullscreen-btn");
     let cursorTimeout;
