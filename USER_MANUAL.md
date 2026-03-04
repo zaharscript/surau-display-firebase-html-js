@@ -35,32 +35,38 @@ Paparan utama di TV menunjukkan maklumat berikut:
     - **Kad Waktu Solat:** Memaparkan waktu mula solat (Subuh, Syuruk, Zuhur, Asar, Maghrib, Isyak) dan anggaran waktu Iqamah. Kad waktu seterusnya akan diserlahkan secara automatik.
 
 - **Bahagian Tengah:**
-    - **Jadual Aktiviti (Jadual Kuliah):** Senarai aktiviti mingguan atau harian. Aktiviti yang telah selesai akan dipudar (faded) secara automatik, dan aktiviti yang ditangguhkan akan mempunyai label "TANGGUH".
+    - **Jadual Aktiviti (Jadual Kuliah):** Senarai aktiviti mingguan atau harian. 
+a) Aktiviti yang telah selesai akan dipudar (faded) secara automatik
+b) Aktiviti yang ditangguhkan akan mempunyai label "TANGGUH".
+c) Aktiviti yang telah selesai akan padam secara automatik selepas satu hari
+d) Untuk mengoptimumkan  "Kiosk View" disarankan agat mendaftar maksimum  6 aktiviti dalam satu satu masa.
+e) Jika Jumlah aktiviti melebihi 6, akan muncul 'scroll pane' di tepi ruang aktiviti. Lebihan aktiviti akan berada dalam status 'hidden'
 
 - **Bahagian Kanan:**
     - **Poster/Slaid:** Memaparkan poster statik seperti takwim Ramadhan, poster gotong-royong, atau QR masjid.
-    - **Slot Iklan Dinamik:** Iklan komuniti atau sokongan yang akan bertukar setiap 8 saat.
+    - **Slot Iklan Dinamik:** Iklan komuniti atau sokongan yang akan bertukar setiap 60 saat.
 
 ---
 
 ## 3. Pengurusan Pentadbiran (Log Masuk)
-Untuk mengemaskini maklumat, anda perlu log masuk ke sistem.
+Untuk mengemaskini maklumat, anda perlu log masuk ke sistem melalui telefon.
 
-1. Buka pelayar (browser) dan pergi ke laman log masuk (biasanya `login.html`).
+1. Buka pelayar (browser) dan kelik butang log masuk.
 2. Masukkan **Alamat Emel** dan **Kata Laluan** pentadbir yang telah didaftarkan.
 3. Klik butang **Log Masuk**.
 4. Setelah berjaya, anda akan dibawa ke Dashboard Navigasi untuk memilih sama ada mahu mengurus **Aktiviti** atau **Iklan**.
+5. Untuk mendaftar akuan pentadbir sila berhububg dengan pihak pembangun sistem.
 
 ---
 
 ## 4. Mengurus Jadual Aktiviti / Kuliah
-Anda boleh menguruskan jadual kuliah melalui halaman `activity_form.html`.
+Anda boleh menguruskan jadual kuliah melalui borang yang disediakan.
 
 **Cara Menambah Aktiviti Baru:**
 1. Masukkan **Tarikh** (Hari akan diisi secara automatik).
 2. Pilih **Waktu** (Contoh: Selepas Maghrib, Selepas Subuh, atau pilih 'Lain-lain' untuk masukkan masa manual).
 3. Masukkan **Tajuk Aktiviti** (Contoh: Kuliah Maghrib Kitab Munyatul Musalli).
-4. Masukkan nama **Penceramah/Ustaz**. System akan memadankan gambar Ustaz secara automatik jika tersedia dalam sistem.
+4. Masukkan nama **Penceramah/Ustaz**. Sistem akan memadankan gambar Ustaz secara automatik jika nama sepadan dengan nama Ustaz yang telah di daftarkan dalam sistem.
 5. (Pilihan) Masukkan **Nota** tambahan.
 6. Klik **Daftar Aktiviti**. Maklumat akan terus terpapar di TV dalam masa kurang dari 2 saat.
 
@@ -73,7 +79,8 @@ Anda boleh menguruskan jadual kuliah melalui halaman `activity_form.html`.
 ---
 
 ## 5. Mengurus Iklan & Pengumuman
-Gunakan halaman `ad_form.html` untuk memaparkan pesanan sokongan masyarakat atau maklumat penting.
+Ruang Pengiklanan bertujuan untuk memaparkan pesanan sokongan masyarakat atau maklumat penting.
+dalam mod pendaftar, kelik butang "urus iklan"
 
 **Langkah-langkah:**
 1. Isi **Tajuk Utama** (Header).
@@ -107,10 +114,10 @@ Untuk pengalaman terbaik, pastikan peranti yang disambungkan ke TV dikonfigurasi
 - J: Pastikan status sinkronisasi di borang menunjukkan "Bersama" (Ikon hijau). Jika ia menunjukkan "Ralat" atau sentiasa "Menyinkron", periksa sambungan internet anda.
 
 **S: Bagaimanakah cara untuk meletakkan gambar Ustaz baru?**
-- J: Buat masa ini, gambar Ustaz diuruskan oleh pembangun sistem. Sila hubungi bahagian teknikal untuk memasukkan fail imej baru ke dalam folder `img/ustaz/`.
+- J: Buat masa ini, gambar Ustaz diuruskan oleh pembangun sistem. Sila hubungi bahagian teknikal untuk mendaftar data baru penceramah
 
 **S: Skrin TV menjadi gelap atau 'Sleep'.**
 - J: Pastikan tetapan "Power & Sleep" pada Mini PC atau TV anda diatur ke "Never" supaya skrin sentiasa menyala.
 
 ---
-*Manual ini dihasilkan untuk kegunaan Surau Seri Dahlia. Untuk sebarang bantuan teknikal lanjut, sila hubungi pentadbir sistem anda.*
+*Manual ini dihasilkan untuk kegunaan Surau Seri Dahlia, Bandar Seri Putra. Untuk sebarang bantuan teknikal lanjut, sila hubungi pentadbir sistem anda.*
