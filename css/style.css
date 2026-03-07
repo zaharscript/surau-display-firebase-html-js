@@ -438,6 +438,7 @@ body {
     width: 100%;
 }
 
+/* Base style for sidebar images */
 .side-img {
     width: 100%;
     height: auto;
@@ -446,11 +447,8 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     background: var(--glass-bg);
-}
-
-.takwim-img {
-    aspect-ratio: auto;
     object-fit: contain;
+    /* Default to contain for better visibility */
 }
 
 .qr-img {
@@ -603,6 +601,8 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    /* Darker background for 'contain' fit */
 }
 
 .poster-slide.active {
@@ -617,14 +617,18 @@ body {
     z-index: 1;
 }
 
-.side-img {
+/* Specific styling for slider posters to ensure fit */
+.poster-slide .side-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    /* Ensures all posters fill the same size box */
+    object-fit: contain;
+    /* Ensures all posters are fully visible */
     border-radius: 15px;
     display: block;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border: none;
+    /* Already has container border/shadow if needed */
+    background: transparent;
 }
 
 .group-ustaz-img {

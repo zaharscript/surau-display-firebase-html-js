@@ -98,11 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const sliderWrapper = document.getElementById('poster-slider');
     const posters = [
       "img/surau_poster/Ramadhan_takwim.jpeg",
-      "img/surau_poster/gotong_royong.jpeg",
+      "img/surau_poster/zakat.jpeg",
       "img/surau_poster/ihya_ramadan.jpeg",
       "img/surau_poster/nasihat.jpeg",
-      "img/surau_poster/ustaz_rozie.jpeg",
-      "img/surau_qr.jpeg"
+      "img/surau_poster/ustaz_jemputan.jpeg",
+      "img/surau_poster/surau_qr.jpeg",
+      "img/surau_poster/infaq_1.jpeg",
+      "img/surau_poster/infaq_2.jpeg"
     ];
 
     if (!sliderWrapper) return;
