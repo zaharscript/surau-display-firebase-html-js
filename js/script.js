@@ -661,7 +661,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="act-details">
                 <div class="act-title">${data.tajuk} ${masaDisplay ? `(${masaDisplay})` : ""}</div>
                 <div class="act-lead">${data.penceramah}</div>
-                ${data.nota ? `<div class="act-note" style="font-size: 0.9rem; color: #666; font-style: italic; margin-top: 4px;">${data.nota}</div>` : ""}
+                ${data.nota ? `<div class="act-note">${data.nota}</div>` : ""}
               </div>
               ${ustazPhotoHTML}
               ${data.is_batal ? `<div class="batal-overlay"><img src="img/tangguh.png" alt="TANGGUH"></div>` : ""}

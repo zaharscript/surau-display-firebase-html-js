@@ -707,6 +707,13 @@ body {
     font-style: italic;
 }
 
+.act-note {
+    font-size: 1.3rem;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 4px;
+}
+
 .act-meta {
     font-size: 0.85rem;
     color: var(--accent-emerald);

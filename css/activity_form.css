@@ -163,15 +163,16 @@ label {
 input[type="text"],
 input[type="date"],
 input[type="time"],
-select {
+select,
+textarea {
     width: 100%;
-    height: 48px;
-    /* Touch-friendly height */
-    padding: 0 1rem;
+    min-height: 48px;
+    padding: 0.8rem 1rem;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
     font-size: 1rem;
-    font-family: inherit;
+    /* Consistent font size for all inputs */
+    font-family: var(--font-main);
     outline: none;
     transition: all 0.2s;
     background-color: #fff;
