@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Change every 60 seconds (1 minute)
-    setInterval(nextSlide, 10000);
+    setInterval(nextSlide, 20000);
   }
 
   function initAdRotator() {
