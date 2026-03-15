@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/surau_qr.jpeg",
       "img/surau_poster/infaq_1.jpeg",
       "img/surau_poster/malam_penghargaan.jpeg",
-      "img/surau_poster/infaq_3.jpeg"
+      "img/surau_poster/infaq_2.jpeg"
     ];
 
     if (!sliderWrapper) return;
