@@ -632,7 +632,8 @@ document.addEventListener("DOMContentLoaded", () => {
           "izzat": "img/ustaz/pu_izzat.png",
           "syawal": "img/ustaz/ustaz_syawal.png",
           "yasin": "img/ustaz/yassin.jpg",
-          "yassin": "img/ustaz/yassin.jpg"
+          "yassin": "img/ustaz/yassin.jpg",
+          "imam fahee": "img/ustaz/Imam_Fahee.jpeg.jpg"
         };
 
         if (data.penceramah || data.tajuk) {
