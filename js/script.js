@@ -101,10 +101,11 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/zakat.jpeg",
       "img/surau_poster/ihya_ramadan.jpeg",
       "img/surau_poster/nasihat.jpeg",
-      "img/surau_poster/ustaz_jemputan.jpeg",
+      "img/surau_poster/syawal_2.jpeg",
       "img/surau_poster/surau_qr.jpeg",
       "img/surau_poster/infaq_1.jpeg",
       "img/surau_poster/malam_penghargaan.jpeg",
+      "img/surau_poster/syawal_1.jpg",
       "img/surau_poster/infaq_2.jpeg"
     ];
 
@@ -666,7 +667,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ${data.nota ? `<div class="act-note">${data.nota}</div>` : ""}
               </div>
               ${ustazPhotoHTML}
-              ${data.is_batal ? `<div class="batal-overlay"><img src="img/tangguh.png" alt="TANGGUH"></div>` : ""}
+              ${data.is_batal ? `<div class="batal-overlay"><img src="img/system/tangguh.png" alt="TANGGUH"></div>` : ""}
             </div>
           </div>
         `;
