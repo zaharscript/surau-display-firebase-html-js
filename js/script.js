@@ -634,6 +634,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "syawal": "img/ustaz/ustaz_syawal.png",
           "yasin": "img/ustaz/yassin.jpg",
           "yassin": "img/ustaz/yassin.jpg",
+          "dzikri": "img/ustaz/ust_dzikri.jpg",
           "imam fahee": "img/ustaz/Imam_Fahee.jpeg.jpg"
         };
 
