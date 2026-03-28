@@ -633,9 +633,9 @@ document.addEventListener("DOMContentLoaded", () => {
           "izzat": "img/ustaz/pu_izzat.png",
           "Kharaitul": "img/ustaz/dr_khairatul_akmar.png",
           "syawal": "img/ustaz/ustaz_syawal.png",
-          "yasin": "img/ustaz/yassin.jpg",
+          "imam surau": "img/ustaz/yassin.jpg",
           "imam ": "img/ustaz/kelas_mengaji.png",
-          "yassin": "img/ustaz/yassin.jpg",
+          "imam surau": "img/ustaz/yassin.jpg",
           "dzikri": "img/ustaz/ust_dzikri.jpg",
           "imam fahee": "img/ustaz/Imam_Fahee.jpeg.jpg"
         };
