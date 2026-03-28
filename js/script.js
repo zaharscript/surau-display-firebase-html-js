@@ -97,9 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupPosterSlider() {
     const sliderWrapper = document.getElementById('poster-slider');
     const posters = [
-      "img/surau_poster/Ramadhan_takwim.jpeg",
-      "img/surau_poster/zakat.jpeg",
-      "img/surau_poster/ihya_ramadan.jpeg",
+      "img/surau_poster/quote.jpeg",
+      "img/surau_poster/quote_2.jpeg",
+      "img/surau_poster/syawal_2.jpeg",
       "img/surau_poster/nasihat.jpeg",
       "img/surau_poster/syawal_2.jpeg",
       "img/surau_poster/surau_qr.jpeg",
