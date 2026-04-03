@@ -60,32 +60,98 @@ document.addEventListener("DOMContentLoaded", () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         cleanupOldActivities();
+        // Run cleanup every 30 minutes while admin is logged in
+        setInterval(cleanupOldActivities, 30 * 60 * 1000);
+      }
+    });
+
+    // Refresh UI state (fading) every minute
+    setInterval(updateActivitiesUIState, 60 * 1000);
+  }
+
+  function getActivityStartTime(data, currentPrayerTimes) {
+    if (!data.tarikh) return null;
+
+    let timeStr = "";
+    if (data.masa_option === "subuh" && currentPrayerTimes) timeStr = currentPrayerTimes.Fajr;
+    else if (data.masa_option === "maghrib" && currentPrayerTimes) timeStr = currentPrayerTimes.Maghrib;
+    else if (data.masa_option === "isyak" && currentPrayerTimes) timeStr = currentPrayerTimes.Isha;
+    else if (data.masa) {
+      // Check if masa is HH:MM
+      if (/^\d{1,2}:\d{2}$/.test(data.masa)) {
+        timeStr = data.masa;
+      }
+    }
+
+    if (!timeStr) return null;
+
+    try {
+      const [hours, minutes] = timeStr.split(":").map(Number);
+      const activityDate = new Date(data.tarikh);
+      activityDate.setHours(hours, minutes, 0, 0);
+      return activityDate;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function updateActivitiesUIState() {
+    const now = new Date();
+    document.querySelectorAll(".activity-group").forEach((group) => {
+      const startTimeStr = group.dataset.startTime;
+      if (!startTimeStr) return;
+
+      const startTime = new Date(startTimeStr);
+      const diffMs = now - startTime;
+      const diffMins = diffMs / (1000 * 60);
+
+      if (diffMins >= 180) { // 3 hours
+        group.style.display = "none"; // Hide immediately in UI
+      } else if (diffMins >= 20) { // 20 minutes
+        group.classList.add("faded");
       }
     });
   }
 
   async function cleanupOldActivities() {
     try {
-      const today = new Date();
-      // Threshold: Delete activities that are older than 1 day.
-      // We use (today - 2 days) to ensure an activity stays for the full day it ends + 1 full day after.
-      const thresholdDate = new Date(today);
-      thresholdDate.setDate(today.getDate() - 2);
-
-      const yyyy = thresholdDate.getFullYear();
-      const mm = String(thresholdDate.getMonth() + 1).padStart(2, '0');
-      const dd = String(thresholdDate.getDate()).padStart(2, '0');
-      const thresholdStr = `${yyyy}-${mm}-${dd}`;
-
-      console.log("Checking for activities to cleanup (on or before):", thresholdStr);
-
-      const q = query(collection(db, "activities"), where("tarikh", "<=", thresholdStr));
+      const now = new Date();
+      const q = query(collection(db, "activities"));
       const snapshot = await getDocs(q);
 
       if (snapshot.empty) return;
 
-      console.log(`Cleaning up ${snapshot.size} expired activities...`);
-      const deletePromises = snapshot.docs.map(docSnap => deleteDoc(doc(db, "activities", docSnap.id)));
+      const expiredDocs = [];
+      snapshot.docs.forEach(docSnap => {
+        const data = docSnap.data();
+
+        // For daily prayer-based times, we need the prayer times.
+        // If we don't have them (e.g. for activities not today), 
+        // fallback to just checking the date.
+        const startTime = getActivityStartTime(data, prayerTimes);
+
+        if (startTime) {
+          const diffHours = (now - startTime) / (1000 * 60 * 60);
+          if (diffHours >= 3) {
+            expiredDocs.push(docSnap.id);
+          }
+        } else {
+          // Fallback: Delete if date is more than 1 day old
+          const activityDate = new Date(data.tarikh);
+          activityDate.setHours(0, 0, 0, 0);
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const diffDays = (today - activityDate) / (1000 * 60 * 60 * 24);
+          if (diffDays >= 1) {
+            expiredDocs.push(docSnap.id);
+          }
+        }
+      });
+
+      if (expiredDocs.length === 0) return;
+
+      console.log(`Cleaning up ${expiredDocs.length} expired activities...`);
+      const deletePromises = expiredDocs.map(id => deleteDoc(doc(db, "activities", id)));
       await Promise.all(deletePromises);
       console.log("Cleanup complete.");
     } catch (error) {
@@ -649,13 +715,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Logic to check if activity is done (date before today)
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const activityDate = new Date(data.tarikh);
-        const isDone = activityDate < today;
+        const now = new Date();
+        const startTime = getActivityStartTime(data, prayerTimes);
+
+        let statusClasses = "";
+        if (startTime) {
+          const diffMins = (now - startTime) / (1000 * 60);
+          if (diffMins >= 180) return; // Don't render if more than 3 hours old
+          if (diffMins >= 20) statusClasses += " faded";
+        } else {
+          // Fallback date check
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const activityDate = new Date(data.tarikh);
+          if (activityDate < today) statusClasses += " done faded";
+        }
 
         const activityHTML = `
-          <div class="activity-group ${data.is_batal ? 'cancelled' : ''} ${isDone ? 'done' : ''}">
+          <div class="activity-group ${data.is_batal ? 'cancelled' : ''} ${statusClasses}" 
+               data-start-time="${startTime ? startTime.toISOString() : ''}">
             <div class="activity-date">
               <span class="day-badge">${data.hari}</span>
               <span class="date-text">${formatDateDDMMYYYY(data.tarikh)}</span>

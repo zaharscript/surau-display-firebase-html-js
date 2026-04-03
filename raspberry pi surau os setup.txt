@@ -1,0 +1,20 @@
+raspberry pi surau os setup
+
+hostname: suraudahlia
+username: as_salam_tech
+password: Welcome123
+
+Raspberry Pi ID
+
+email: zahratulnazirah@gmail.com
+password: sXmA9-6vh.G.g.b
+
+
+
+https://surau-display.netlify.app/
+
+
+i want to make footer smaller than original. to give more room to above division. make the footer small and adjust "aktiviti , advertisment and prayer card"column high  bigger accordingly.
+
+
+for poster slider, it retrieve from folder>img>surau_poster. if i add new image in the folder,i want it automatically add into sequence. help me to achieve this features
