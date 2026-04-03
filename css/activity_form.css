@@ -367,6 +367,16 @@ select:focus {
     background-color: #10b981;
 }
 
+.delete-btn.secondary {
+    background-color: #cbd5e1;
+    color: #475569;
+}
+
+.delete-btn.danger {
+    background-color: #ef4444;
+    color: white;
+}
+
 .edit-btn:active,
 .delete-btn:active,
 .batal-btn:active {

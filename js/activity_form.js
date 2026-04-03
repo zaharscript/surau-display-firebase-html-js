@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     snapshot.forEach((doc) => {
       const data = doc.data();
       const id = doc.id;
+      const isBatal = data.is_batal || false;
 
       const item = document.createElement("div");
       item.className = "activity-item";
@@ -97,11 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
           ${data.nota ? `<p><strong>Nota:</strong> ${data.nota}</p>` : ""}
         </div>
         <div class="activity-actions">
-          <button class="edit-btn" data-id="${id}">Edit Aktiviti</button>
-          <button class="batal-btn ${data.is_batal ? 'active' : ''}" data-id="${id}" data-status="${data.is_batal || false}">
-            ${data.is_batal ? 'Aktifkan Semula' : 'Tangguh Aktiviti'}
+          <button class="batal-btn ${isBatal ? 'active' : ''}" data-id="${id}" data-status="${isBatal}">
+            ${isBatal ? 'Aktifkan Semula' : 'Tangguh Aktiviti'}
           </button>
-          <button class="delete-btn" data-id="${id}">Padam Aktiviti</button>
+          <button class="edit-btn" data-id="${id}">Edit</button>
+          <button class="delete-btn ${isBatal ? 'danger' : 'secondary'}" data-id="${id}" data-is-batal="${isBatal}">
+            Padam
+          </button>
         </div>
       `;
       activityList.appendChild(item);
@@ -112,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", () => handleEdit(btn.dataset.id, snapshot));
     });
     document.querySelectorAll(".delete-btn").forEach((btn) => {
-      btn.addEventListener("click", () => handleDelete(btn.dataset.id));
+      btn.addEventListener("click", () => handleDelete(btn.dataset.id, btn.dataset.isBatal === 'true'));
     });
     document.querySelectorAll(".batal-btn").forEach((btn) => {
       btn.addEventListener("click", () => handleToggleBatal(btn.dataset.id, btn.dataset.status === 'true'));
@@ -179,8 +182,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Handle Delete click
-  async function handleDelete(id) {
-    if (confirm("Adakah anda pasti mahu memadam aktiviti ini?")) {
+  async function handleDelete(id, isBatal) {
+    let confirmMsg = "Adakah anda pasti mahu memadam aktiviti ini secara kekal?";
+
+    if (!isBatal) {
+      confirmMsg = "Adakah aktiviti ini dibatalkan? \n\nJika YA, sila gunakan butang 'Tangguh Aktiviti' supaya rekod tetap disimpan. \n\nAdakah anda masih mahu memadamnya secara kekal (contoh: untuk membetulkan kesilapan taip)?";
+    }
+
+    if (confirm(confirmMsg)) {
       try {
         await deleteDoc(doc(db, "activities", id));
         alert("Aktiviti berjaya dipadam!");
