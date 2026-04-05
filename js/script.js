@@ -165,11 +165,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const posters = [
       "img/surau_poster/quote.jpeg",
       "img/surau_poster/quote_2.jpeg",
-      "img/surau_poster/syawal_2.jpeg",
+      "img/surau_poster/syawal_1.jpg",
       "img/surau_poster/syawal_3.jpeg",
       "img/surau_poster/surau_qr.jpeg",
+      "img/surau_poster/Selawat_1.jpeg",
       "img/surau_poster/infaq_1.jpeg",
-      "img/surau_poster/syawal_1.jpg",
       "img/surau_poster/infaq_2.jpeg"
     ];
 
