@@ -169,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/syawal_3.jpeg",
       "img/surau_poster/surau_qr.jpeg",
       "img/surau_poster/Selawat_1.jpeg",
+      "img/surau_poster/Umrah.jpeg",
       "img/surau_poster/infaq_1.jpeg",
       "img/surau_poster/infaq_2.jpeg"
     ];
