@@ -48,7 +48,7 @@ body {
     /* Default mobile padding */
     background-image: url('../img/system/system_bg13.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: center 70%;
     background-repeat: no-repeat;
 }
 
