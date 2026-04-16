@@ -56,24 +56,92 @@
                     <div class="input-container">
                         <div class="radio-group">
                             <label class="radio-item">
-                                <input type="radio" name="masaOption" value="maghrib" required>
-                                <span>Maghrib</span>
+                                <input type="radio" name="masaOption" value="subuh" required>
+                                <span>Subuh <span class="time-hint">(6:30 AM)</span></span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="masaOption" value="maghrib">
+                                <span>Maghrib <span class="time-hint">(8:30 PM)</span></span>
                             </label>
                             <label class="radio-item">
                                 <input type="radio" name="masaOption" value="isyak">
-                                <span>Selepas Isyak</span>
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="masaOption" value="subuh">
-                                <span>Subuh</span>
+                                <span>Selepas Isyak <span class="time-hint">(9:30 PM)</span></span>
                             </label>
                             <label class="radio-item">
                                 <input type="radio" name="masaOption" value="lain">
-                                <span>Lain-lain (Nyatakan Masa)</span>
+                                <span>Lain-lain (Tetapkan Masa)</span>
                             </label>
                         </div>
-                        <input type="text" id="masaLain" placeholder="Cth: 8:00 PM / Sepanjang Hari"
-                            style="display:none;margin-top:10px;" class="dynamic-input">
+
+                        <!-- Lain-lain: From / To time picker -->
+                        <div id="masaLainContainer" style="display:none; margin-top:12px;">
+                            <div class="time-picker-row">
+                                <label class="time-picker-label">Dari (From):</label>
+                                <div class="time-picker-group">
+                                    <select id="fromHour" class="time-select">
+                                        <option value="">--</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                    </select>
+                                    <span class="time-colon">:</span>
+                                    <select id="fromMinute" class="time-select">
+                                        <option value="">--</option>
+                                        <option value="00">00</option>
+                                        <option value="15">15</option>
+                                        <option value="30">30</option>
+                                        <option value="45">45</option>
+                                    </select>
+                                    <select id="fromAmPm" class="time-select ampm-select">
+                                        <option value="">--</option>
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="time-picker-row" style="margin-top:8px;">
+                                <label class="time-picker-label">Hingga (To):</label>
+                                <div class="time-picker-group">
+                                    <select id="toHour" class="time-select">
+                                        <option value="">--</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                    </select>
+                                    <span class="time-colon">:</span>
+                                    <select id="toMinute" class="time-select">
+                                        <option value="">--</option>
+                                        <option value="00">00</option>
+                                        <option value="15">15</option>
+                                        <option value="30">30</option>
+                                        <option value="45">45</option>
+                                    </select>
+                                    <select id="toAmPm" class="time-select ampm-select">
+                                        <option value="">--</option>
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -69,27 +69,47 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(updateActivitiesUIState, 60 * 1000);
   }
 
-  function getActivityStartTime(data, currentPrayerTimes) {
-    if (!data.tarikh) return null;
-
-    let timeStr = "";
-    if (data.masa_option === "subuh" && currentPrayerTimes) timeStr = currentPrayerTimes.Fajr;
-    else if (data.masa_option === "maghrib" && currentPrayerTimes) timeStr = currentPrayerTimes.Maghrib;
-    else if (data.masa_option === "isyak" && currentPrayerTimes) timeStr = currentPrayerTimes.Isha;
-    else if (data.masa) {
-      // Check if masa is HH:MM
-      if (/^\d{1,2}:\d{2}$/.test(data.masa)) {
-        timeStr = data.masa;
-      }
-    }
-
-    if (!timeStr) return null;
-
+  /**
+   * Returns the scheduled start time of an activity as a Date.
+   * Uses data.lain_from (a 24h "HH:MM" string) which is stored for ALL masa options:
+   *   subuh   → "06:30"
+   *   maghrib → "20:30"
+   *   isyak   → "21:30"
+   *   lain    → user-chosen From time
+   */
+  function getActivityStartTime(data) {
+    if (!data.tarikh || !data.lain_from) return null;
+    const timeStr = data.lain_from;
+    if (!/^\d{2}:\d{2}$/.test(timeStr)) return null;
     try {
       const [hours, minutes] = timeStr.split(":").map(Number);
-      const activityDate = new Date(data.tarikh);
-      activityDate.setHours(hours, minutes, 0, 0);
+      // tarikh is stored as YYYY-MM-DD; parse as local date
+      const [y, m, d] = data.tarikh.split("-").map(Number);
+      const activityDate = new Date(y, m - 1, d, hours, minutes, 0, 0);
       return activityDate;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
+   * Returns the scheduled END time of an activity.
+   * For Lain-Lain this is the user's "To" time. For presets it is start + 2h.
+   * This is the point at which the card should be DELETED from the display.
+   */
+  function getActivityEndTime(data) {
+    if (!data.tarikh) return null;
+    let timeStr = data.lain_to || "";
+    if (!timeStr || !/^\d{2}:\d{2}$/.test(timeStr)) {
+      // Fall back: compute start + 2h
+      const start = getActivityStartTime(data);
+      if (!start) return null;
+      return new Date(start.getTime() + 2 * 60 * 60 * 1000);
+    }
+    try {
+      const [hours, minutes] = timeStr.split(":").map(Number);
+      const [y, m, d] = data.tarikh.split("-").map(Number);
+      return new Date(y, m - 1, d, hours, minutes, 0, 0);
     } catch (e) {
       return null;
     }
@@ -99,16 +119,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const now = new Date();
     document.querySelectorAll(".activity-group").forEach((group) => {
       const startTimeStr = group.dataset.startTime;
+      const endTimeStr = group.dataset.endTime;
       if (!startTimeStr) return;
 
       const startTime = new Date(startTimeStr);
-      const diffMs = now - startTime;
-      const diffMins = diffMs / (1000 * 60);
+      const endTime = endTimeStr ? new Date(endTimeStr) : null;
 
-      if (diffMins >= 180) { // 3 hours
-        group.style.display = "none"; // Hide immediately in UI
-      } else if (diffMins >= 20) { // 20 minutes
+      // DELETE (hide) once the event end-time has passed
+      if (endTime && now >= endTime) {
+        group.style.display = "none";
+        return;
+      }
+
+      // FADE 2 hours after the event START time
+      const fadeTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000);
+      if (now >= fadeTime) {
         group.classList.add("faded");
+      } else {
+        group.classList.remove("faded");
       }
     });
   }
@@ -125,24 +153,19 @@ document.addEventListener("DOMContentLoaded", () => {
       snapshot.docs.forEach(docSnap => {
         const data = docSnap.data();
 
-        // For daily prayer-based times, we need the prayer times.
-        // If we don't have them (e.g. for activities not today), 
-        // fallback to just checking the date.
-        const startTime = getActivityStartTime(data, prayerTimes);
+        const endTime = getActivityEndTime(data);
 
-        if (startTime) {
-          const diffHours = (now - startTime) / (1000 * 60 * 60);
-          if (diffHours >= 3) {
+        if (endTime) {
+          // Delete when end-time has passed
+          if (now >= endTime) {
             expiredDocs.push(docSnap.id);
           }
         } else {
-          // Fallback: Delete if date is more than 1 day old
-          const activityDate = new Date(data.tarikh);
-          activityDate.setHours(0, 0, 0, 0);
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          const diffDays = (today - activityDate) / (1000 * 60 * 60 * 24);
-          if (diffDays >= 1) {
+          // Fallback: Delete if activity date is more than 1 day old
+          if (!data.tarikh) return;
+          const [y, m, d] = data.tarikh.split("-").map(Number);
+          const activityDate = new Date(y, m - 1, d, 23, 59, 59);
+          if (now > activityDate) {
             expiredDocs.push(docSnap.id);
           }
         }
@@ -165,12 +188,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const posters = [
       "img/surau_poster/quote.jpeg",
       "img/surau_poster/quote_2.jpeg",
-      "img/surau_poster/syawal_1.jpg",
+      "img/surau_poster/tasbih.jpg",
+      "img/surau_poster/hajj.jpg",
       "img/surau_poster/syawal_3.jpeg",
       "img/surau_poster/surau_qr.jpeg",
       "img/surau_poster/Selawat_1.jpeg",
       "img/surau_poster/Umrah.jpeg",
-      "img/surau_poster/infaq_1.jpeg",
       "img/surau_poster/infaq_2.jpeg"
     ];
 
@@ -715,26 +738,31 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
 
-        // Logic to check if activity is done (date before today)
+        // Logic to check if activity is done or faded based on specific event time
         const now = new Date();
-        const startTime = getActivityStartTime(data, prayerTimes);
+        const startTime = getActivityStartTime(data);
+        const endTime = getActivityEndTime(data);
+
+        // If end-time has already passed, skip rendering this activity entirely
+        if (endTime && now >= endTime) return;
 
         let statusClasses = "";
         if (startTime) {
-          const diffMins = (now - startTime) / (1000 * 60);
-          if (diffMins >= 180) return; // Don't render if more than 3 hours old
-          if (diffMins >= 20) statusClasses += " faded";
+          const fadeTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000); // start + 2h
+          if (now >= fadeTime) statusClasses += " faded";
         } else {
-          // Fallback date check
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          const activityDate = new Date(data.tarikh);
-          if (activityDate < today) statusClasses += " done faded";
+          // Fallback date check: mark as done if activity date is in the past
+          const [y, m, d] = (data.tarikh || "").split("-").map(Number);
+          if (y) {
+            const activityEnd = new Date(y, m - 1, d, 23, 59, 59);
+            if (now > activityEnd) statusClasses += " done faded";
+          }
         }
 
         const activityHTML = `
           <div class="activity-group ${data.is_batal ? 'cancelled' : ''} ${statusClasses}" 
-               data-start-time="${startTime ? startTime.toISOString() : ''}">
+               data-start-time="${startTime ? startTime.toISOString() : ''}"
+               data-end-time="${endTime ? endTime.toISOString() : ''}">
             <div class="activity-date">
               <span class="day-badge">${data.hari}</span>
               <span class="date-text">${formatDateDDMMYYYY(data.tarikh)}</span>

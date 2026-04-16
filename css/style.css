@@ -46,7 +46,7 @@ body {
     justify-content: space-between;
     padding: 2rem;
     /* Default mobile padding */
-    background-image: url('../img/system/mosque_bg.jpg');
+    background-image: url('../img/system/system_bg13.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -863,7 +863,7 @@ body {
 .contact-info {
     display: flex;
     gap: 2rem;
-    color: var(--primary-blue);
+    color: var(--text-light);
 }
 
 .contact-info i {

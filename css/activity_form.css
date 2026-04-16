@@ -382,3 +382,155 @@ select:focus {
 .batal-btn:active {
     scale: 0.95;
 }
+
+/* ── Time-hint label beside radio options ─────────────────────────────────── */
+.time-hint {
+    font-size: 0.8rem;
+    color: #888;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+/* ── Lain-Lain From / To picker ───────────────────────────────────────────── */
+.time-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.time-picker-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+    min-width: 110px;
+}
+
+.time-picker-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.time-select {
+    width: auto !important;
+    min-height: 40px !important;
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.95rem !important;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.time-select:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(26, 83, 25, 0.1);
+    outline: none;
+}
+
+.ampm-select {
+    font-weight: 700;
+    color: var(--primary-green);
+}
+
+.time-colon {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #555;
+}
+
+/* ── Idle Timeout Warning Modal ───────────────────────────────────────────── */
+#idle-warning-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInOverlay 0.3s ease;
+}
+
+@keyframes fadeInOverlay {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#idle-warning-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2.5rem 3rem;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    animation: slideUpBox 0.35s ease;
+}
+
+@keyframes slideUpBox {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#idle-warning-icon {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+}
+
+#idle-warning-box h3 {
+    font-size: 1.4rem;
+    color: #1a202c;
+    margin-bottom: 0.75rem;
+}
+
+#idle-warning-box p {
+    font-size: 0.95rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+}
+
+#idle-countdown {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #e74c3c;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    font-family: monospace;
+}
+
+#idle-stay-btn {
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 0.75rem 2.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--font-main);
+    transition: background 0.2s, transform 0.1s;
+}
+
+#idle-stay-btn:hover {
+    background: #154514;
+    transform: translateY(-1px);
+}
+
+#idle-stay-btn:active {
+    transform: translateY(0);
+    scale: 0.97;
+}
