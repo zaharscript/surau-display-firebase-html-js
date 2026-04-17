@@ -191,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/tasbih.jpg",
       "img/surau_poster/hajj.jpg",
       "img/surau_poster/syawal_3.jpeg",
+      "img/surau_poster/qurban_fee.jpeg",
       "img/surau_poster/surau_qr.jpeg",
       "img/surau_poster/Selawat_1.jpeg",
       "img/surau_poster/Umrah.jpeg",
