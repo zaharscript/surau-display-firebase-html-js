@@ -189,6 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/quote.jpeg",
       "img/surau_poster/quote_2.jpeg",
       "img/surau_poster/tasbih.jpg",
+      "img/surau_poster/qurban.jpeg",
       "img/surau_poster/hajj.jpg",
       "img/surau_poster/qurban_fee.jpeg",
       "img/surau_poster/surau_qr.jpeg",
