@@ -115,6 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Start Poster Slider
     setupPosterSlider();
 
+    setupActivitiesAutoScroll();
+
     // Background cleanup of old activities (Admin only)
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -681,10 +683,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     onSnapshot(q, (snapshot) => {
 
-      const noticeCard =
-        document.querySelector(".notice-card");
+
 
       activitiesContainer.innerHTML = "";
+
 
       let activities = [];
 
@@ -747,6 +749,9 @@ document.addEventListener("DOMContentLoaded", () => {
                   month: "long"
                 }
               );
+
+          // DUPLICATE CONTENT FOR SMOOTH LOOP
+
 
           activitiesContainer
             .appendChild(header);
@@ -851,12 +856,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
-      // KEEP NOTICE CARD AT BOTTOM
-      if (noticeCard) {
 
-        activitiesContainer
-          .appendChild(noticeCard);
-      }
 
       updateActivitiesUIState();
 
@@ -1163,4 +1163,53 @@ function setPrayerBadge(card, text) {
   badge.textContent = text;
 
   card.appendChild(badge);
+}
+
+
+
+function setupActivitiesAutoScroll() {
+
+  // TV ONLY
+  if (window.innerWidth < 1025) return;
+
+  const scrollArea =
+    document.querySelector(
+      ".activities-scroll-area"
+    );
+
+  if (!scrollArea) return;
+
+  let scrollSpeed = 0.69
+
+  let animationFrame;
+
+  function autoScroll() {
+
+    scrollArea.scrollTop =
+      scrollArea.scrollTop + scrollSpeed;
+
+    // RESET LOOP
+    if (
+      scrollArea.scrollTop + scrollArea.clientHeight >=
+      scrollArea.scrollHeight - 2
+    ) {
+
+      scrollArea.scrollTop = 0;
+    }
+
+    animationFrame =
+      requestAnimationFrame(autoScroll);
+  }
+
+  // START
+  autoScroll();
+
+  // PAUSE ON HOVER
+  scrollArea.addEventListener("mouseenter", () => {
+    cancelAnimationFrame(animationFrame);
+  });
+
+  scrollArea.addEventListener("mouseleave", () => {
+    autoScroll();
+  });
 }

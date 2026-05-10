@@ -23,7 +23,7 @@ body {
     color: var(--text-light);
     min-height: 100vh;
     overflow-x: hidden;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     /* Enable scrolling for mobile */
     background-color: #000;
 }
@@ -660,25 +660,133 @@ body {
     letter-spacing: 1px;
 }
 
-.activities-content {
-    flex: 1;
-    overflow-y: auto;
-    /* Add custom scrollbar hiding if needed */
+.activities-section {
+
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+
+    overflow: hidden;
 }
 
+.activities-scroll-area {
+    flex: 1;
+    min-height: 0;
+    padding-right: 0.4rem;
+    scrollbar-width: none;
+}
+
+/* =========================
+   ACTIVITIES MARQUEE
+========================= */
+
+.activities-scroll-area {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    min-height: 0;
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar */
+
+.activities-scroll-area::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+/* =========================
+   TV AUTO SCROLL
+========================= */
+
+@media (min-width: 1025px) {
+
+    .activities-scroll-area {
+
+        position: relative;
+
+        overflow-y: auto;
+
+        overflow-x: hidden;
+
+        flex: 1;
+
+        min-height: 0;
+
+        scrollbar-width: none;
+    }
+
+
+
+    /* .activities-content {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 1rem;
+    } */
+
+    /* Fade mask */
+
+    .activities-scroll-area::before,
+    .activities-scroll-area::after {
+
+        content: "";
+
+        position: absolute;
+
+        left: 0;
+
+        width: 100%;
+
+        height: 80px;
+
+        z-index: 20;
+
+        pointer-events: none;
+    }
+
+    .activities-scroll-area::before {
+
+        top: 0;
+
+        background:
+            linear-gradient(to bottom,
+                rgba(15, 23, 42, 1),
+                transparent);
+    }
+
+    .activities-scroll-area::after {
+
+        bottom: 0;
+
+        background:
+            linear-gradient(to top,
+                rgba(15, 23, 42, 1),
+                transparent);
+    }
+}
+
+
+
+/* .activities-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+} */
+
 .lecturer-photo-brush {
-    display: block;
-    width: 90px;
-    height: 90px;
-    margin-right: 15px;
-    flex-shrink: 0;
+
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 15px;
     border: 3px solid var(--primary-gold);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 .activity-group {
@@ -781,9 +889,12 @@ body {
 
 .activity-item {
     display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 0.8rem;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1.5rem;
+
+    width: 100%;
 }
 
 .activity-item:last-child {
@@ -798,6 +909,7 @@ body {
 
 .act-details {
     flex: 1;
+    min-width: 0;
 }
 
 .act-title {
@@ -826,21 +938,16 @@ body {
     margin-bottom: 2px;
 }
 
-.notice-card {
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid var(--primary-gold);
-    border-radius: 12px;
-    padding: 1rem;
-    margin-top: auto;
-}
 
-.notice-header {
-    color: var(--primary-gold);
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+
+.notice-card {
+    flex-shrink: 0;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 5;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.35);
 }
 
 .notice-card p {
@@ -1324,7 +1431,6 @@ body {
 @media (max-width: 1024px) {
     .main-content {
         flex-direction: column;
-        overflow-y: auto;
     }
 
     .clock-section {
@@ -1606,15 +1712,9 @@ body {
 
     display: flex;
     flex-direction: column;
-
     align-items: stretch;
-
     justify-content: flex-start;
-
     gap: 1rem;
-
-    overflow-y: auto;
-
     padding-right: 0.5rem;
 }
 
