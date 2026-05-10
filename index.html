@@ -138,13 +138,8 @@
 
         <!-- Main Content -->
         <main class="main-content">
-
-
-
-
-
-            <!-- Center: Weekly Activities -->
-            <section class="activities-section">
+            <!-- Left Panel: Weekly Activities -->
+            <section class="activities-section left-panel">
                 <div class="activities-header">
                     <div class="header-main">
                         <h2><i class="fa-solid fa-calendar-days"></i> JADUAL AKTIVITI MINGGUAN</h2>
@@ -171,20 +166,36 @@
                 </div>
             </section>
 
-            <!-- Right Section: Advertisement & Info Images -->
-            <div class="right-section">
-                <div class="advertisement" id="ad-container">
-                    <!-- Advertisements will be loaded dynamically from Firestore -->
-                    <div class="loading-ads" style="text-align: center; color: var(--text-dim); padding: 2rem;">
-                        <i class="fas fa-circle-notch fa-spin"></i> Memuatkan Iklan...
-                    </div>
-                </div>
-
-                <!-- Side Images / Poster Slider -->
+            <!-- Center Panel: Poster Slider -->
+            <section class="poster-section center-panel">
                 <div class="side-img-slider" id="poster-slider">
                     <!-- Dynamic posters will be injected here via script.js -->
                 </div>
-            </div>
+            </section>
+
+            <!-- Right Panel: Quran/Hadis & QR Code -->
+            <section class="info-section right-panel">
+                <div class="recitation-container">
+                    <!-- Reserved for daily quran/hadis recitation -->
+                    <div class="daily-hadis-card">
+                        <div class="hadis-header">
+                            <i class="fa-solid fa-book-quran"></i>
+                            <span>Hadis Harian</span>
+                        </div>
+
+                        <p class="hadis-text" id="hadis-text">
+                            Memuatkan hadis...
+                        </p>
+
+                        <div class="hadis-source" id="hadis-source">
+                            —
+                        </div>
+                    </div>
+                </div>
+                <div class="qr-container-permanent">
+                    <img src="img/system/surau_qr.jpeg" alt="Surau QR Code" class="permanent-qr-img side-img">
+                </div>
+            </section>
         </main>
 
         <!-- Footer: Ticker & Info -->

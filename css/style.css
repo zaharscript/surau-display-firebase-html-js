@@ -373,55 +373,116 @@ body {
     }
 }
 
-.right-section {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
+/* Panel Styling */
+.left-panel {
     width: 100%;
 }
 
-.advertisement {
+.center-panel {
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    height: auto;
-    min-height: 320px;
-    background: rgba(255, 255, 255, 0.85);
+}
+
+.right-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.recitation-container {
+    width: 100%;
+    min-height: 200px;
+    background: var(--glass-bg);
     border: 1px solid var(--primary-gold);
     border-radius: 20px;
-    padding: 0.8rem;
-    position: relative;
-    overflow: hidden;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     backdrop-filter: blur(10px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
+.recitation-placeholder {
+    text-align: center;
+    color: var(--text-dim);
+}
+
+.recitation-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 0.8rem;
+    color: var(--primary-gold);
+}
+
+.qr-container-permanent {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.permanent-qr-img {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
 @media (min-width: 1025px) {
-    .right-section {
-        flex: 1.4;
+    .left-panel {
+        flex: 2 !important;
+    }
+
+    .center-panel {
+        flex: 1 !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right-panel {
+        flex: 1 !important;
         display: flex;
         flex-direction: column;
         gap: 2vh;
-        max-width: 520px;
-        width: 100%;
+        max-width: 400px;
     }
 
-    .advertisement {
+    .recitation-container {
+        flex: 1;
+        min-height: 0;
+    }
+
+    .qr-container-permanent {
         width: 100%;
-        height: 120px;
+        flex: 1;
+        padding: 0.5rem;
+        /* Reduced padding to allow more space for the QR */
         margin: 0;
-        flex-shrink: 0;
+        min-height: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .permanent-qr-img {
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: contain;
+        /* Contain is better for QR codes to avoid cropping */
     }
 }
 
-.advertisement h3 {
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: var(--primary-gold);
-    margin-bottom: 0.6rem;
-    text-transform: uppercase;
-}
+
 
 .countdown-timer {
     font-family: monospace;
@@ -479,7 +540,6 @@ body {
 
 @media (min-width: 1025px) {
     .activities-section {
-        flex: 1.5;
         padding: 1.5rem;
         max-width: none;
         overflow: hidden;
@@ -869,8 +929,8 @@ body {
 
 /* ── Icon circle ── */
 .prayer-icon {
-    width: 34px;
-    height: 34px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -903,7 +963,7 @@ body {
 }
 
 .prayer-name-en {
-    font-size: 12.5px;
+    font-size: 30.5px;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.68);
     letter-spacing: 0.01em;
@@ -919,7 +979,7 @@ body {
 
 .prayer-name-ar {
     font-family: var(--font-heading, 'IBM Plex Sans Arabic', sans-serif);
-    font-size: 11px;
+    font-size: 31px;
     color: var(--text-muted);
     line-height: 1.5;
 }
@@ -964,7 +1024,7 @@ body {
 
 /* ── Iqamah pill ── */
 .iqamah-time {
-    font-size: 10px;
+    font-size: 25px;
     color: var(--text-muted);
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.07);
