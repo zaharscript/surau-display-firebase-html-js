@@ -414,6 +414,73 @@ body {
     color: var(--primary-gold);
 }
 
+.daily-hadis-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--text-light);
+    text-align: center;
+    padding: 1rem;
+}
+
+.hadis-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-gold);
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.hadis-header i {
+    font-size: 1.5rem;
+}
+
+.hadis-text {
+    font-size: 2.2rem;
+    line-height: 1.8;
+    font-style: italic;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+.hadis-source {
+    color: var(--text-dim);
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.hadis-arabic {
+    font-family: 'Amiri', serif;
+    font-size: 2rem;
+    line-height: 2;
+    direction: rtl;
+    text-align: center;
+    color: var(--primary-gold);
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 1025px) {
+    .hadis-arabic {
+        font-size: 2.8rem;
+    }
+}
+
+@media (min-width: 1025px) {
+    .hadis-text {
+        font-size: 1.5rem;
+        line-height: 2;
+    }
+
+    .hadis-source {
+        font-size: 1.1rem;
+    }
+}
+
 .qr-container-permanent {
     width: 100%;
     max-width: 600px;
@@ -942,6 +1009,32 @@ body {
     flex-shrink: 0;
 }
 
+.prayer-card {
+    position: relative;
+    overflow: visible !important;
+}
+
+.prayer-state-badge {
+    position: absolute;
+    top: -12px;
+    right: 12px;
+
+    background: linear-gradient(135deg, #D4AF37, #f7d774);
+    color: #111;
+
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+
+    z-index: 20;
+}
+
 .prayer-card.active .prayer-icon {
     color: var(--gold);
     background: rgba(212, 175, 55, 0.10);
@@ -952,6 +1045,104 @@ body {
     color: var(--emerald);
     background: rgba(16, 185, 129, 0.10);
     border-color: rgba(16, 185, 129, 0.22);
+}
+
+.prayer-card.active .prayer-state-badge {
+    background: linear-gradient(135deg, #10B981, #34d399);
+    color: white;
+}
+
+.prayer-card.next .prayer-state-badge {
+    background: linear-gradient(135deg, #D4AF37, #f7d774);
+    color: #111;
+}
+
+/* =========================
+   PRAYER BADGE SYSTEM
+========================= */
+
+.prayer-card {
+    position: relative;
+    overflow: visible !important;
+}
+
+/* Badge Base */
+.prayer-state-badge {
+    position: absolute;
+    top: -12px;
+    right: 12px;
+
+    padding: 0.35rem 0.8rem;
+
+    border-radius: 999px;
+
+    font-size: 0.65rem;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    z-index: 99;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+
+    animation: badgeFloat 2s ease-in-out infinite;
+}
+
+/* ACTIVE */
+.prayer-card.active .prayer-state-badge {
+
+    background: linear-gradient(135deg,
+            #10B981,
+            #34D399);
+
+    color: white;
+}
+
+/* NEXT */
+.prayer-card.next .prayer-state-badge {
+
+    background: linear-gradient(135deg,
+            #D4AF37,
+            #F7D774);
+
+    color: #111827;
+}
+
+/* ACTIVE CARD */
+.prayer-card.active {
+
+    border: 2px solid #10B981 !important;
+
+    box-shadow:
+        0 0 25px rgba(16, 185, 129, 0.35);
+
+    transform: scale(1.03);
+}
+
+/* NEXT CARD */
+.prayer-card.next {
+
+    border: 2px solid #D4AF37 !important;
+
+    box-shadow:
+        0 0 25px rgba(212, 175, 55, 0.25);
+}
+
+/* FLOAT EFFECT */
+@keyframes badgeFloat {
+
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 /* ── Prayer name block ── */

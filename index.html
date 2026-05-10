@@ -41,8 +41,7 @@
             <section class="prayer-times-section">
 
                 <!-- Fajr -->
-                <div class="prayer-card active" id="fajr-card">
-                    <span class="prayer-state-badge">Sekarang</span>
+                <div class="prayer-card" id="fajr-card">
                     <div class="prayer-icon"><i class="ti ti-moon-stars" aria-hidden="true"></i></div>
                     <div class="prayer-info">
                         <span class="prayer-name-en">Subuh</span>
@@ -66,8 +65,7 @@
                 </div>
 
                 <!-- Dhuhr -->
-                <div class="prayer-card next" id="dhuhr-card">
-                    <span class="prayer-state-badge">Seterusnya</span>
+                <div class="prayer-card" id="dhuhr-card">
                     <div class="prayer-icon"><i class="ti ti-sun" aria-hidden="true"></i></div>
                     <div class="prayer-info">
                         <span class="prayer-name-en">Zuhur</span>
@@ -178,10 +176,15 @@
                 <div class="recitation-container">
                     <!-- Reserved for daily quran/hadis recitation -->
                     <div class="daily-hadis-card">
+
                         <div class="hadis-header">
                             <i class="fa-solid fa-book-quran"></i>
                             <span>Hadis Harian</span>
                         </div>
+
+                        <p class="hadis-arabic" id="hadis-arabic">
+                            —
+                        </p>
 
                         <p class="hadis-text" id="hadis-text">
                             Memuatkan hadis...
@@ -190,6 +193,7 @@
                         <div class="hadis-source" id="hadis-source">
                             —
                         </div>
+
                     </div>
                 </div>
                 <div class="qr-container-permanent">
