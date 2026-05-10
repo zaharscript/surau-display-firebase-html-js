@@ -4,7 +4,6 @@ import {
   onSnapshot,
   query,
   orderBy,
-  where,
   getDocs,
   deleteDoc,
   doc,
@@ -29,13 +28,73 @@ document.addEventListener("DOMContentLoaded", () => {
   const ampmEl = document.getElementById("ampm");
   const gregDateEl = document.getElementById("gregorian-date");
   const hijriDateEl = document.getElementById("hijri-date");
-  const nextPrayerNameEl = document.getElementById("next-prayer-name");
-  const countdownEl = document.getElementById("countdown");
   const nextPrayerTickerEl = document.getElementById("next-prayer-ticker");
+
+  /* =========================
+   SPEAKER PHOTO DATABASE
+========================= */
+
+  const SPEAKER_PHOTOS = {
+
+    fahmi: "img/ustaz/ustaz_fahmi.png",
+    saifullah: "img/ustaz/ustaz_saifulah.png",
+    saifulah: "img/ustaz/ustaz_saifulah.png",
+    rasyidi: "img/ustaz/ustaz_rasyidi.jpg",
+    najmi: "img/ustaz/ustaz_najmi.jpg",
+    fendy: "img/ustaz/ustaz_fendy.png",
+    elyas: "img/ustaz/ustaz_elyas.jpg",
+    sirajuddin: "img/ustaz/ust_siraj.png",
+    azihal: "img/ustaz/PU_Azihal.jpg",
+    akram: "img/ustaz/pu_akram.jpg",
+    "abu zaki": "img/ustaz/dr-abu-zaki.jpg",
+    khairatul: "img/ustaz/dr_khairatul.png",
+    ramli: "img/ustaz/Hj_ramli.png",
+    nik: "img/ustaz/ustaz_nik.png",
+    rozie: "img/ustaz/ustaz_rozie.png",
+    kosi: "img/ustaz/ustaz_kosi.png",
+    izzat: "img/ustaz/pu_izzat.png",
+    syawal: "img/ustaz/ustaz_syawal.png",
+    dzikri: "img/ustaz/ust_dzikri.jpg",
+    jamir: "img/ustaz/jamir_kodiang.png",
+    hasbullah: "img/ustaz/ustaz_hasbullah.jpg",
+    "imam surau": "img/ustaz/yassin.jpg",
+    "imam fahee": "img/ustaz/Imam_Fahee.jpeg.jpg"
+
+  };
+
+  // Get speaker photo
+  function getSpeakerPhoto(data) {
+
+    if (!data.penceramah && !data.tajuk) {
+      return "";
+    }
+
+    const searchStr =
+      `${data.penceramah || ""} ${data.tajuk || ""}`
+        .toLowerCase();
+
+    for (const [keyword, path] of Object.entries(SPEAKER_PHOTOS)) {
+
+      if (searchStr.includes(keyword)) {
+
+        return `
+        <img
+          src="${path}"
+          class="lecturer-photo-brush"
+          alt="Speaker"
+        >
+      `;
+      }
+    }
+
+    return "";
+  }
 
   // Initialize
   init();
   loadDailyHadis();
+
+
 
   function init() {
     updateClock(); // Start immediately
@@ -115,30 +174,66 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+
+
   function updateActivitiesUIState() {
+
     const now = new Date();
-    document.querySelectorAll(".activity-group").forEach((group) => {
-      const startTimeStr = group.dataset.startTime;
-      const endTimeStr = group.dataset.endTime;
-      if (!startTimeStr) return;
 
-      const startTime = new Date(startTimeStr);
-      const endTime = endTimeStr ? new Date(endTimeStr) : null;
+    document.querySelectorAll(".activity-group")
+      .forEach(group => {
 
-      // DELETE (hide) once the event end-time has passed
-      if (endTime && now >= endTime) {
-        group.style.display = "none";
-        return;
-      }
+        if (
+          group.classList.contains("cancelled")
+        ) {
+          return;
+        }
 
-      // FADE 2 hours after the event START time
-      const fadeTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000);
-      if (now >= fadeTime) {
-        group.classList.add("faded");
-      } else {
-        group.classList.remove("faded");
-      }
-    });
+        const startTimeStr =
+          group.dataset.startTime;
+
+        if (!startTimeStr) return;
+
+        const startTime =
+          new Date(startTimeStr);
+
+        const minutesPassed =
+          (now - startTime) / (1000 * 60);
+
+        group.classList.remove(
+          "activity-active",
+          "activity-faded"
+        );
+
+        // ACTIVE
+        if (
+          minutesPassed >= 0 &&
+          minutesPassed < 40
+        ) {
+
+          group.classList.add(
+            "activity-active"
+          );
+        }
+
+        // FADED
+        if (
+          minutesPassed >= 40 &&
+          minutesPassed < 70
+        ) {
+
+          group.classList.add(
+            "activity-faded"
+          );
+        }
+
+        // DELETE
+        if (minutesPassed >= 70) {
+
+          group.remove();
+        }
+
+      });
   }
 
   async function cleanupOldActivities() {
@@ -231,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 1500); // Match CSS transition duration
     }
 
-    // Change every 60 seconds (1 minute)
+    // Change every 20 seconds
     setInterval(nextSlide, 20000);
   }
 
@@ -574,118 +669,197 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   function loadActivities() {
-    const activitiesContainer = document.querySelector(".activities-content");
 
-    const q = query(collection(db, "activities"), orderBy("tarikh", "asc"));
+    const activitiesContainer =
+      document.querySelector(".activities-content");
+
+    if (!activitiesContainer) return;
+
+    const q = query(
+      collection(db, "activities")
+    );
 
     onSnapshot(q, (snapshot) => {
+
+      const noticeCard =
+        document.querySelector(".notice-card");
+
       activitiesContainer.innerHTML = "";
 
-      // Add visual feedback for update
-      activitiesContainer.classList.remove("update-pulse");
-      void activitiesContainer.offsetWidth; // Trigger reflow
-      activitiesContainer.classList.add("update-pulse");
+      let activities = [];
 
-      snapshot.forEach((doc) => {
-        const data = doc.data();
+      snapshot.forEach((docSnap) => {
 
-        // Format Masa Display
-        let masaDisplay = data.masa || "";
-        if (data.masa_option === "maghrib") {
-          masaDisplay = "Selepas solat Maghrib";
-        } else if (data.masa_option === "isyak") {
-          masaDisplay = "Selepas isyak";
-        } else if (data.masa_option === "subuh") {
-          masaDisplay = "Selepas solat subuh";
-        } else if (data.masa_option === "lain" && data.masa) {
-          masaDisplay = data.masa;
-        }
+        const data = docSnap.data();
 
-        // ustaz photo logic
-        let ustazPhotoHTML = "";
-        const SPEAKER_PHOTOS = {
-          "fahmi": "img/ustaz/ustaz_fahmi.png",
-          "saifullah": "img/ustaz/ustaz_saifulah.png",
-          "saifulah": "img/ustaz/ustaz_saifulah.png",
-          "rasyidi": "img/ustaz/ustaz_rasyidi.jpg",
-          "najmi": "img/ustaz/ustaz_najmi.jpg",
-          "fendy": "img/ustaz/ustaz_fendy.png",
-          "elyas": "img/ustaz/ustaz_elyas.jpg",
-          "sirajuddin": "img/ustaz/ust_siraj.png",
-          "azihal": "img/ustaz/PU_Azihal.jpg",
-          "akram": "img/ustaz/pu_akram.jpg",
-          "abu zaki": "img/ustaz/dr-abu-zaki.jpg",
-          "khairatul": "img/ustaz/dr_khairatul.png",
-          "ramli": "img/ustaz/Hj_ramli.png",
-          "nik": "img/ustaz/ustaz_nik.png",
-          "rozie": "img/ustaz/ustaz_rozie.png",
-          "kosi": "img/ustaz/ustaz_kosi.png",
-          "izzat": "img/ustaz/pu_izzat.png",
-          "Kharaitul": "img/ustaz/dr_khairatul_akmar.png",
-          "syawal": "img/ustaz/ustaz_syawal.png",
-          "imam surau": "img/ustaz/yassin.jpg",
-          "imam ": "img/ustaz/kelas_mengaji.png",
-          "imam surau": "img/ustaz/yassin.jpg",
-          "dzikri": "img/ustaz/ust_dzikri.jpg",
-          "jamir": "img/ustaz/jamir_kodiang.png",
-          "hasbullah": "img/ustaz/ustaz_hasbullah.jpg",
-          "imam fahee": "img/ustaz/Imam_Fahee.jpeg.jpg"
-        };
+        const startTime =
+          getActivityStartTime(data);
 
-        if (data.penceramah || data.tajuk) {
-          const searchStr = `${data.penceramah || ""} ${data.tajuk || ""}`.toLowerCase();
-          for (const [nameKeyword, photoPath] of Object.entries(SPEAKER_PHOTOS)) {
-            if (searchStr.includes(nameKeyword)) {
-              ustazPhotoHTML = `<img src="${photoPath}" class="lecturer-photo-brush" alt="Speaker">`;
-              break;
-            }
-          }
-        }
+        if (!startTime) return;
 
-        // Logic to check if activity is done or faded based on specific event time
-        const now = new Date();
-        const startTime = getActivityStartTime(data);
-        const endTime = getActivityEndTime(data);
-
-        // If end-time has already passed, skip rendering this activity entirely
-        if (endTime && now >= endTime) return;
-
-        let statusClasses = "";
-        if (startTime) {
-          const fadeTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000); // start + 2h
-          if (now >= fadeTime) statusClasses += " faded";
-        } else {
-          // Fallback date check: mark as done if activity date is in the past
-          const [y, m, d] = (data.tarikh || "").split("-").map(Number);
-          if (y) {
-            const activityEnd = new Date(y, m - 1, d, 23, 59, 59);
-            if (now > activityEnd) statusClasses += " done faded";
-          }
-        }
-
-        const activityHTML = `
-          <div class="activity-group ${data.is_batal ? 'cancelled' : ''} ${statusClasses}" 
-               data-start-time="${startTime ? startTime.toISOString() : ''}"
-               data-end-time="${endTime ? endTime.toISOString() : ''}">
-            <div class="activity-date">
-              <span class="day-badge">${data.hari}</span>
-              <span class="date-text">${formatDateDDMMYYYY(data.tarikh)}</span>
-            </div>
-  
-            <div class="activity-item">
-              <div class="act-details">
-                <div class="act-title">${data.tajuk} ${masaDisplay ? `(${masaDisplay})` : ""}</div>
-                <div class="act-lead">${data.penceramah}</div>
-                ${data.nota ? `<div class="act-note">${data.nota}</div>` : ""}
-              </div>
-              ${ustazPhotoHTML}
-              ${data.is_batal ? `<div class="batal-overlay"><img src="img/system/tangguh.png" alt="TANGGUH"></div>` : ""}
-            </div>
-          </div>
-        `;
-
-        activitiesContainer.innerHTML += activityHTML;
+        activities.push({
+          id: docSnap.id,
+          ...data,
+          startTime
+        });
       });
+
+      // SORT CHRONOLOGICALLY
+      activities.sort((a, b) => {
+
+        return a.startTime - b.startTime;
+      });
+
+      // GROUP BY DAY
+      const groupedActivities = {};
+
+      activities.forEach(activity => {
+
+        const dateKey =
+          activity.startTime.toDateString();
+
+        if (!groupedActivities[dateKey]) {
+
+          groupedActivities[dateKey] = [];
+        }
+
+        groupedActivities[dateKey]
+          .push(activity);
+      });
+
+      // RENDER
+      Object.keys(groupedActivities)
+        .forEach(dateKey => {
+
+          const header =
+            document.createElement("div");
+
+          header.className =
+            "activity-day-header";
+
+          header.innerHTML =
+            new Date(dateKey)
+              .toLocaleDateString(
+                "ms-MY",
+                {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long"
+                }
+              );
+
+          activitiesContainer
+            .appendChild(header);
+
+          groupedActivities[dateKey]
+            .forEach(activity => {
+
+              // MASA DISPLAY
+              let masaDisplay =
+                activity.masa || "";
+
+              if (
+                activity.masa_option === "maghrib"
+              ) {
+                masaDisplay =
+                  "Selepas Maghrib";
+              }
+
+              if (
+                activity.masa_option === "isyak"
+              ) {
+                masaDisplay =
+                  "Selepas Isyak";
+              }
+
+              if (
+                activity.masa_option === "subuh"
+              ) {
+                masaDisplay =
+                  "Selepas Subuh";
+              }
+
+              const speakerPhoto =
+                getSpeakerPhoto(activity);
+
+              const activityCard =
+                document.createElement("div");
+
+              activityCard.className =
+                `activity-group ${activity.is_batal
+                  ? "cancelled"
+                  : ""
+                }`;
+
+              activityCard.dataset.startTime =
+                activity.startTime.toISOString();
+
+              activityCard.innerHTML = `
+
+              <div class="activity-time">
+                ${activity.lain_from || "--:--"}
+              </div>
+
+              <div class="activity-item">
+
+                <div class="act-details">
+
+                  <div class="act-title">
+                    ${activity.tajuk || ""}
+                  </div>
+
+                  <div class="act-lead">
+                    ${activity.penceramah || ""}
+                  </div>
+
+                  <div class="act-masa">
+                    ${masaDisplay}
+                  </div>
+
+                  ${activity.nota
+                  ? `
+                        <div class="act-note">
+                          ${activity.nota}
+                        </div>
+                      `
+                  : ""
+                }
+
+                </div>
+
+                ${speakerPhoto}
+
+                ${activity.is_batal
+                  ? `
+                      <div class="batal-overlay">
+                        <img
+                          src="img/system/tangguh.png"
+                          alt="Tangguh"
+                        >
+                      </div>
+                    `
+                  : ""
+                }
+
+              </div>
+            `;
+
+              activitiesContainer
+                .appendChild(activityCard);
+
+            });
+
+        });
+
+      // KEEP NOTICE CARD AT BOTTOM
+      if (noticeCard) {
+
+        activitiesContainer
+          .appendChild(noticeCard);
+      }
+
+      updateActivitiesUIState();
+
     });
   }
 
