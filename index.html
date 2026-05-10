@@ -15,7 +15,7 @@
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -29,11 +29,93 @@
         <header class="main-header">
             <div class="logo-area">
                 <img src="img/system/logo.jpg" alt="Surau Seri Dahlia Logo" class="mosque-logo">
-                <div class="mosque-titles">
-                    <h1 class="english-name">Surau Seri Dahlia</h1>
-                    <h2 class="arabic-name">سوراو سري داهليا</h2>
-                </div>
+
             </div>
+            <!-- Left: Live Clock & Countdown -->
+            <section class="clock-section">
+                <div class="live-clock-container">
+                    <div id="clock" class="digital-clock">00:00:00</div>
+                    <div class="period" id="ampm">AM</div>
+                </div>
+            </section>
+            <section class="prayer-times-section">
+
+                <!-- Fajr -->
+                <div class="prayer-card active" id="fajr-card">
+                    <span class="prayer-state-badge">Sekarang</span>
+                    <div class="prayer-icon"><i class="ti ti-moon-stars" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Subuh</span>
+                        <span class="prayer-name-ar">الفجر</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="fajr-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="fajr-iqamah">--:--</span></div>
+                </div>
+
+                <!-- Syuruq -->
+                <div class="prayer-card" id="sunrise-card">
+                    <div class="prayer-icon"><i class="ti ti-sunrise" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Syuruq</span>
+                        <span class="prayer-name-ar">الشروق</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="sunrise-time">--:--</div>
+                    <div class="iqamah-time" style="visibility: hidden;">—</div>
+                </div>
+
+                <!-- Dhuhr -->
+                <div class="prayer-card next" id="dhuhr-card">
+                    <span class="prayer-state-badge">Seterusnya</span>
+                    <div class="prayer-icon"><i class="ti ti-sun" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Zuhur</span>
+                        <span class="prayer-name-ar">الظهر</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="dhuhr-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="dhuhr-iqamah">--:--</span></div>
+                </div>
+
+                <!-- Asr -->
+                <div class="prayer-card" id="asr-card">
+                    <div class="prayer-icon"><i class="ti ti-sun-low" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Asar</span>
+                        <span class="prayer-name-ar">العصر</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="asr-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="asr-iqamah">--:--</span></div>
+                </div>
+
+                <!-- Maghrib -->
+                <div class="prayer-card" id="maghrib-card">
+                    <div class="prayer-icon"><i class="ti ti-sunset" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Maghrib</span>
+                        <span class="prayer-name-ar">المغرب</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="maghrib-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="maghrib-iqamah">--:--</span></div>
+                </div>
+
+                <!-- Isyak -->
+                <div class="prayer-card" id="isha-card">
+                    <div class="prayer-icon"><i class="ti ti-moon" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Isyak</span>
+                        <span class="prayer-name-ar">العشاء</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="isha-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="isha-iqamah">--:--</span></div>
+                </div>
+
+            </section>
+
             <div class="date-time-weather">
                 <div class="gregorian-date" id="gregorian-date">--</div>
                 <div class="hijri-date" id="hijri-date">--</div>
@@ -57,75 +139,9 @@
         <!-- Main Content -->
         <main class="main-content">
 
-            <!-- Left: Live Clock & Countdown -->
-            <section class="clock-section">
-                <div class="live-clock-container">
-                    <div id="clock" class="digital-clock">00:00:00</div>
-                    <div class="period" id="ampm">AM</div>
-                </div>
-                <div class="next-prayer-card">
-                    <h3>Solat Seterusnya</h3>
-                    <div id="next-prayer-name" class="next-name">--</div>
-                    <div id="countdown" class="countdown-timer">00:00:00</div>
-                </div>
 
-                <!-- Right: Prayer Times List -->
-                <section class="prayer-times-section">
-                    <div class="prayer-card" id="fajr-card">
-                        <div class="prayer-info">
-                            <span class="prayer-name-en">Subuh</span>
-                            <span class="prayer-name-ar">الفجر</span>
-                        </div>
-                        <div class="prayer-time" id="fajr-time">--:--</div>
-                        <div class="iqamah-time">Iqamah: <span id="fajr-iqamah">--:--</span></div>
-                    </div>
 
-                    <div class="prayer-card" id="sunrise-card">
-                        <div class="prayer-info">
-                            <span class="prayer-name-en">Syuruq</span>
-                            <span class="prayer-name-ar">الشروق</span>
-                        </div>
-                        <div class="prayer-time" id="sunrise-time">--:--</div>
-                        <div class="iqamah-time" style="visibility: hidden;">Iqamah: <span>--:--</span></div>
-                    </div>
 
-                    <div class="prayer-card" id="dhuhr-card">
-                        <div class="prayer-info">
-                            <span class="prayer-name-en">Zuhur</span>
-                            <span class="prayer-name-ar">الظهر</span>
-                        </div>
-                        <div class="prayer-time" id="dhuhr-time">--:--</div>
-                        <div class="iqamah-time">Iqamah: <span id="dhuhr-iqamah">--:--</span></div>
-                    </div>
-
-                    <div class="prayer-card" id="asr-card">
-                        <div class="prayer-info">
-                            <span class="prayer-name-en">Asar</span>
-                            <span class="prayer-name-ar">العصر</span>
-                        </div>
-                        <div class="prayer-time" id="asr-time">--:--</div>
-                        <div class="iqamah-time">Iqamah: <span id="asr-iqamah">--:--</span></div>
-                    </div>
-
-                    <div class="prayer-card" id="maghrib-card">
-                        <div class="prayer-info">
-                            <span class="prayer-name-en">Maghrib</span>
-                            <span class="prayer-name-ar">المغرب</span>
-                        </div>
-                        <div class="prayer-time" id="maghrib-time">--:--</div>
-                        <div class="iqamah-time">Iqamah: <span id="maghrib-iqamah">--:--</span></div>
-                    </div>
-
-                    <div class="prayer-card" id="isha-card">
-                        <div class="prayer-info">
-                            <span class="prayer-name-en">Isyak</span>
-                            <span class="prayer-name-ar">العشاء</span>
-                        </div>
-                        <div class="prayer-time" id="isha-time">--:--</div>
-                        <div class="iqamah-time">Iqamah: <span id="isha-iqamah">--:--</span></div>
-                    </div>
-                </section>
-            </section>
 
             <!-- Center: Weekly Activities -->
             <section class="activities-section">
@@ -188,7 +204,6 @@
             </div>
             <div class="contact-info">
                 <span><i class="fa-solid fa-location-dot"></i> Pangsapuri Seri Dahlia, Bandar Seri Putra, Kajang</span>
-                <span><i class="fa-solid fa-phone"></i> 012-335 5669 (En. Khair|PENGERUSI SURAU)</span>
             </div>
         </footer>
     </div>

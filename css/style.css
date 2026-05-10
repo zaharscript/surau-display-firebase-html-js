@@ -101,11 +101,15 @@ body {
     margin-bottom: 1rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1025px) {
     .main-header {
         flex-direction: row;
         justify-content: space-between;
-        text-align: left;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1.2rem 3rem;
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
     }
 }
 
@@ -114,6 +118,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -133,7 +138,7 @@ body {
 
 @media (min-width: 1025px) {
     .mosque-logo {
-        height: 120px;
+        height: 180px;
     }
 }
 
@@ -278,7 +283,7 @@ body {
 .clock-section {
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -288,11 +293,11 @@ body {
 
 @media (min-width: 1025px) {
     .clock-section {
-        flex: 1;
-        gap: 2vh;
-        /* Reduced from 4vh */
-        max-width: 500px;
-        /* Constrained for kiosk mode */
+        flex: 0 0 auto;
+        margin: 0;
+        padding-left: 1.5rem;
+        border-left: 1px solid var(--glass-border);
+        min-width: fit-content;
     }
 }
 
@@ -751,80 +756,233 @@ body {
 }
 
 /* Left Section: Prayer Times Grid (Modified to fit Clock Section) */
-.prayer-times-section {
-    width: 100%;
-    max-width: 1050px;
-    height: 720px;
-    background: var(--glass-bg);
-    border: 1px solid var(--primary-gold);
-    border-radius: 20px;
-    padding: 1.2rem;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 1vh;
+/* ── Tokens ── */
+:root {
+    --gold: #D4AF37;
+    --gold-glow: rgba(212, 175, 55, 0.12);
+    --gold-dim: rgba(212, 175, 55, 0.18);
+    --emerald: #10b981;
+    --emerald-glow: rgba(16, 185, 129, 0.08);
+    --emerald-dim: rgba(16, 185, 129, 0.12);
+    --glass-bg: rgba(8, 16, 40, 0.80);
+    --glass-card: rgba(255, 255, 255, 0.042);
+    --glass-card-border: rgba(255, 255, 255, 0.09);
+    --glass-card-top: rgba(255, 255, 255, 0.13);
+    --text-primary: rgba(255, 255, 255, 0.88);
+    --text-dim: rgba(255, 255, 255, 0.38);
+    --text-muted: rgba(255, 255, 255, 0.22);
 }
 
+/* ── Section shell ── */
+.prayer-times-section {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5vh;
+    flex: 1;
+    margin: 0 3rem;
+    padding: 18px;
+    background: var(--glass-bg);
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.04),
+        0 16px 48px rgba(0, 0, 0, 0.55),
+        0 0 80px rgba(212, 175, 55, 0.04) inset;
+}
+
+/* Ambient glow blobs */
+.prayer-times-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 55% 40% at 15% 0%, rgba(212, 175, 55, 0.09) 0%, transparent 100%),
+        radial-gradient(ellipse 40% 35% at 85% 100%, rgba(16, 185, 129, 0.06) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Card ── */
 .prayer-card {
+    position: relative;
+    z-index: 1;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 1.2vh 1.5vw;
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 4px solid var(--primary-gold);
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+    justify-content: center;
+    gap: 7px;
+    padding: 16px 8px 14px;
+    background: var(--glass-card);
+    border: 1px solid var(--glass-card-border);
+    border-top-color: var(--glass-card-top);
+    border-radius: 13px;
+    text-align: center;
+    min-height: 250px;
+    transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
 }
 
 .prayer-card.active {
-    background: var(--card-active);
-    border: 1px solid var(--primary-gold);
-    /* Match next-prayer-card border */
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+    background: var(--gold-glow);
+    border-color: rgba(212, 175, 55, 0.50);
+    border-top-color: rgba(212, 175, 55, 0.70);
+    box-shadow:
+        0 0 28px rgba(212, 175, 55, 0.11),
+        inset 0 2px 0 rgba(212, 175, 55, 0.20);
 }
 
 .prayer-card.next {
-    border: 1px solid var(--accent-emerald);
-    /* Changed from border-left */
-    background: rgba(16, 185, 129, 0.1);
+    background: var(--emerald-dim);
+    border-color: rgba(16, 185, 129, 0.38);
+    border-top-color: rgba(16, 185, 129, 0.60);
+    box-shadow:
+        0 0 24px rgba(16, 185, 129, 0.08),
+        inset 0 2px 0 rgba(16, 185, 129, 0.15);
 }
 
+/* ── State badge (Now / Next) ── */
+.prayer-state-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    line-height: 1.7;
+}
+
+.prayer-card.active .prayer-state-badge {
+    background: rgba(212, 175, 55, 0.18);
+    color: var(--gold);
+    border: 1px solid rgba(212, 175, 55, 0.38);
+}
+
+.prayer-card.next .prayer-state-badge {
+    background: rgba(16, 185, 129, 0.14);
+    color: var(--emerald);
+    border: 1px solid rgba(16, 185, 129, 0.32);
+}
+
+/* ── Icon circle ── */
+.prayer-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: var(--text-dim);
+    flex-shrink: 0;
+}
+
+.prayer-card.active .prayer-icon {
+    color: var(--gold);
+    background: rgba(212, 175, 55, 0.10);
+    border-color: rgba(212, 175, 55, 0.22);
+}
+
+.prayer-card.next .prayer-icon {
+    color: var(--emerald);
+    background: rgba(16, 185, 129, 0.10);
+    border-color: rgba(16, 185, 129, 0.22);
+}
+
+/* ── Prayer name block ── */
 .prayer-info {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 1px;
 }
 
 .prayer-name-en {
-    font-size: 1.1rem;
+    font-size: 12.5px;
     font-weight: 600;
+    color: rgba(255, 255, 255, 0.68);
+    letter-spacing: 0.01em;
+}
+
+.prayer-card.active .prayer-name-en {
+    color: var(--gold);
+}
+
+.prayer-card.next .prayer-name-en {
+    color: var(--emerald);
 }
 
 .prayer-name-ar {
-    font-family: var(--font-heading);
-    font-size: 1rem;
-    color: var(--text-dim);
+    font-family: var(--font-heading, 'IBM Plex Sans Arabic', sans-serif);
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
 }
 
 .prayer-card.active .prayer-name-ar,
 .prayer-card.next .prayer-name-ar {
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.45);
 }
 
+/* ── Divider rule ── */
+.prayer-divider {
+    width: 28px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    flex-shrink: 0;
+}
+
+.prayer-card.active .prayer-divider {
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.30), transparent);
+}
+
+.prayer-card.next .prayer-divider {
+    background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.30), transparent);
+}
+
+/* ── Time display ── */
 .prayer-time {
-    font-size: 2.2rem;
+    font-size: 27px;
     font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    color: var(--text-primary);
 }
 
+.prayer-card.active .prayer-time {
+    color: var(--gold);
+}
+
+.prayer-card.next .prayer-time {
+    color: var(--emerald);
+}
+
+/* ── Iqamah pill ── */
 .iqamah-time {
-    font-size: 0.9rem;
-    color: var(--text-dim);
-    margin-top: -5px;
-    opacity: 0.8;
+    font-size: 10px;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
+    padding: 2px 9px;
+    white-space: nowrap;
+}
+
+.prayer-card.active .iqamah-time {
+    color: rgba(212, 175, 55, 0.65);
+    border-color: rgba(212, 175, 55, 0.16);
+    background: rgba(212, 175, 55, 0.06);
+}
+
+.prayer-card.next .iqamah-time {
+    color: rgba(16, 185, 129, 0.75);
+    border-color: rgba(16, 185, 129, 0.16);
+    background: rgba(16, 185, 129, 0.06);
 }
 
 /* Footer */
@@ -923,14 +1081,7 @@ body {
 }
 
 @media (min-width: 1025px) {
-    .prayer-times-section {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        margin-top: 0;
-        gap: 1vh;
-        /* Reduced from 1.5vh */
-    }
+    /* Removed vertical prayer times section override to maintain horizontal grid layout */
 }
 
 /* Animations */

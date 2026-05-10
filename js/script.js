@@ -493,67 +493,69 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updatePrayerStatus(now) {
-    // Convert current time to minutes since midnight for comparison
     const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
     const prayers = [
-      { name: "Subuh", time: prayerTimes.Fajr },
-      { name: "Syuruq", time: prayerTimes.Sunrise },
-      { name: "Zuhur", time: prayerTimes.Dhuhr },
-      { name: "Asar", time: prayerTimes.Asr },
-      { name: "Maghrib", time: prayerTimes.Maghrib },
-      { name: "Isyak", time: prayerTimes.Isha },
+      { name: "Subuh", id: "fajr", time: prayerTimes.Fajr },
+      { name: "Syuruq", id: "sunrise", time: prayerTimes.Sunrise },
+      { name: "Zuhur", id: "dhuhr", time: prayerTimes.Dhuhr },
+      { name: "Asar", id: "asr", time: prayerTimes.Asr },
+      { name: "Maghrib", id: "maghrib", time: prayerTimes.Maghrib },
+      { name: "Isyak", id: "isha", time: prayerTimes.Isha },
     ];
 
-    let nextPrayer = null;
-    let currentPrayer = null;
+    // Convert "HH:MM" string to total minutes
+    const toMinutes = (timeStr) => {
+      const [h, m] = timeStr.split(":").map(Number);
+      return h * 60 + m;
+    };
 
-    // Find next prayer
+    // Find current and next prayer
+    let currentPrayer = null;
+    let nextPrayer = null;
+
     for (let i = 0; i < prayers.length; i++) {
-      const timeParts = prayers[i].time.split(":");
-      const pMinutes = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
+      const pMinutes = toMinutes(prayers[i].time);
 
       if (pMinutes > nowMinutes) {
         nextPrayer = prayers[i];
-        // Current is the one before next
-        currentPrayer = i > 0 ? prayers[i - 1] : prayers[prayers.length - 1]; // logic slightly flawed for Fajr
+        currentPrayer = prayers[i > 0 ? i - 1 : prayers.length - 1];
         break;
       }
     }
 
-    // If no next prayer found today, it's Fajr tomorrow
+    // After Isha — wrap around to Fajr tomorrow
     if (!nextPrayer) {
-      nextPrayer = prayers[0];
-      nextPrayer.isTomorrow = true;
-      currentPrayer = prayers[prayers.length - 1]; // Isha
+      nextPrayer = { ...prayers[0], isTomorrow: true };
+      currentPrayer = prayers[prayers.length - 1];
     }
 
-    // Update UI Classes
+    // --- Update card classes ---
     document.querySelectorAll(".prayer-card").forEach((card) => {
       card.classList.remove("active", "next");
     });
 
-    // Highlight Next
-    // Note: ID mapping needs to match
-    const nextId =
-      nextPrayer.name === "Syuruq" ? "sunrise" : nextPrayer.name.toLowerCase();
-    const nextCard = document.getElementById(`${nextId}-card`);
+    const nextCard = document.getElementById(`${nextPrayer.id}-card`);
+    const currentCard = document.getElementById(`${currentPrayer.id}-card`);
+
     if (nextCard) nextCard.classList.add("next");
+    if (currentCard) currentCard.classList.add("active");
 
-    // Highlight Current (Active)
-    // const currentId = currentPrayer.name === 'Syuruq' ? 'sunrise' : currentPrayer.name.toLowerCase();
-    // const currentCard = document.getElementById(`${currentId}-card`);
-    // if (currentCard) currentCard.classList.add('active'); // Optional: show what 'time zone' we are in
+    // --- Sync badge visibility ---
+    document.querySelectorAll(".prayer-state-badge").forEach((badge) => {
+      const card = badge.closest(".prayer-card");
+      badge.style.display = (
+        card.classList.contains("active") || card.classList.contains("next")
+      ) ? "block" : "none";
+    });
 
-    // Update Countdown
+    // --- Update countdown ---
     updateCountdown(nextPrayer, now);
 
-    // Update Ticker
+    // --- Update ticker ---
     if (nextPrayerTickerEl) {
       const tickerTime = formatTime12h(nextPrayer.time);
-      const prayerLabel = nextPrayer.name;
-      nextPrayerTickerEl.textContent = `${prayerLabel} bermula pada ${tickerTime}${nextPrayer.isTomorrow ? " esok" : ""
-        }.`;
+      nextPrayerTickerEl.textContent = `${nextPrayer.name} bermula pada ${tickerTime}${nextPrayer.isTomorrow ? " esok" : ""}.`;
     }
   }
 
