@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // State
   let prayerTimes = null;
   let nextPrayerTime = null;
+  let activitiesScrollAnimation = null;
 
   // Elements
   const clockEl = document.getElementById("clock");
@@ -115,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Start Poster Slider
     setupPosterSlider();
 
-    setupActivitiesAutoScroll();
+   
 
     // Background cleanup of old activities (Admin only)
     onAuthStateChanged(auth, (user) => {
@@ -859,7 +860,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       updateActivitiesUIState();
-
+    setupActivitiesAutoScroll();
     });
   }
 
@@ -1179,37 +1180,62 @@ function setupActivitiesAutoScroll() {
 
   if (!scrollArea) return;
 
-  let scrollSpeed = 0.69
+  // STOP OLD LOOP
+  if (activitiesScrollAnimation) {
+    cancelAnimationFrame(
+      activitiesScrollAnimation
+    );
+  }
 
-  let animationFrame;
+  let scrollSpeed = 0.65;
 
   function autoScroll() {
 
-    scrollArea.scrollTop =
-      scrollArea.scrollTop + scrollSpeed;
-
-    // RESET LOOP
+    // ONLY SCROLL IF OVERFLOW EXISTS
     if (
-      scrollArea.scrollTop + scrollArea.clientHeight >=
-      scrollArea.scrollHeight - 2
+      scrollArea.scrollHeight >
+      scrollArea.clientHeight
     ) {
 
-      scrollArea.scrollTop = 0;
+      scrollArea.scrollTop =
+        scrollArea.scrollTop + scrollSpeed;
+
+      // RESET LOOP
+      if (
+        scrollArea.scrollTop +
+        scrollArea.clientHeight >=
+        scrollArea.scrollHeight - 2
+      ) {
+
+        scrollArea.scrollTop = 0;
+      }
     }
 
-    animationFrame =
+    activitiesScrollAnimation =
       requestAnimationFrame(autoScroll);
   }
 
-  // START
   autoScroll();
 
   // PAUSE ON HOVER
-  scrollArea.addEventListener("mouseenter", () => {
-    cancelAnimationFrame(animationFrame);
-  });
+  scrollArea.addEventListener(
+    "mouseenter",
+    () => {
 
-  scrollArea.addEventListener("mouseleave", () => {
-    autoScroll();
-  });
+      if (activitiesScrollAnimation) {
+
+        cancelAnimationFrame(
+          activitiesScrollAnimation
+        );
+      }
+    }
+  );
+
+  scrollArea.addEventListener(
+    "mouseleave",
+    () => {
+
+      autoScroll();
+    }
+  );
 }
