@@ -673,7 +673,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadActivities() {
 
     const activitiesContainer =
-      document.querySelector(".activities-content");
+      document.querySelector(
+        ".activities-content"
+      );
 
     if (!activitiesContainer) return;
 
@@ -683,10 +685,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     onSnapshot(q, (snapshot) => {
 
-
-
+      // RESET
       activitiesContainer.innerHTML = "";
-
 
       let activities = [];
 
@@ -704,12 +704,14 @@ document.addEventListener("DOMContentLoaded", () => {
           ...data,
           startTime
         });
+
       });
 
       // SORT CHRONOLOGICALLY
       activities.sort((a, b) => {
 
         return a.startTime - b.startTime;
+
       });
 
       // GROUP BY DAY
@@ -723,16 +725,25 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!groupedActivities[dateKey]) {
 
           groupedActivities[dateKey] = [];
+
         }
 
         groupedActivities[dateKey]
           .push(activity);
+
       });
 
-      // RENDER
+      // =========================
+      // BUILD ORIGINAL CONTENT
+      // =========================
+
+      const fragment =
+        document.createDocumentFragment();
+
       Object.keys(groupedActivities)
         .forEach(dateKey => {
 
+          // DAY HEADER
           const header =
             document.createElement("div");
 
@@ -750,16 +761,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
               );
 
-          // DUPLICATE CONTENT FOR SMOOTH LOOP
+          fragment.appendChild(header);
 
-
-          activitiesContainer
-            .appendChild(header);
-
+          // ACTIVITIES
           groupedActivities[dateKey]
             .forEach(activity => {
 
-              // MASA DISPLAY
               let masaDisplay =
                 activity.masa || "";
 
@@ -849,18 +856,49 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             `;
 
-              activitiesContainer
-                .appendChild(activityCard);
+              fragment.appendChild(
+                activityCard
+              );
 
             });
 
         });
 
+      // =========================
+      // APPEND ORIGINAL CONTENT
+      // =========================
 
+      activitiesContainer.appendChild(
+        fragment
+      );
 
+      // =========================
+      // DUPLICATE FOR MARQUEE
+      // =========================
+
+      const duplicatedContent =
+        activitiesContainer.innerHTML;
+
+      activitiesContainer.innerHTML +=
+        duplicatedContent;
+
+      // RESET SCROLL POSITION
+      const scrollArea =
+        document.querySelector(
+          ".activities-scroll-area"
+        );
+
+      if (scrollArea) {
+
+        scrollArea.scrollTop = 0;
+
+      }
+
+      // UPDATE UI STATES
       updateActivitiesUIState();
 
     });
+
   }
 
   function initActivities() {
@@ -1177,39 +1215,91 @@ function setupActivitiesAutoScroll() {
       ".activities-scroll-area"
     );
 
-  if (!scrollArea) return;
+  const activitiesContent =
+    document.querySelector(
+      ".activities-content"
+    );
 
-  let scrollSpeed = 0.69
+  if (
+    !scrollArea ||
+    !activitiesContent
+  ) return;
+
+  // SPEED = pixels per second
+  let scrollSpeed = 13;
 
   let animationFrame;
+  let lastTimestamp = 0;
 
-  function autoScroll() {
+  function autoScroll(timestamp) {
 
-    scrollArea.scrollTop =
-      scrollArea.scrollTop + scrollSpeed;
+    if (!lastTimestamp) {
 
-    // RESET LOOP
+      lastTimestamp = timestamp;
+
+    }
+
+    const delta =
+      timestamp - lastTimestamp;
+
+    lastTimestamp = timestamp;
+
+    // SMOOTH SCROLL
+    scrollArea.scrollTop +=
+      (scrollSpeed * delta) / 1000;
+
+    // IMPORTANT:
+    // reset at HALF because content
+    // has been duplicated
+    const resetPoint =
+      activitiesContent.scrollHeight / 2;
+
     if (
-      scrollArea.scrollTop + scrollArea.clientHeight >=
-      scrollArea.scrollHeight - 2
+      scrollArea.scrollTop >=
+      resetPoint
     ) {
 
       scrollArea.scrollTop = 0;
+
     }
 
     animationFrame =
-      requestAnimationFrame(autoScroll);
+      requestAnimationFrame(
+        autoScroll
+      );
+
   }
 
   // START
-  autoScroll();
+  animationFrame =
+    requestAnimationFrame(
+      autoScroll
+    );
 
   // PAUSE ON HOVER
-  scrollArea.addEventListener("mouseenter", () => {
-    cancelAnimationFrame(animationFrame);
-  });
+  scrollArea.addEventListener(
+    "mouseenter",
+    () => {
 
-  scrollArea.addEventListener("mouseleave", () => {
-    autoScroll();
-  });
+      cancelAnimationFrame(
+        animationFrame
+      );
+
+    }
+  );
+
+  scrollArea.addEventListener(
+    "mouseleave",
+    () => {
+
+      lastTimestamp = 0;
+
+      animationFrame =
+        requestAnimationFrame(
+          autoScroll
+        );
+
+    }
+  );
+
 }

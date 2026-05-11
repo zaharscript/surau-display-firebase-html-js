@@ -681,11 +681,20 @@ body {
 
 .activities-scroll-area {
     position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
+
+    overflow: hidden;
+
     flex: 1;
+
     min-height: 0;
+
     scrollbar-width: none;
+
+    will-change: transform;
+
+    transform: translateZ(0);
+
+    backface-visibility: hidden;
 }
 
 /* Hide scrollbar */
@@ -706,7 +715,7 @@ body {
 
         position: relative;
 
-        overflow-y: auto;
+        overflow: hidden;
 
         overflow-x: hidden;
 
@@ -717,7 +726,18 @@ body {
         scrollbar-width: none;
     }
 
+    /* GPU acceleration for smooth marquee */
+    .activities-content {
+        will-change: transform;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
 
+    /* Reduce repaint blur */
+    .activity-group {
+        transform: translateZ(0);
+        contain: paint;
+    }
 
     /* .activities-content {
 
@@ -1744,7 +1764,7 @@ body {
 
     border-left: 4px solid var(--primary-gold);
 
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); */
 }
 
 /* ACTIVITY CARD */
