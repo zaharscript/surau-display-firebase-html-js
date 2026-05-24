@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/hajj.jpg",
       "img/surau_poster/zulhijjah.jpeg",
       "img/surau_poster/qurban_fee.jpeg",
-      "img/surau_poster/Selawat_1.jpeg"
+      "img/surau_poster/puasa_arafah.jpeg"
     ];
 
     if (!sliderWrapper) return;
