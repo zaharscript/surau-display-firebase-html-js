@@ -57,7 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
     jamir: "img/ustaz/jamir_kodiang.png",
     hasbullah: "img/ustaz/ustaz_hasbullah.jpg",
     "imam surau": "img/ustaz/yassin.jpg",
-    "imam fahee": "img/ustaz/Imam_Fahee.jpeg.jpg",
+    "imam fahee": "img/ustaz/Imam_Fahee.jpg",
+    ajk: "img/ustaz/qurban.jpg",
   };
 
   // Get speaker photo
@@ -68,6 +69,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const searchStr = `${data.penceramah || ""} ${data.tajuk || ""
       }`.toLowerCase();
+
+    // Priority: Solat Aidiladha
+    if (searchStr.includes("aidiladha")) {
+      return `
+        <img
+          src="img/ustaz/solat_raya.png"
+          class="lecturer-photo-brush"
+          alt="Speaker"
+        >
+      `;
+    }
 
     for (const [keyword, path] of Object.entries(SPEAKER_PHOTOS)) {
       if (searchStr.includes(keyword)) {
