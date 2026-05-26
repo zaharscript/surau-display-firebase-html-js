@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
 ========================= */
 
   const SPEAKER_PHOTOS = {
-
     fahmi: "img/ustaz/ustaz_fahmi.png",
     saifullah: "img/ustaz/ustaz_saifulah.png",
     saifulah: "img/ustaz/ustaz_saifulah.png",
@@ -58,25 +57,20 @@ document.addEventListener("DOMContentLoaded", () => {
     jamir: "img/ustaz/jamir_kodiang.png",
     hasbullah: "img/ustaz/ustaz_hasbullah.jpg",
     "imam surau": "img/ustaz/yassin.jpg",
-    "imam fahee": "img/ustaz/Imam_Fahee.jpeg.jpg"
-
+    "imam fahee": "img/ustaz/Imam_Fahee.jpeg.jpg",
   };
 
   // Get speaker photo
   function getSpeakerPhoto(data) {
-
     if (!data.penceramah && !data.tajuk) {
       return "";
     }
 
-    const searchStr =
-      `${data.penceramah || ""} ${data.tajuk || ""}`
-        .toLowerCase();
+    const searchStr = `${data.penceramah || ""} ${data.tajuk || ""
+      }`.toLowerCase();
 
     for (const [keyword, path] of Object.entries(SPEAKER_PHOTOS)) {
-
       if (searchStr.includes(keyword)) {
-
         return `
         <img
           src="${path}"
@@ -94,8 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
   init();
   loadDailyHadis();
 
-
-
   function init() {
     updateClock(); // Start immediately
     setInterval(updateClock, 1000);
@@ -103,8 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchPrayerTimes();
     // Refresh prayer times daily (or every 6 hours to be safe)
     setInterval(fetchPrayerTimes, 6 * 60 * 60 * 1000);
-
-
 
     // Initialize Dynamic Activities
     loadActivities();
@@ -176,66 +166,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-
-
   function updateActivitiesUIState() {
-
     const now = new Date();
 
-    document.querySelectorAll(".activity-group")
-      .forEach(group => {
+    document.querySelectorAll(".activity-group").forEach((group) => {
+      if (group.classList.contains("cancelled")) {
+        return;
+      }
 
-        if (
-          group.classList.contains("cancelled")
-        ) {
-          return;
-        }
+      const startTimeStr = group.dataset.startTime;
 
-        const startTimeStr =
-          group.dataset.startTime;
+      if (!startTimeStr) return;
 
-        if (!startTimeStr) return;
+      const startTime = new Date(startTimeStr);
 
-        const startTime =
-          new Date(startTimeStr);
+      const minutesPassed = (now - startTime) / (1000 * 60);
 
-        const minutesPassed =
-          (now - startTime) / (1000 * 60);
+      group.classList.remove("activity-active", "activity-faded");
 
-        group.classList.remove(
-          "activity-active",
-          "activity-faded"
-        );
+      // ACTIVE
+      if (minutesPassed >= 0 && minutesPassed < 40) {
+        group.classList.add("activity-active");
+      }
 
-        // ACTIVE
-        if (
-          minutesPassed >= 0 &&
-          minutesPassed < 40
-        ) {
+      // FADED
+      if (minutesPassed >= 40 && minutesPassed < 70) {
+        group.classList.add("activity-faded");
+      }
 
-          group.classList.add(
-            "activity-active"
-          );
-        }
-
-        // FADED
-        if (
-          minutesPassed >= 40 &&
-          minutesPassed < 70
-        ) {
-
-          group.classList.add(
-            "activity-faded"
-          );
-        }
-
-        // DELETE
-        if (minutesPassed >= 70) {
-
-          group.remove();
-        }
-
-      });
+      // DELETE
+      if (minutesPassed >= 70) {
+        group.remove();
+      }
+    });
   }
 
   async function cleanupOldActivities() {
@@ -247,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (snapshot.empty) return;
 
       const expiredDocs = [];
-      snapshot.docs.forEach(docSnap => {
+      snapshot.docs.forEach((docSnap) => {
         const data = docSnap.data();
 
         const endTime = getActivityEndTime(data);
@@ -271,7 +234,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (expiredDocs.length === 0) return;
 
       console.log(`Cleaning up ${expiredDocs.length} expired activities...`);
-      const deletePromises = expiredDocs.map(id => deleteDoc(doc(db, "activities", id)));
+      const deletePromises = expiredDocs.map((id) =>
+        deleteDoc(doc(db, "activities", id))
+      );
       await Promise.all(deletePromises);
       console.log("Cleanup complete.");
     } catch (error) {
@@ -281,25 +246,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Poster Slider Logic
   function setupPosterSlider() {
-    const sliderWrapper = document.getElementById('poster-slider');
+    const sliderWrapper = document.getElementById("poster-slider");
     const posters = [
       "img/surau_poster/quote.jpeg",
       "img/surau_poster/quote_2.jpeg",
       "img/surau_poster/tasbih.jpg",
       "img/surau_poster/qurban.jpg",
       "img/surau_poster/hajj.jpg",
-      "img/surau_poster/zulhijjah.jpeg",
-      "img/surau_poster/qurban_fee.jpeg",
-      "img/surau_poster/puasa_arafah.jpeg"
+      "img/surau_poster/puasa_arafah.jpeg",
+      "img/surau_poster/solat_sunat_aidiladha.jpeg",
     ];
 
     if (!sliderWrapper) return;
 
     // Clear old container if exists and create new structure
-    sliderWrapper.innerHTML = '';
+    sliderWrapper.innerHTML = "";
     const slides = posters.map((src, index) => {
-      const slide = document.createElement('div');
-      slide.className = `poster-slide ${index === 0 ? 'active' : ''}`;
+      const slide = document.createElement("div");
+      slide.className = `poster-slide ${index === 0 ? "active" : ""}`;
       slide.innerHTML = `<img src="${src}" class="side-img" alt="Poster">`;
       sliderWrapper.appendChild(slide);
       return slide;
@@ -314,17 +278,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const nextSlide = slides[currentIndex];
 
       // Transition: current slide exits to the left
-      currentSlide.classList.remove('active');
-      currentSlide.classList.add('exit');
+      currentSlide.classList.remove("active");
+      currentSlide.classList.add("exit");
 
       // Next slide becomes active and enters from the right
-      nextSlide.classList.remove('exit');
-      nextSlide.classList.add('active');
+      nextSlide.classList.remove("exit");
+      nextSlide.classList.add("active");
 
       // Clean up exit class after transition
       setTimeout(() => {
         slides.forEach((s, idx) => {
-          if (idx !== currentIndex) s.classList.remove('exit');
+          if (idx !== currentIndex) s.classList.remove("exit");
         });
       }, 1500); // Match CSS transition duration
     }
@@ -332,8 +296,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Change every 20 seconds
     setInterval(nextSlide, 20000);
   }
-
-
 
   function setupTVOptimization() {
     const fsBtn = document.getElementById("fullscreen-btn");
@@ -343,7 +305,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleFullscreen = () => {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch((err) => {
-          console.error(`Error attempting to enable fullscreen: ${err.message}`);
+          console.error(
+            `Error attempting to enable fullscreen: ${err.message}`
+          );
         });
       } else {
         if (document.exitFullscreen) {
@@ -510,15 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updatePrayerStatus(now) {
-
-    const prayerOrder = [
-      "Fajr",
-      "Sunrise",
-      "Dhuhr",
-      "Asr",
-      "Maghrib",
-      "Isha"
-    ];
+    const prayerOrder = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
 
     const prayerCardMap = {
       Fajr: "fajr-card",
@@ -526,12 +482,11 @@ document.addEventListener("DOMContentLoaded", () => {
       Dhuhr: "dhuhr-card",
       Asr: "asr-card",
       Maghrib: "maghrib-card",
-      Isha: "isha-card"
+      Isha: "isha-card",
     };
 
     // RESET EVERYTHING
-    document.querySelectorAll(".prayer-card").forEach(card => {
-
+    document.querySelectorAll(".prayer-card").forEach((card) => {
       card.classList.remove("active");
       card.classList.remove("next");
 
@@ -542,24 +497,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    const currentMinutes =
-      now.getHours() * 60 + now.getMinutes();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
     let currentPrayer = null;
     let nextPrayer = null;
 
     // FIND CURRENT + NEXT PRAYER
     for (let i = 0; i < prayerOrder.length; i++) {
-
       const prayerName = prayerOrder[i];
 
-      const [hour, minute] =
-        prayerTimes[prayerName]
-          .split(":")
-          .map(Number);
+      const [hour, minute] = prayerTimes[prayerName].split(":").map(Number);
 
-      const prayerMinutes =
-        hour * 60 + minute;
+      const prayerMinutes = hour * 60 + minute;
 
       if (currentMinutes >= prayerMinutes) {
         currentPrayer = prayerName;
@@ -580,13 +529,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // APPLY ACTIVE
-    const currentCard =
-      document.getElementById(
-        prayerCardMap[currentPrayer]
-      );
+    const currentCard = document.getElementById(prayerCardMap[currentPrayer]);
 
     if (currentCard) {
-
       currentCard.classList.add("active");
 
       const badge = document.createElement("span");
@@ -599,13 +544,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // APPLY NEXT
-    const nextCard =
-      document.getElementById(
-        prayerCardMap[nextPrayer]
-      );
+    const nextCard = document.getElementById(prayerCardMap[nextPrayer]);
 
     if (nextCard) {
-
       nextCard.classList.add("next");
 
       const badge = document.createElement("span");
@@ -624,16 +565,13 @@ document.addEventListener("DOMContentLoaded", () => {
         Dhuhr: "Zuhur",
         Asr: "Asar",
         Maghrib: "Maghrib",
-        Isha: "Isyak"
+        Isha: "Isyak",
       };
 
-      const nextPrayerTime =
-        prayerTimes[nextPrayer];
+      const nextPrayerTime = prayerTimes[nextPrayer];
 
       if (nextPrayerTickerEl) {
-
-        nextPrayerTickerEl.textContent =
-          `Waktu ${prayerMalayNames[nextPrayer]} seterusnya pada jam ${nextPrayerTime}`;
+        nextPrayerTickerEl.textContent = `Waktu ${prayerMalayNames[nextPrayer]} seterusnya pada jam ${nextPrayerTime}`;
       }
     }
   }
@@ -668,146 +606,97 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Date formatting moved to utils.js
 
-
-
-
   function loadActivities() {
-
-    const activitiesContainer =
-      document.querySelector(
-        ".activities-content"
-      );
+    const activitiesContainer = document.querySelector(".activities-content");
 
     if (!activitiesContainer) return;
 
-    const q = query(
-      collection(db, "activities")
-    );
+    const q = query(collection(db, "activities"));
 
     onSnapshot(q, (snapshot) => {
-
       // RESET
       activitiesContainer.innerHTML = "";
 
       let activities = [];
 
       snapshot.forEach((docSnap) => {
-
         const data = docSnap.data();
 
-        const startTime =
-          getActivityStartTime(data);
+        const startTime = getActivityStartTime(data);
 
         if (!startTime) return;
 
         activities.push({
           id: docSnap.id,
           ...data,
-          startTime
+          startTime,
         });
-
       });
 
       // SORT CHRONOLOGICALLY
       activities.sort((a, b) => {
-
         return a.startTime - b.startTime;
-
       });
 
       // GROUP BY DAY
       const groupedActivities = {};
 
-      activities.forEach(activity => {
-
-        const dateKey =
-          activity.startTime.toDateString();
+      activities.forEach((activity) => {
+        const dateKey = activity.startTime.toDateString();
 
         if (!groupedActivities[dateKey]) {
-
           groupedActivities[dateKey] = [];
-
         }
 
-        groupedActivities[dateKey]
-          .push(activity);
-
+        groupedActivities[dateKey].push(activity);
       });
 
       // =========================
       // BUILD ORIGINAL CONTENT
       // =========================
 
-      const fragment =
-        document.createDocumentFragment();
+      const fragment = document.createDocumentFragment();
 
-      Object.keys(groupedActivities)
-        .forEach(dateKey => {
+      Object.keys(groupedActivities).forEach((dateKey) => {
+        // DAY HEADER
+        const header = document.createElement("div");
 
-          // DAY HEADER
-          const header =
-            document.createElement("div");
+        header.className = "activity-day-header";
 
-          header.className =
-            "activity-day-header";
+        header.innerHTML = new Date(dateKey).toLocaleDateString("ms-MY", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+        });
 
-          header.innerHTML =
-            new Date(dateKey)
-              .toLocaleDateString(
-                "ms-MY",
-                {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long"
-                }
-              );
+        fragment.appendChild(header);
 
-          fragment.appendChild(header);
+        // ACTIVITIES
+        groupedActivities[dateKey].forEach((activity) => {
+          let masaDisplay = activity.masa || "";
 
-          // ACTIVITIES
-          groupedActivities[dateKey]
-            .forEach(activity => {
+          if (activity.masa_option === "maghrib") {
+            masaDisplay = "Selepas Maghrib";
+          }
 
-              let masaDisplay =
-                activity.masa || "";
+          if (activity.masa_option === "isyak") {
+            masaDisplay = "Selepas Isyak";
+          }
 
-              if (
-                activity.masa_option === "maghrib"
-              ) {
-                masaDisplay =
-                  "Selepas Maghrib";
-              }
+          if (activity.masa_option === "subuh") {
+            masaDisplay = "Selepas Subuh";
+          }
 
-              if (
-                activity.masa_option === "isyak"
-              ) {
-                masaDisplay =
-                  "Selepas Isyak";
-              }
+          const speakerPhoto = getSpeakerPhoto(activity);
 
-              if (
-                activity.masa_option === "subuh"
-              ) {
-                masaDisplay =
-                  "Selepas Subuh";
-              }
+          const activityCard = document.createElement("div");
 
-              const speakerPhoto =
-                getSpeakerPhoto(activity);
+          activityCard.className = `activity-group ${activity.is_batal ? "cancelled" : ""
+            }`;
 
-              const activityCard =
-                document.createElement("div");
+          activityCard.dataset.startTime = activity.startTime.toISOString();
 
-              activityCard.className =
-                `activity-group ${activity.is_batal
-                  ? "cancelled"
-                  : ""
-                }`;
-
-              activityCard.dataset.startTime =
-                activity.startTime.toISOString();
-
-              activityCard.innerHTML = `
+          activityCard.innerHTML = `
 
               <div class="activity-time">
                 ${activity.lain_from || "--:--"}
@@ -830,20 +719,20 @@ document.addEventListener("DOMContentLoaded", () => {
                   </div>
 
                   ${activity.nota
-                  ? `
+              ? `
                         <div class="act-note">
                           ${activity.nota}
                         </div>
                       `
-                  : ""
-                }
+              : ""
+            }
 
                 </div>
 
                 ${speakerPhoto}
 
                 ${activity.is_batal
-                  ? `
+              ? `
                       <div class="batal-overlay">
                         <img
                           src="img/system/tangguh.png"
@@ -851,55 +740,40 @@ document.addEventListener("DOMContentLoaded", () => {
                         >
                       </div>
                     `
-                  : ""
-                }
+              : ""
+            }
 
               </div>
             `;
 
-              fragment.appendChild(
-                activityCard
-              );
-
-            });
-
+          fragment.appendChild(activityCard);
         });
+      });
 
       // =========================
       // APPEND ORIGINAL CONTENT
       // =========================
 
-      activitiesContainer.appendChild(
-        fragment
-      );
+      activitiesContainer.appendChild(fragment);
 
       // =========================
       // DUPLICATE FOR MARQUEE
       // =========================
 
-      const duplicatedContent =
-        activitiesContainer.innerHTML;
+      const duplicatedContent = activitiesContainer.innerHTML;
 
-      activitiesContainer.innerHTML +=
-        duplicatedContent;
+      activitiesContainer.innerHTML += duplicatedContent;
 
       // RESET SCROLL POSITION
-      const scrollArea =
-        document.querySelector(
-          ".activities-scroll-area"
-        );
+      const scrollArea = document.querySelector(".activities-scroll-area");
 
       if (scrollArea) {
-
         scrollArea.scrollTop = 0;
-
       }
 
       // UPDATE UI STATES
       updateActivitiesUIState();
-
     });
-
   }
 
   function initActivities() {
@@ -981,214 +855,204 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadDailyHadis() {
-
   const hadisList = [
-
     {
       arabic: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
       text: "Sesungguhnya setiap amalan bergantung kepada niat.",
-      source: "HR. Bukhari & Muslim"
+      source: "HR. Bukhari & Muslim",
     },
 
     {
       arabic: "خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ",
       text: "Sebaik-baik manusia adalah yang paling bermanfaat kepada manusia lain.",
-      source: "HR. Ahmad"
+      source: "HR. Ahmad",
     },
 
     {
       arabic: "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ",
       text: "Senyumanmu kepada saudaramu adalah sedekah.",
-      source: "HR. Tirmizi"
+      source: "HR. Tirmizi",
     },
 
     {
       arabic: "لَا تَغْضَبْ",
       text: "Jangan marah.",
-      source: "HR. Bukhari"
+      source: "HR. Bukhari",
     },
 
     {
       arabic: "الدِّينُ النَّصِيحَةُ",
       text: "Agama itu adalah nasihat.",
-      source: "HR. Muslim"
+      source: "HR. Muslim",
     },
 
     {
       arabic: "الطُّهُورُ شَطْرُ الإِيمَانِ",
       text: "Kebersihan itu sebahagian daripada iman.",
-      source: "HR. Muslim"
+      source: "HR. Muslim",
     },
 
     {
       arabic: "مَنْ صَمَتَ نَجَا",
       text: "Barangsiapa banyak diam, dia akan selamat.",
-      source: "HR. Tirmizi"
+      source: "HR. Tirmizi",
     },
 
     {
       arabic: "يَسِّرُوا وَلَا تُعَسِّرُوا",
       text: "Permudahkanlah dan jangan menyusahkan.",
-      source: "HR. Bukhari"
+      source: "HR. Bukhari",
     },
 
     {
       arabic: "الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ",
       text: "Orang yang penyayang akan disayangi Allah.",
-      source: "HR. Tirmizi"
+      source: "HR. Tirmizi",
     },
 
     {
       arabic: "مَنْ لَا يَرْحَمْ لَا يُرْحَمْ",
       text: "Barangsiapa tidak mengasihi, tidak akan dikasihi.",
-      source: "HR. Bukhari"
+      source: "HR. Bukhari",
     },
 
     {
       arabic: "الْمُؤْمِنُ مِرْآةُ الْمُؤْمِنِ",
       text: "Seorang mukmin adalah cermin bagi mukmin yang lain.",
-      source: "HR. Abu Daud"
+      source: "HR. Abu Daud",
     },
 
     {
       arabic: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ",
       text: "Bertakwalah kepada Allah di mana sahaja kamu berada.",
-      source: "HR. Tirmizi"
+      source: "HR. Tirmizi",
     },
 
     {
       arabic: "إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمَالَ",
       text: "Sesungguhnya Allah itu indah dan menyukai keindahan.",
-      source: "HR. Muslim"
+      source: "HR. Muslim",
     },
 
     {
       arabic: "مَنْ غَشَّنَا فَلَيْسَ مِنَّا",
       text: "Barangsiapa menipu maka dia bukan daripada kalangan kami.",
-      source: "HR. Muslim"
+      source: "HR. Muslim",
     },
 
     {
       arabic: "الْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ",
       text: "Perkataan yang baik adalah sedekah.",
-      source: "HR. Bukhari"
+      source: "HR. Bukhari",
     },
 
     {
       arabic: "إِنَّ اللَّهَ يُحِبُّ الرِّفْقَ",
       text: "Sesungguhnya Allah menyukai kelembutan.",
-      source: "HR. Muslim"
+      source: "HR. Muslim",
     },
 
     {
       arabic: "مَنْ تَوَاضَعَ لِلَّهِ رَفَعَهُ اللَّهُ",
       text: "Barangsiapa merendah diri kerana Allah, Allah akan mengangkat darjatnya.",
-      source: "HR. Muslim"
+      source: "HR. Muslim",
     },
 
     {
       arabic: "الدُّعَاءُ هُوَ الْعِبَادَةُ",
       text: "Doa itu adalah ibadah.",
-      source: "HR. Tirmizi"
+      source: "HR. Tirmizi",
     },
 
     {
       arabic: "الصَّبْرُ ضِيَاءٌ",
       text: "Sabar itu cahaya.",
-      source: "HR. Muslim"
+      source: "HR. Muslim",
     },
 
     {
       arabic: "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
       text: "Sesungguhnya bersama kesusahan ada kemudahan.",
-      source: "Riwayat Muslim"
+      source: "Riwayat Muslim",
     },
 
     {
       arabic: "الْحَيَاءُ مِنَ الإِيمَانِ",
       text: "Malu itu sebahagian daripada iman.",
-      source: "HR. Bukhari"
+      source: "HR. Bukhari",
     },
 
     {
       arabic: "الْجَنَّةُ تَحْتَ أَقْدَامِ الأُمَّهَاتِ",
       text: "Syurga berada di bawah telapak kaki ibu.",
-      source: "HR. Ahmad"
+      source: "HR. Ahmad",
     },
 
     {
       arabic: "مَنْ لَا يَشْكُرِ النَّاسَ لَا يَشْكُرِ اللَّهَ",
       text: "Barangsiapa tidak berterima kasih kepada manusia, dia tidak bersyukur kepada Allah.",
-      source: "HR. Tirmizi"
+      source: "HR. Tirmizi",
     },
 
     {
       arabic: "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
       text: "Sesungguhnya Allah bersama orang-orang yang sabar.",
-      source: "HR. Bukhari"
+      source: "HR. Bukhari",
     },
 
     {
       arabic: "أَفْضَلُ الصَّدَقَةِ سَقْيُ الْمَاءِ",
       text: "Sedekah yang paling utama adalah memberi air minum.",
-      source: "HR. Ahmad"
+      source: "HR. Ahmad",
     },
 
     {
       arabic: "خَيْرُكُمْ خَيْرُكُمْ لأَهْلِهِ",
       text: "Sebaik-baik kamu adalah yang paling baik terhadap keluarganya.",
-      source: "HR. Tirmizi"
+      source: "HR. Tirmizi",
     },
 
     {
       arabic: "السَّاعِي عَلَى الأَرْمَلَةِ وَالْمِسْكِينِ كَالْمُجَاهِدِ",
       text: "Orang yang membantu janda dan orang miskin seperti berjihad di jalan Allah.",
-      source: "HR. Bukhari"
+      source: "HR. Bukhari",
     },
 
     {
       arabic: "أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ",
       text: "Amalan yang paling dicintai Allah adalah yang berterusan walaupun sedikit.",
-      source: "HR. Muslim"
+      source: "HR. Muslim",
     },
 
     {
       arabic: "إِفْشَاءُ السَّلَامِ مِنَ الإِسْلَامِ",
       text: "Menyebarkan salam adalah sebahagian daripada Islam.",
-      source: "HR. Bukhari"
+      source: "HR. Bukhari",
     },
 
     {
       arabic: "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ",
       text: "Muslim sejati ialah yang orang lain selamat daripada lidah dan tangannya.",
-      source: "HR. Bukhari & Muslim"
-    }
-
+      source: "HR. Bukhari & Muslim",
+    },
   ];
 
   const today = new Date();
 
-  const uniqueDayNumber =
-    Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+  const uniqueDayNumber = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
 
-  const hadisIndex =
-    uniqueDayNumber % hadisList.length;
+  const hadisIndex = uniqueDayNumber % hadisList.length;
 
   const selectedHadis = hadisList[hadisIndex];
 
-  document.getElementById("hadis-arabic").textContent =
-    selectedHadis.arabic;
+  document.getElementById("hadis-arabic").textContent = selectedHadis.arabic;
 
-  document.getElementById("hadis-text").textContent =
-    `"${selectedHadis.text}"`;
+  document.getElementById("hadis-text").textContent = `"${selectedHadis.text}"`;
 
-  document.getElementById("hadis-source").textContent =
-    selectedHadis.source;
+  document.getElementById("hadis-source").textContent = selectedHadis.source;
 }
 
-
 function setPrayerBadge(card, text) {
-
   // remove old badge first
   const oldBadge = card.querySelector(".prayer-state-badge");
 
@@ -1204,27 +1068,15 @@ function setPrayerBadge(card, text) {
   card.appendChild(badge);
 }
 
-
-
 function setupActivitiesAutoScroll() {
-
   // TV ONLY
   if (window.innerWidth < 1025) return;
 
-  const scrollArea =
-    document.querySelector(
-      ".activities-scroll-area"
-    );
+  const scrollArea = document.querySelector(".activities-scroll-area");
 
-  const activitiesContent =
-    document.querySelector(
-      ".activities-content"
-    );
+  const activitiesContent = document.querySelector(".activities-content");
 
-  if (
-    !scrollArea ||
-    !activitiesContent
-  ) return;
+  if (!scrollArea || !activitiesContent) return;
 
   // SPEED = pixels per second
   let scrollSpeed = 13;
@@ -1233,74 +1085,40 @@ function setupActivitiesAutoScroll() {
   let lastTimestamp = 0;
 
   function autoScroll(timestamp) {
-
     if (!lastTimestamp) {
-
       lastTimestamp = timestamp;
-
     }
 
-    const delta =
-      timestamp - lastTimestamp;
+    const delta = timestamp - lastTimestamp;
 
     lastTimestamp = timestamp;
 
     // SMOOTH SCROLL
-    scrollArea.scrollTop +=
-      (scrollSpeed * delta) / 1000;
+    scrollArea.scrollTop += (scrollSpeed * delta) / 1000;
 
     // IMPORTANT:
     // reset at HALF because content
     // has been duplicated
-    const resetPoint =
-      activitiesContent.scrollHeight / 2;
+    const resetPoint = activitiesContent.scrollHeight / 2;
 
-    if (
-      scrollArea.scrollTop >=
-      resetPoint
-    ) {
-
+    if (scrollArea.scrollTop >= resetPoint) {
       scrollArea.scrollTop = 0;
-
     }
 
-    animationFrame =
-      requestAnimationFrame(
-        autoScroll
-      );
-
+    animationFrame = requestAnimationFrame(autoScroll);
   }
 
   // START
-  animationFrame =
-    requestAnimationFrame(
-      autoScroll
-    );
+  animationFrame = requestAnimationFrame(autoScroll);
 
   // PAUSE ON HOVER
-  scrollArea.addEventListener(
-    "mouseenter",
-    () => {
+  scrollArea.addEventListener("mouseenter", () => {
+    cancelAnimationFrame(animationFrame);
+  });
 
-      cancelAnimationFrame(
-        animationFrame
-      );
+  scrollArea.addEventListener("mouseleave", () => {
+    lastTimestamp = 0;
 
-    }
-  );
-
-  scrollArea.addEventListener(
-    "mouseleave",
-    () => {
-
-      lastTimestamp = 0;
-
-      animationFrame =
-        requestAnimationFrame(
-          autoScroll
-        );
-
-    }
-  );
-
+    animationFrame = requestAnimationFrame(autoScroll);
+  });
 }
