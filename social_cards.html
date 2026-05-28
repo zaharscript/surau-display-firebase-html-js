@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surau Seri Dahlia - Event Cards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/event-cards.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #e2e8f0;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls button {
+            padding: 8px 16px;
+            cursor: pointer;
+            border: none;
+            background: #1b263b;
+            color: white;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="controls">
+        <button onclick="window.location.href='index.html'">Kembali ke Dashboard</button>
+    </div>
+
+    <div id="event-cards-container">
+        <!-- Cards will be injected here -->
+        <div class="loading" style="padding: 50px; font-family: 'Montserrat';">Memuatkan aktiviti...</div>
+    </div>
+
+    <script type="module" src="js/social-cards.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,248 @@
+:root {
+    --card-navy: #1b263b;
+    --card-maroon: #5c1d1d;
+    --card-green: #1a3a3a;
+    --card-radius: 24px;
+    --font-main: 'Montserrat', sans-serif;
+}
+
+#event-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    padding: 5px 0 20px;
+}
+
+.event-card {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 9 / 14;
+    /* Social media status ratio */
+    border-radius: var(--card-radius);
+    padding: 40px 30px;
+    color: white;
+    font-family: var(--font-main);
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Color Themes */
+.event-card.navy {
+    background: linear-gradient(135deg, #1b263b 0%, #0d1321 100%);
+}
+
+.event-card.maroon {
+    background: linear-gradient(135deg, #5c1d1d 0%, #3a0a0a 100%);
+}
+
+.event-card.green {
+    background: linear-gradient(135deg, #1a3a3a 0%, #0a1f1f 100%);
+}
+
+/* Top Section: Date & Time */
+.card-top {
+    z-index: 2;
+}
+
+.card-meta-box {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.card-time {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 10px;
+    color: #ffcc00;
+    /* Subtle highlight color for time */
+}
+
+/* Middle Section: Title */
+.card-middle {
+    z-index: 2;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    margin-top: -40px;
+}
+
+.card-title {
+    font-size: clamp(42px, 8vw, 56px);
+    line-height: 1.1;
+    font-weight: 800;
+    text-align: left;
+    max-width: 80%;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Bottom Section: Speaker info */
+.card-bottom {
+    z-index: 2;
+}
+
+.card-speaker-label {
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.8;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.card-speaker-name {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.card-context {
+    font-size: 18px;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+/* Imagery: Portrait */
+.card-portrait-wrapper {
+    position: absolute;
+    top: 0;
+    right: -10%;
+    width: 80%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.card-portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Changed to cover to ensure no gaps */
+    object-position: top center;
+
+    /* Radial mask for better portrait isolation */
+    -webkit-mask-image: radial-gradient(circle at 50% 30%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 80%);
+    mask-image: radial-gradient(circle at 50% 30%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 80%);
+}
+
+/* Specific UI polish for WhatsApp/Instagram status feels */
+.event-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+    .card-title {
+        font-size: 48px;
+    }
+
+    .card-speaker-name {
+        font-size: 24px;
+    }
+}
+
+/* MOBILE ONLY */
+@media (max-width: 1024px) {
+
+    .activities-content {
+        display: none;
+    }
+
+    #event-cards-container {
+        display: flex;
+    }
+
+    .activities-scroll-area {
+        overflow: visible;
+    }
+
+    .activities-section {
+        background: transparent;
+        border: none;
+        padding: 0;
+        backdrop-filter: none;
+    }
+
+    .activities-header {
+        margin-bottom: 20px;
+        padding-inline: 10px;
+    }
+
+    .event-card {
+        max-width: 100%;
+        min-height: 520px;
+    }
+}
+
+
+.event-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg,
+            rgba(0, 0, 0, 0.75) 0%,
+            rgba(0, 0, 0, 0.45) 40%,
+            rgba(0, 0, 0, 0.1) 100%);
+    z-index: 1;
+}
+
+.card-portrait {
+    animation: slowZoom 18s ease-in-out infinite alternate;
+}
+
+@keyframes slowZoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.06);
+    }
+}
+
+@media (max-width: 1024px) {
+
+    /* Hide OLD activity cards */
+    .activities-content {
+        display: none !important;
+    }
+
+    /* Show NEW social cards */
+    #event-cards-container {
+        display: flex;
+    }
+}
+
+@media (min-width: 1025px) {
+
+    #event-cards-container {
+        display: none !important;
+    }
+}

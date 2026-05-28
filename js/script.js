@@ -1,4 +1,4 @@
-import { db, auth } from "./firebase.js";
+DATABASEimport { db, auth } from "./firebase.js";
 import {
   collection,
   onSnapshot,
@@ -109,7 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(fetchPrayerTimes, 6 * 60 * 60 * 1000);
 
     // Initialize Dynamic Activities
+
     loadActivities();
+
 
     // Kiosk optimizations
     setupTVOptimization();
@@ -765,26 +767,28 @@ document.addEventListener("DOMContentLoaded", () => {
       // =========================
       // APPEND ORIGINAL CONTENT
       // =========================
-
       activitiesContainer.appendChild(fragment);
 
       // =========================
-      // DUPLICATE FOR MARQUEE
+      // DUPLICATE FOR MARQUEE (Only if content is taller than area)
       // =========================
-
-      const duplicatedContent = activitiesContainer.innerHTML;
-
-      activitiesContainer.innerHTML += duplicatedContent;
-
-      // RESET SCROLL POSITION
       const scrollArea = document.querySelector(".activities-scroll-area");
-
       if (scrollArea) {
-        scrollArea.scrollTop = 0;
+        // We use a small timeout to ensure the DOM has rendered and height is calculated
+        setTimeout(() => {
+          if (activitiesContainer.scrollHeight > scrollArea.clientHeight) {
+            const duplicatedContent = activitiesContainer.innerHTML;
+            activitiesContainer.innerHTML += duplicatedContent;
+            activitiesContainer.dataset.duplicated = "true";
+          } else {
+            activitiesContainer.dataset.duplicated = "false";
+          }
+          // RESET SCROLL POSITION
+          scrollArea.scrollTop = 0;
+          // UPDATE UI STATES
+          updateActivitiesUIState();
+        }, 100);
       }
-
-      // UPDATE UI STATES
-      updateActivitiesUIState();
     });
   }
 
@@ -1102,19 +1106,32 @@ function setupActivitiesAutoScroll() {
     }
 
     const delta = timestamp - lastTimestamp;
-
     lastTimestamp = timestamp;
+
+    // Only scroll if content is taller than area
+    if (activitiesContent.scrollHeight <= scrollArea.clientHeight) {
+      animationFrame = requestAnimationFrame(autoScroll);
+      return;
+    }
 
     // SMOOTH SCROLL
     scrollArea.scrollTop += (scrollSpeed * delta) / 1000;
 
-    // IMPORTANT:
-    // reset at HALF because content
-    // has been duplicated
-    const resetPoint = activitiesContent.scrollHeight / 2;
-
-    if (scrollArea.scrollTop >= resetPoint) {
-      scrollArea.scrollTop = 0;
+    // Reset logic
+    if (activitiesContent.dataset.duplicated === "true") {
+      // infinite scroll reset at HALF
+      const resetPoint = activitiesContent.scrollHeight / 2;
+      if (scrollArea.scrollTop >= resetPoint) {
+        scrollArea.scrollTop = 0;
+      }
+    } else {
+      // normal reset at END (with a little buffer)
+      if (
+        scrollArea.scrollTop + scrollArea.clientHeight >=
+        activitiesContent.scrollHeight - 5
+      ) {
+        scrollArea.scrollTop = 0;
+      }
     }
 
     animationFrame = requestAnimationFrame(autoScroll);

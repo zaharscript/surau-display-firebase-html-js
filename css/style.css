@@ -1863,3 +1863,19 @@ body {
 
     flex-shrink: 0;
 }
+
+
+@media (max-width: 1024px) {
+
+    .main-content {
+        gap: 1rem;
+    }
+
+    .activities-section {
+        max-width: 100%;
+    }
+
+    .notice-card {
+        margin-inline: 10px;
+    }
+}
