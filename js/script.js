@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/quote_2.jpeg",
       "img/surau_poster/tasbih.jpg",
       "img/surau_poster/post_qurban.jpeg",
-      "img/surau_poster/hajj.jpg
+      "img/surau_poster/hajj.jpg"
     ];2
 
     if (!sliderWrapper) return;
