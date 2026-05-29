@@ -67,8 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return "";
     }
 
-    const searchStr = `${data.penceramah || ""} ${data.tajuk || ""
-      }`.toLowerCase();
+    const searchStr = `${data.penceramah || ""} ${
+      data.tajuk || ""
+    }`.toLowerCase();
 
     // Priority: Solat Aidiladha
     if (searchStr.includes("aidiladha")) {
@@ -109,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(fetchPrayerTimes, 6 * 60 * 60 * 1000);
 
     // Initialize Dynamic Activities
+
     loadActivities();
 
     // Kiosk optimizations
@@ -263,9 +265,11 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/quote.jpeg",
       "img/surau_poster/quote_2.jpeg",
       "img/surau_poster/tasbih.jpg",
-      "img/surau_poster/post_qurban.jpeg",
-      "img/surau_poster/hajj.jpg"
-    ];2
+      "img/surau_poster/qurban.jpg",
+      "img/surau_poster/hajj.jpg",
+      "img/surau_poster/puasa_arafah.jpeg",
+      "img/surau_poster/solat_sunat_aidiladha.jpeg",
+    ];
 
     if (!sliderWrapper) return;
 
@@ -701,8 +705,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const activityCard = document.createElement("div");
 
-          activityCard.className = `activity-group ${activity.is_batal ? "cancelled" : ""
-            }`;
+          activityCard.className = `activity-group ${
+            activity.is_batal ? "cancelled" : ""
+          }`;
 
           activityCard.dataset.startTime = activity.startTime.toISOString();
 
@@ -728,21 +733,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${masaDisplay}
                   </div>
 
-                  ${activity.nota
-              ? `
+                  ${
+                    activity.nota
+                      ? `
                         <div class="act-note">
                           ${activity.nota}
                         </div>
                       `
-              : ""
-            }
+                      : ""
+                  }
 
                 </div>
 
                 ${speakerPhoto}
 
-                ${activity.is_batal
-              ? `
+                ${
+                  activity.is_batal
+                    ? `
                       <div class="batal-overlay">
                         <img
                           src="img/system/tangguh.png"
@@ -750,8 +757,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         >
                       </div>
                     `
-              : ""
-            }
+                    : ""
+                }
 
               </div>
             `;
@@ -763,26 +770,28 @@ document.addEventListener("DOMContentLoaded", () => {
       // =========================
       // APPEND ORIGINAL CONTENT
       // =========================
-
       activitiesContainer.appendChild(fragment);
 
       // =========================
-      // DUPLICATE FOR MARQUEE
+      // DUPLICATE FOR MARQUEE (Only if content is taller than area)
       // =========================
-
-      const duplicatedContent = activitiesContainer.innerHTML;
-
-      activitiesContainer.innerHTML += duplicatedContent;
-
-      // RESET SCROLL POSITION
       const scrollArea = document.querySelector(".activities-scroll-area");
-
       if (scrollArea) {
-        scrollArea.scrollTop = 0;
+        // We use a small timeout to ensure the DOM has rendered and height is calculated
+        setTimeout(() => {
+          if (activitiesContainer.scrollHeight > scrollArea.clientHeight) {
+            const duplicatedContent = activitiesContainer.innerHTML;
+            activitiesContainer.innerHTML += duplicatedContent;
+            activitiesContainer.dataset.duplicated = "true";
+          } else {
+            activitiesContainer.dataset.duplicated = "false";
+          }
+          // RESET SCROLL POSITION
+          scrollArea.scrollTop = 0;
+          // UPDATE UI STATES
+          updateActivitiesUIState();
+        }, 100);
       }
-
-      // UPDATE UI STATES
-      updateActivitiesUIState();
     });
   }
 
@@ -850,8 +859,9 @@ document.addEventListener("DOMContentLoaded", () => {
           itemDiv.innerHTML = `
                         <div class="act-icon"><i class="fa-solid ${icon}"></i></div>
                         <div class="act-details">
-                            <div class="act-title">${act.acara} ${act.masa ? `(${act.masa})` : ""
-            }</div>
+                            <div class="act-title">${act.acara} ${
+            act.masa ? `(${act.masa})` : ""
+          }</div>
                             <div class="act-lead">${act.oleh}</div>
                         </div>
                     `;
@@ -1100,19 +1110,32 @@ function setupActivitiesAutoScroll() {
     }
 
     const delta = timestamp - lastTimestamp;
-
     lastTimestamp = timestamp;
+
+    // Only scroll if content is taller than area
+    if (activitiesContent.scrollHeight <= scrollArea.clientHeight) {
+      animationFrame = requestAnimationFrame(autoScroll);
+      return;
+    }
 
     // SMOOTH SCROLL
     scrollArea.scrollTop += (scrollSpeed * delta) / 1000;
 
-    // IMPORTANT:
-    // reset at HALF because content
-    // has been duplicated
-    const resetPoint = activitiesContent.scrollHeight / 2;
-
-    if (scrollArea.scrollTop >= resetPoint) {
-      scrollArea.scrollTop = 0;
+    // Reset logic
+    if (activitiesContent.dataset.duplicated === "true") {
+      // infinite scroll reset at HALF
+      const resetPoint = activitiesContent.scrollHeight / 2;
+      if (scrollArea.scrollTop >= resetPoint) {
+        scrollArea.scrollTop = 0;
+      }
+    } else {
+      // normal reset at END (with a little buffer)
+      if (
+        scrollArea.scrollTop + scrollArea.clientHeight >=
+        activitiesContent.scrollHeight - 5
+      ) {
+        scrollArea.scrollTop = 0;
+      }
     }
 
     animationFrame = requestAnimationFrame(autoScroll);
