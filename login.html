@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Masuk - Surau Seri Dahlia</title>
+    <title>Mosque Digital Display</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,179 +15,224 @@
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .login-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, #1e293b 100%);
-        }
-
-        .login-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
-            padding: 3rem;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-
-        .login-logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 1.5rem;
-            border: 3px solid var(--primary-gold);
-            padding: 5px;
-            background: white;
-        }
-
-        .login-card h1 {
-            font-family: var(--font-heading);
-            color: var(--primary-gold);
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .login-card p {
-            color: var(--text-dim);
-            margin-bottom: 2rem;
-        }
-
-        .login-form {
-            text-align: left;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-light);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-wrapper i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary-gold);
-        }
-
-        .login-form input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            padding: 0.8rem 1rem 0.8rem 2.8rem;
-            border-radius: 12px;
-            color: white;
-            font-family: var(--font-body);
-            transition: all 0.3s ease;
-        }
-
-        .login-form input:focus {
-            outline: none;
-            border-color: var(--primary-gold);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
-        }
-
-        .login-btn {
-            width: 100%;
-            background: var(--primary-gold);
-            color: var(--primary-blue);
-            border: none;
-            padding: 1rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
-            filter: brightness(1.1);
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-
-        .back-link:hover {
-            color: var(--primary-gold);
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            color: #fca5a5;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            display: none;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <img src="img/system/logo_surau.jpg" alt="Logo" class="login-logo">
-            <h1>Log Masuk</h1>
-            <p>Akses Pengurusan Surau Seri Dahlia</p>
+    <div class="display-container">
+        <!-- Background Overlay -->
+        <div class="bg-overlay"></div>
 
-            <div id="errorMessage" class="error-message"></div>
+        <!-- Header: Mosque Info -->
+        <header class="main-header">
+            <div class="logo-area">
+                <img src="img/system/logo.jpg" alt="Surau Seri Dahlia Logo" class="mosque-logo">
 
-            <form id="loginForm" class="login-form">
-                <div class="form-group">
-                    <label for="email">E-mel</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" required placeholder="admin@surau.com">
+            </div>
+            <!-- Left: Live Clock & Countdown -->
+            <section class="clock-section">
+                <div class="live-clock-container">
+                    <div id="clock" class="digital-clock">00:00:00</div>
+                    <div class="period" id="ampm">AM</div>
+                </div>
+            </section>
+            <section class="prayer-times-section">
+
+                <!-- Fajr -->
+                <div class="prayer-card" id="fajr-card">
+                    <div class="prayer-icon"><i class="ti ti-moon-stars" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Subuh</span>
+                        <span class="prayer-name-ar">الفجر</span>
                     </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="fajr-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="fajr-iqamah">--:--</span></div>
                 </div>
 
-                <div class="form-group">
-                    <label for="password">Kata Laluan</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" required placeholder="••••••••">
+                <!-- Syuruq -->
+                <div class="prayer-card" id="sunrise-card">
+                    <div class="prayer-icon"><i class="ti ti-sunrise" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Syuruq</span>
+                        <span class="prayer-name-ar">الشروق</span>
                     </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="sunrise-time">--:--</div>
+                    <div class="iqamah-time" style="visibility: hidden;">—</div>
                 </div>
 
-                <button type="submit" id="loginBtn" class="login-btn">Log Masuk</button>
-            </form>
+                <!-- Dhuhr -->
+                <div class="prayer-card" id="dhuhr-card">
+                    <div class="prayer-icon"><i class="ti ti-sun" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Zuhur</span>
+                        <span class="prayer-name-ar">الظهر</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="dhuhr-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="dhuhr-iqamah">--:--</span></div>
+                </div>
 
-            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Kembali ke Paparan Utama</a>
-        </div>
+                <!-- Asr -->
+                <div class="prayer-card" id="asr-card">
+                    <div class="prayer-icon"><i class="ti ti-sun-low" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Asar</span>
+                        <span class="prayer-name-ar">العصر</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="asr-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="asr-iqamah">--:--</span></div>
+                </div>
+
+                <!-- Maghrib -->
+                <div class="prayer-card" id="maghrib-card">
+                    <div class="prayer-icon"><i class="ti ti-sunset" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Maghrib</span>
+                        <span class="prayer-name-ar">المغرب</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="maghrib-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="maghrib-iqamah">--:--</span></div>
+                </div>
+
+                <!-- Isyak -->
+                <div class="prayer-card" id="isha-card">
+                    <div class="prayer-icon"><i class="ti ti-moon" aria-hidden="true"></i></div>
+                    <div class="prayer-info">
+                        <span class="prayer-name-en">Isyak</span>
+                        <span class="prayer-name-ar">العشاء</span>
+                    </div>
+                    <div class="prayer-divider"></div>
+                    <div class="prayer-time" id="isha-time">--:--</div>
+                    <div class="iqamah-time">Iqamah <span id="isha-iqamah">--:--</span></div>
+                </div>
+
+            </section>
+
+            <div class="date-time-weather">
+                <div class="gregorian-date" id="gregorian-date">--</div>
+                <div class="hijri-date" id="hijri-date">--</div>
+                <button id="fullscreen-btn" class="fullscreen-btn" title="Toggle Fullscreen">
+                    <i class="fa-solid fa-expand"></i>
+                </button>
+                <a href="ad_form.html" class="admin-btn admin-access admin-only" title="Urus Iklan"
+                    style="display: none;">
+                    <i class="fa-solid fa-ad"></i> Urus Iklan
+                </a>
+                <a href="login.html" id="login-btn" class="admin-btn login-link guest-only" title="Log Masuk">
+                    <i class="fa-solid fa-right-to-bracket"></i> Log Masuk
+                </a>
+                <button id="logout-btn" class="admin-btn logout-btn admin-only" title="Log Keluar"
+                    style="display: none; background: #e74c3c;">
+                    <i class="fa-solid fa-sign-out-alt"></i> Log Keluar
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel: Weekly Activities -->
+            <section class="activities-section left-panel">
+                <div class="activities-header">
+                    <div class="header-main">
+                        <h2><i class="fa-solid fa-calendar-days"></i> JADUAL AKTIVITI MINGGUAN</h2>
+                        <p>Surau Seri Dahlia, Bandar Seri Putra</p>
+                    </div>
+                    <a href="activity_form.html" class="add-activity-btn admin-access admin-only"
+                        title="Tambah Aktiviti" style="display: none;">
+                        <i class="fa-solid fa-plus"></i> Tambah/ Edit Aktiviti
+                    </a>
+                </div>
+
+                <div class="activities-scroll-area">
+                    <div class="activities-content"></div>
+                </div>
+                <!-- Notice -->
+                <div class="notice-card">
+                    <div class="notice-header"><i class="fa-solid fa-hands-holding-circle"></i> Makluman Jemaah
+                    </div>
+                    <p>Sesiapa yang berhajat untuk mengadakan Doa Selamat atau Tahlil, sila maklumkan kepada Imam
+                        Surau atau AJK Surau.</p>
+                    <p class="highlight">Sumbangan infak makanan amatlah dialu-alukan.<br>✨ Semoga menjadi amal
+                        jariah kita bersama.</p>
+                </div>
+            </section>
+
+            <!-- Center Panel: Poster Slider -->
+            <section class="poster-section center-panel">
+                <div class="side-img-slider" id="poster-slider">
+                    <!-- Dynamic posters will be injected here via script.js -->
+                </div>
+            </section>
+
+            <!-- Right Panel: Quran/Hadis & QR Code -->
+            <section class="info-section right-panel">
+                <div class="recitation-container">
+                    <!-- Reserved for daily quran/hadis recitation -->
+                    <div class="daily-hadis-card">
+
+                        <div class="hadis-header">
+                            <i class="fa-solid fa-book-quran"></i>
+                            <span>Hadis Harian</span>
+                        </div>
+
+                        <p class="hadis-arabic" id="hadis-arabic">
+                            —
+                        </p>
+
+                        <p class="hadis-text" id="hadis-text">
+                            Memuatkan hadis...
+                        </p>
+
+                        <div class="hadis-source" id="hadis-source">
+                            —
+                        </div>
+
+                    </div>
+                </div>
+                <div class="qr-container-permanent">
+                    <img src="img/system/surau_qr.jpeg" alt="Surau QR Code" class="permanent-qr-img side-img">
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer: Ticker & Info -->
+        <footer class="main-footer">
+            <div class="ticker-wrap">
+                <div class="ticker">
+                    <div class="ticker-item">Selamat datang ke Surau Seri Dahlia, Bandar Seri Putra. Sila senyapkan
+                        Telefon bimbit anda.</div>
+                    <div class="ticker-item" id="next-prayer-ticker">Jumu'ah Prayer Khutbah starts at 1:15 PM.</div>
+                    <div class="ticker-item">Ramai-Ramai Kita Mengimarahkan Surau Kita Sambil Meningkatkan Ilmu Agama
+                        Islam. InsyaAllah.</div>
+                    <div class="ticker-item">Infaq kini lebih mudah dengan QR Pay. Berinfaqlah walaupun hanya RM1 kerana
+                        ia adalah simpanan akhirat.</div>
+                    <div class="ticker-item">Jom sama-sama kita bantu Surau kita dengan menginfakkan sedikit harta
+                        dan tenaga kita untuk simpanan kekal di akhirat. InsyaAllah</div>
+                </div>
+            </div>
+            <div class="contact-info">
+                <span><i class="fa-solid fa-location-dot"></i> Pangsapuri Seri Dahlia, Bandar Seri Putra, Kajang</span>
+            </div>
+        </footer>
     </div>
 
     <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/script.js"></script>
+    <!-- QR Code Pairing (Mobile Controller) -->
+    <!-- <div class="qr-container">
+        <div class="qr-label">Kawal TV</div>
+        <div class="qr-placeholder">
+            <i class="fa-solid fa-qrcode" style="color: white; font-size: 2rem;"></i>
+        </div>
+        <div style="font-size: 0.6rem; color: #666;">Scan QR</div>
+    </div> -->
+
 </body>
 
 </html>

@@ -111,7 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Initialize Dynamic Activities
 
-    loadActivities();
+    if (window.innerWidth > 1024) {
+      loadActivities();
+    }
 
     // Kiosk optimizations
     setupTVOptimization();

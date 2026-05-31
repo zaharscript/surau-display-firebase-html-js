@@ -7,10 +7,6 @@
 }
 
 #event-cards-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
     display: none;
     flex-direction: column;
     gap: 18px;
@@ -22,8 +18,9 @@
     position: relative;
     width: 100%;
     max-width: 400px;
-    aspect-ratio: 9 / 14;
     /* Social media status ratio */
+    aspect-ratio: 9 / 14;
+    min-height: 280px;
     border-radius: var(--card-radius);
     padding: 40px 30px;
     color: white;
