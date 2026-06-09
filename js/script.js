@@ -67,8 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return "";
     }
 
-    const searchStr = `${data.penceramah || ""} ${data.tajuk || ""
-      }`.toLowerCase();
+    const searchStr = `${data.penceramah || ""} ${
+      data.tajuk || ""
+    }`.toLowerCase();
 
     // Priority: Solat Aidiladha
     if (searchStr.includes("aidiladha")) {
@@ -261,11 +262,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupPosterSlider() {
     const sliderWrapper = document.getElementById("poster-slider");
     const posters = [
-      "img/surau_poster/quote.jpeg",
+      "img/surau_poster/quote.jpg",
       "img/surau_poster/quote_2.jpeg",
-      "img/surau_poster/tasbih.jpg",
-      "img/surau_poster/post_qurban.jpeg",
-      "img/surau_poster/hajj.jpg",
+      "img/surau_poster/quote_3.jpeg",
+      "img/surau_poster/quote_4.jpg",
+      "img/surau_poster/quote_5.jpg",
+      "img/surau_poster/quote_6.jpg",
       "img/surau_poster/selawat_bulanan.jpeg",
     ];
 
@@ -703,8 +705,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const activityCard = document.createElement("div");
 
-          activityCard.className = `activity-group ${activity.is_batal ? "cancelled" : ""
-            }`;
+          activityCard.className = `activity-group ${
+            activity.is_batal ? "cancelled" : ""
+          }`;
 
           activityCard.dataset.startTime = activity.startTime.toISOString();
 
@@ -730,21 +733,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${masaDisplay}
                   </div>
 
-                  ${activity.nota
-              ? `
+                  ${
+                    activity.nota
+                      ? `
                         <div class="act-note">
                           ${activity.nota}
                         </div>
                       `
-              : ""
-            }
+                      : ""
+                  }
 
                 </div>
 
                 ${speakerPhoto}
 
-                ${activity.is_batal
-              ? `
+                ${
+                  activity.is_batal
+                    ? `
                       <div class="batal-overlay">
                         <img
                           src="img/system/tangguh.png"
@@ -752,8 +757,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         >
                       </div>
                     `
-              : ""
-            }
+                    : ""
+                }
 
               </div>
             `;
@@ -854,8 +859,9 @@ document.addEventListener("DOMContentLoaded", () => {
           itemDiv.innerHTML = `
                         <div class="act-icon"><i class="fa-solid ${icon}"></i></div>
                         <div class="act-details">
-                            <div class="act-title">${act.acara} ${act.masa ? `(${act.masa})` : ""
-            }</div>
+                            <div class="act-title">${act.acara} ${
+            act.masa ? `(${act.masa})` : ""
+          }</div>
                             <div class="act-lead">${act.oleh}</div>
                         </div>
                     `;
