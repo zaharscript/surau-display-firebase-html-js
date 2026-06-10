@@ -265,6 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/quote.jpg",
       "img/surau_poster/quote_2.jpeg",
       "img/surau_poster/quote_3.jpeg",
+      "img/surau_poster/kuliah_khas.jpeg",
       "img/surau_poster/quote_4.jpg",
       "img/surau_poster/quote_5.jpg",
       "img/surau_poster/quote_6.jpg",
