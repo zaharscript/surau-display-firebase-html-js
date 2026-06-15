@@ -15,9 +15,9 @@ import { formatDateDDMMYYYY } from "./utils.js";
 
 // ─── Fixed times for preset masa options (24-hour) ───────────────────────────
 const PRESET_TIMES = {
-  subuh: { start: "06:30", end: "08:30" },  // Subuh 6:30 AM, fade 2h after → 8:30 AM → delete
-  maghrib: { start: "20:30", end: "22:30" },  // Maghrib 8:30 PM
-  isyak: { start: "21:30", end: "23:30" },  // Isyak  9:30 PM
+  subuh: { start: "06:00", end: "08:00" },  // Subuh 6:00 AM, fade 2h after → 8:00 AM → delete
+  maghrib: { start: "19:45", end: "21:45" },  // Maghrib 7:45 PM
+  isyak: { start: "20:30", end: "22:30" },  // Isyak  8:30 PM
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -126,9 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Resolve display masa
       let masaDisplay = "";
-      if (data.masa_option === "subuh") masaDisplay = "Subuh (6:30 AM)";
-      else if (data.masa_option === "maghrib") masaDisplay = "Maghrib (8:30 PM)";
-      else if (data.masa_option === "isyak") masaDisplay = "Selepas Isyak (9:30 PM)";
+      if (data.masa_option === "subuh") masaDisplay = "Subuh (6:00 AM)";
+      else if (data.masa_option === "maghrib") masaDisplay = "Maghrib (7:45 PM)";
+      else if (data.masa_option === "isyak") masaDisplay = "Selepas Isyak (8:30 PM)";
       else if (data.masa_option === "lain") {
         const fromStr = data.lain_from ? formatTime12hDisplay(data.lain_from) : "";
         const toStr = data.lain_to ? formatTime12hDisplay(data.lain_to) : "";

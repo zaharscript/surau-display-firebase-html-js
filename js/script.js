@@ -59,6 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "imam surau": "img/ustaz/yassin.jpg",
     "imam fahee": "img/ustaz/Imam_Fahee.jpg",
     ajk: "img/ustaz/kelas_mengaji.png",
+    ziarah: "img/ustaz/ziarah.jpeg",
+    baharudin: "img/ustaz/ustaz_baharudin.jpg",
+    zukri: "img/ustaz/ustaz_zukri.jpg",
   };
 
   // Get speaker photo
@@ -67,9 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return "";
     }
 
-    const searchStr = `${data.penceramah || ""} ${
-      data.tajuk || ""
-    }`.toLowerCase();
+    const searchStr = `${data.penceramah || ""} ${data.tajuk || ""
+      }`.toLowerCase();
 
     // Priority: Solat Aidiladha
     if (searchStr.includes("aidiladha")) {
@@ -135,13 +137,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /**
-   * Returns the scheduled start time of an activity as a Date.
-   * Uses data.lain_from (a 24h "HH:MM" string) which is stored for ALL masa options:
-   *   subuh   → "06:30"
-   *   maghrib → "20:30"
-   *   isyak   → "21:30"
-   *   lain    → user-chosen From time
-   */
+  * Returns the scheduled start time of an activity as a Date.
+  * Uses data.lain_from (a 24h "HH:MM" string) which is stored for ALL masa options:
+  *   subuh   → "06:00"
+  *   maghrib → "07:45"
+  *   isyak   → "08:30"
+  *   lain    → user-chosen From time
+  */
   function getActivityStartTime(data) {
     if (!data.tarikh || !data.lain_from) return null;
     const timeStr = data.lain_from;
@@ -268,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/kuliah_khas.jpeg",
       "img/surau_poster/quote_4.jpg",
       "img/surau_poster/quote_5.jpg",
+      "img/surau_poster/kuliah_khas_2.jpeg",
       "img/surau_poster/quote_6.jpg",
       "img/surau_poster/selawat_bulanan.jpeg",
     ];
@@ -706,16 +709,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const activityCard = document.createElement("div");
 
-          activityCard.className = `activity-group ${
-            activity.is_batal ? "cancelled" : ""
-          }`;
+          activityCard.className = `activity-group ${activity.is_batal ? "cancelled" : ""
+            }`;
 
           activityCard.dataset.startTime = activity.startTime.toISOString();
 
           activityCard.innerHTML = `
 
               <div class="activity-time">
-                ${activity.lain_from || "--:--"}
+                ${formatTime12h(activity.lain_from) || "--:--"}
               </div>
 
               <div class="activity-item">
@@ -734,23 +736,21 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${masaDisplay}
                   </div>
 
-                  ${
-                    activity.nota
-                      ? `
+                  ${activity.nota
+              ? `
                         <div class="act-note">
                           ${activity.nota}
                         </div>
                       `
-                      : ""
-                  }
+              : ""
+            }
 
                 </div>
 
                 ${speakerPhoto}
 
-                ${
-                  activity.is_batal
-                    ? `
+                ${activity.is_batal
+              ? `
                       <div class="batal-overlay">
                         <img
                           src="img/system/tangguh.png"
@@ -758,8 +758,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         >
                       </div>
                     `
-                    : ""
-                }
+              : ""
+            }
 
               </div>
             `;
@@ -860,9 +860,8 @@ document.addEventListener("DOMContentLoaded", () => {
           itemDiv.innerHTML = `
                         <div class="act-icon"><i class="fa-solid ${icon}"></i></div>
                         <div class="act-details">
-                            <div class="act-title">${act.acara} ${
-            act.masa ? `(${act.masa})` : ""
-          }</div>
+                            <div class="act-title">${act.acara} ${act.masa ? `(${act.masa})` : ""
+            }</div>
                             <div class="act-lead">${act.oleh}</div>
                         </div>
                     `;
