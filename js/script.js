@@ -265,12 +265,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const sliderWrapper = document.getElementById("poster-slider");
     const posters = [
       "img/surau_poster/quote.jpg",
+      "img/surau_poster/Tabung_qurban27.jpeg",
       "img/surau_poster/quote_2.jpeg",
       "img/surau_poster/quote_3.jpeg",
-      "img/surau_poster/kuliah_khas.jpeg",
+      "img/surau_poster/puasa_muharram2.jpeg",
       "img/surau_poster/quote_4.jpg",
       "img/surau_poster/quote_5.jpg",
-      "img/surau_poster/kuliah_khas_2.jpeg",
+      "img/surau_poster/puasa_muharram.jpg",
       "img/surau_poster/quote_6.jpg",
       "img/surau_poster/selawat_bulanan.jpeg",
     ];
