@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/quote_5.jpg",
       "img/surau_poster/puasa_muharram.jpg",
       "img/surau_poster/quote_6.jpg",
-      "img/surau_poster/selawat_bulanan.jpeg",
+      "img/surau_poster/Selawat_bulanan.jpeg",
     ];
 
     if (!sliderWrapper) return;
