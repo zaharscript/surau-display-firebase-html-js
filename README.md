@@ -113,16 +113,6 @@ Ensure Firestore operations target the following collection schema:
 Deliver a clean, production-ready, fully responsive React component architecture with smooth animations and complete Firebase integration.
 I have attached the PRD PDF, original JavaScript source files (script.js, activity_form.js), and design screenshot references. Please analyze the attached images for pixel-perfect layout alignment and extract all precise logic from the PRD and JS files to build the React components.
 
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/ac6fb762-6652-4cf9-9dd0-22ab356069ff).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
 ## Development
 
 Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
