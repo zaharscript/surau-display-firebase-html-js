@@ -1,9 +1,5 @@
 # Surau Seri Dahlia Hub
-
-Act as a Senior Full-Stack Web Developer, Firebase Expert, and Senior UI/UX Designer. Build a modern, responsive Web Kiosk Dashboard & Administration Portal for "Surau Seri Dahlia" using React (Vite), Tailwind CSS, Lucide React / FontAwesome icons, and Firebase (Firestore + Authentication).
-
 ---
-
 ### 1. PROJECT OVERVIEW & ARCHITECTURE
 
 1. Tech Stack: React (Vite), Tailwind CSS, Framer Motion (animations), Firebase JS SDK v10+ (Firestore & Auth), Lucide-React / FontAwesome icons.
