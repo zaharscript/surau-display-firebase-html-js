@@ -1,8 +1,10 @@
 import { CalendarDays, Clock, Radio } from "lucide-react";
 import quranLantern from "@/assets/quran-lantern.jpg";
 import { formatShortMalayDate, masaDisplay, timeRangeDisplay, type Activity } from "@/lib/surau";
+import { getSpeakerPhoto } from "@/lib/speakerPhoto";
 
 export function LiveNowCard({ activity }: { activity: Activity | null }) {
+  const speakerPhoto = activity ? getSpeakerPhoto(activity.penceramah, activity.tajuk) : null;
   return (
     <div className="glass-panel relative overflow-hidden rounded-3xl">
       <img
@@ -24,8 +26,19 @@ export function LiveNowCard({ activity }: { activity: Activity | null }) {
             <h2 className="mt-1 max-w-md text-2xl leading-tight font-black text-cream uppercase xl:text-4xl">
               {activity.tajuk}
             </h2>
-            <p className="mt-3 text-xs font-bold tracking-widest text-gold/80 uppercase">Imam / Surau</p>
-            <p className="text-cream/90">{activity.penceramah || "-"}</p>
+            <div className="mt-3 flex items-center gap-3">
+              {speakerPhoto && (
+                <img
+                  src={speakerPhoto}
+                  alt={activity.penceramah || activity.tajuk}
+                  className="h-14 w-14 rounded-full border-2 border-gold/70 object-cover object-top"
+                />
+              )}
+              <div>
+                <p className="text-xs font-bold tracking-widest text-gold/80 uppercase">Imam / Surau</p>
+                <p className="text-cream/90">{activity.penceramah || "-"}</p>
+              </div>
+            </div>
 
             <div className="mt-4 flex flex-wrap gap-3">
               <span className="inline-flex items-center gap-2 rounded-xl border border-gold/25 bg-emerald-dark/70 px-3 py-2 text-sm text-cream">

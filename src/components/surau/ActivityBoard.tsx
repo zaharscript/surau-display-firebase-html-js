@@ -1,8 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import { formatShortMalayDate, timeRangeDisplay, type Activity } from "@/lib/surau";
+import { getSpeakerPhoto } from "@/lib/speakerPhoto";
 
 function Row({ a }: { a: Activity }) {
   const d = formatShortMalayDate(a.tarikh);
+  const speakerPhoto = getSpeakerPhoto(a.penceramah, a.tajuk);
   return (
     <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-gold/12 bg-emerald-dark/50 px-3 py-3">
       <div className="w-16 shrink-0 text-center">
@@ -19,9 +21,17 @@ function Row({ a }: { a: Activity }) {
         <p className="truncate text-xs tracking-wide text-cream/60 uppercase">{a.penceramah || "-"}</p>
         {a.nota && <p className="truncate text-xs text-cream/50">{a.nota}</p>}
       </div>
-      <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-gold/30 bg-gold/10 text-sm font-bold text-gold">
-        {(a.penceramah || a.tajuk).slice(0, 2).toUpperCase()}
-      </div>
+      {speakerPhoto ? (
+        <img
+          src={speakerPhoto}
+          alt={a.penceramah || a.tajuk}
+          className="h-11 w-11 shrink-0 rounded-xl border border-gold/30 object-cover object-top"
+        />
+      ) : (
+        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-gold/30 bg-gold/10 text-sm font-bold text-gold">
+          {(a.penceramah || a.tajuk).slice(0, 2).toUpperCase()}
+        </div>
+      )}
     </div>
   );
 }
