@@ -1,5 +1,7 @@
 # 🕌 Surau Digital Display System (Firebase Edition)
 
+![Surau Digital Display TV Screen](screenshots/tv-display.png)
+
 A **modern, elegant, and dynamic digital display** for surau & masjid — featuring **live prayer times, automated countdowns, Islamic dates, and real-time activity management** powered by Firebase.
 
 Designed for **Surau Seri Dahlia, Bandar Seri Putra**, with a TV-friendly "glassmorphism" interface.
