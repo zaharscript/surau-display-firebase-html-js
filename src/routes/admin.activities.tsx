@@ -6,6 +6,7 @@ import {
   deleteDoc,
   doc,
   serverTimestamp,
+  Timestamp,
   updateDoc,
 } from "firebase/firestore";
 import { signOut } from "firebase/auth";
@@ -13,10 +14,13 @@ import { CheckCircle2, CircleAlert, ListChecks, LoaderCircle, LogOut } from "luc
 import { getFirebase } from "@/lib/firebase";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { useActivities } from "@/hooks/useActivities";
+import { useNow } from "@/hooks/useNow";
 import {
   MALAY_DAYS,
   MASA_LABELS,
   PRESET_TIMES,
+  activityExpiresAt,
+  activityStartDate,
   formatShortMalayDate,
   from24h,
   masaDisplay,
@@ -47,6 +51,10 @@ function AdminActivities() {
   const navigate = useNavigate();
   const { user, ready } = useAuthUser();
   const { activities, error } = useActivities("desc");
+  const now = useNow(30_000);
+  const currentActivities = activities.filter(
+    (activity) => activityStartDate(activity).getTime() + 2 * 60 * 60 * 1000 > now.getTime(),
+  );
 
   const [sync, setSync] = useState<SyncState>("synced");
   const [editId, setEditId] = useState<string | null>(null);
@@ -110,6 +118,7 @@ function AdminActivities() {
     const lainFrom = to24h(from.hour12, from.minute, from.ampm);
     const lainTo = to24h(to.hour12, to.minute, to.ampm);
     const preset = masaOption === "lain" ? null : PRESET_TIMES[masaOption];
+    const startTime = masaOption === "lain" ? lainFrom : (preset?.start ?? "");
 
     const payload = {
       tarikh,
@@ -118,6 +127,8 @@ function AdminActivities() {
       masa_option: masaOption,
       lain_from: masaOption === "lain" ? lainFrom : (preset?.start ?? ""),
       lain_to: masaOption === "lain" ? lainTo : (preset?.end ?? ""),
+      // Firestore TTL removes this record after its scheduled start time + 2 hours.
+      expiresAt: Timestamp.fromDate(activityExpiresAt(tarikh, startTime)),
       tajuk: tajuk.trim().slice(0, 160),
       penceramah: penceramah.trim().slice(0, 120),
       nota: nota.trim().slice(0, 400),
@@ -324,8 +335,8 @@ function AdminActivities() {
           <h2 className="inline-flex items-center gap-2 text-lg font-bold text-gold">
             <ListChecks className="h-5 w-5" /> Senarai Aktiviti Terkini
           </h2>
-          {activities.length === 0 && <p className="text-sm text-cream/60">Tiada aktiviti dijumpai.</p>}
-          {activities.map((a) => {
+          {currentActivities.length === 0 && <p className="text-sm text-cream/60">Tiada aktiviti dijumpai.</p>}
+          {currentActivities.map((a) => {
             const d = formatShortMalayDate(a.tarikh);
             return (
               <article key={a.id} className="glass-panel rounded-2xl p-4">

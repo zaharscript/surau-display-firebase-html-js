@@ -105,6 +105,11 @@ Ensure Firestore operations target the following collection schema:
   - `is_batal`: boolean (default: false)
   - `createdAt`: serverTimestamp()
   - `updatedAt`: serverTimestamp()
+  - `expiresAt`: Timestamp (scheduled start time + 2 hours; configure this as the Firestore TTL field for the `activities` collection group)
+
+### Automatic activity cleanup
+
+Each new or edited activity writes an `expiresAt` timestamp two hours after its scheduled start time. In the Firebase console, enable a Firestore TTL policy for collection group `activities` using the `expiresAt` field. Firestore then deletes expired activity documents server-side, without relying on an open browser. TTL cleanup is asynchronous, so deletion may occur after the timestamp rather than exactly at that second.
 
 Deliver a clean, production-ready, fully responsive React component architecture with smooth animations and complete Firebase integration.
 I have attached the PRD PDF, original JavaScript source files (script.js, activity_form.js), and design screenshot references. Please analyze the attached images for pixel-perfect layout alignment and extract all precise logic from the PRD and JS files to build the React components.

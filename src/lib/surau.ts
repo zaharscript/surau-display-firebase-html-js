@@ -80,9 +80,19 @@ export function activityWindow(a: Activity) {
 
 export function activityStartDate(a: Activity) {
   const { start } = activityWindow(a);
-  const [y = 1970, m = 1, d = 1] = a.tarikh.split("-").map(Number);
-  const [hh = 0, mm = 0] = start.split(":").map(Number);
-  return new Date(y, m - 1, d, hh, mm, 0, 0);
+  return activityDateAt(a.tarikh, start);
+}
+
+/** Returns a scheduled activity date in the Surau's Malaysia time zone (UTC+08:00). */
+export function activityDateAt(tarikh: string, time: string) {
+  const [y = 1970, m = 1, d = 1] = tarikh.split("-").map(Number);
+  const [hh = 0, mm = 0] = time.split(":").map(Number);
+  return new Date(Date.UTC(y, m - 1, d, hh - 8, mm, 0, 0));
+}
+
+/** Activities are retained for two hours after their scheduled start. */
+export function activityExpiresAt(tarikh: string, start: string) {
+  return new Date(activityDateAt(tarikh, start).getTime() + 2 * 60 * 60 * 1000);
 }
 
 export function masaDisplay(a: Activity) {

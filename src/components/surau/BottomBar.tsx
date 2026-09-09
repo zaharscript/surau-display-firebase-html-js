@@ -1,4 +1,5 @@
 import { CalendarDays, Clock } from "lucide-react";
+import surauLogo from "@/assets/ssd-logo.jpg";
 import { useNow } from "@/hooks/useNow";
 import { formatHijri, formatMalayDate, pad } from "@/lib/surau";
 
@@ -16,9 +17,16 @@ export function BottomBar() {
   return (
     <footer className="rounded-3xl border border-gold/20 bg-cream/95 text-emerald-dark">
       <div className="grid grid-cols-1 items-center gap-4 px-5 py-4 sm:grid-cols-[auto_auto_minmax(0,1fr)]">
-        <div className="text-center sm:text-left">
-          <p className="font-serif text-xl font-bold text-emerald-deep">Surau Seri Dahlia</p>
-          <p className="text-[0.7rem] tracking-widest text-bronze uppercase">Bandar Seri Putra</p>
+        <div className="flex items-center justify-center gap-3 text-center sm:justify-start sm:text-left">
+          <img
+            src={surauLogo}
+            alt="Surau Seri Dahlia"
+            className="h-12 w-12 shrink-0 rounded-full object-cover"
+          />
+          <div>
+            <p className="font-serif text-xl font-bold text-emerald-deep">Surau Seri Dahlia</p>
+            <p className="text-[0.7rem] tracking-widest text-bronze uppercase">Bandar Seri Putra</p>
+          </div>
         </div>
         <div className="flex items-center justify-center gap-3">
           <Clock className="h-7 w-7 text-emerald-deep" />

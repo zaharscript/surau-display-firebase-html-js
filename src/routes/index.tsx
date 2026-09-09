@@ -35,9 +35,12 @@ function Dashboard() {
   const now = useNow(30_000);
   const { activities = [] } = useActivities("asc"); // <-- Default fallback array
 
-  const active = (activities ?? []).filter((a) => !a?.is_batal);
+  const retained = (activities ?? []).filter(
+    (a) => activityStartDate(a).getTime() + 2 * 60 * 60 * 1000 > now.getTime(),
+  );
+  const active = retained.filter((a) => !a?.is_batal);
   const live = active.find((a) => isLiveNow(a, now)) ?? null;
-  const upcoming = (activities ?? [])
+  const upcoming = retained
     .filter((a) => activityStartDate(a).getTime() + 90 * 60 * 1000 >= now.getTime())
     .sort((a, b) => activityStartDate(a).getTime() - activityStartDate(b).getTime());
   return (
@@ -57,7 +60,7 @@ function Dashboard() {
           <section className="flex flex-col gap-4 lg:col-span-4">
             <LiveNowCard activity={live} />
             <div className="min-h-[22rem] flex-1">
-              <ActivityBoard activities={upcoming.length ? upcoming : activities} />
+              <ActivityBoard activities={upcoming.length ? upcoming : retained} />
             </div>
           </section>
 
