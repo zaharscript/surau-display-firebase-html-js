@@ -15,6 +15,7 @@ import { getFirebase } from "@/lib/firebase";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { useActivities } from "@/hooks/useActivities";
 import { useNow } from "@/hooks/useNow";
+import { getSpeakerPhoto } from "@/lib/speakerPhoto";
 import {
   MALAY_DAYS,
   MASA_LABELS,
@@ -338,26 +339,38 @@ function AdminActivities() {
           {currentActivities.length === 0 && <p className="text-sm text-cream/60">Tiada aktiviti dijumpai.</p>}
           {currentActivities.map((a) => {
             const d = formatShortMalayDate(a.tarikh);
+            const speakerPhoto = getSpeakerPhoto(a.penceramah, a.tajuk);
             return (
               <article key={a.id} className="glass-panel rounded-2xl p-4">
-                <h3 className="font-extrabold text-cream uppercase">
-                  {a.tajuk}
-                  {a.is_batal && <span className="ml-2 text-xs text-destructive">(DITANGGUHKAN)</span>}
-                </h3>
-                <p className="mt-1 text-sm text-cream/75">
-                  <strong className="text-gold">Tarikh:</strong> {a.tarikh} ({d.day})
-                </p>
-                <p className="text-sm text-cream/75">
-                  <strong className="text-gold">Masa:</strong> {masaDisplay(a)}
-                </p>
-                <p className="text-sm text-cream/75">
-                  <strong className="text-gold">Penceramah:</strong> {a.penceramah || "-"}
-                </p>
-                {a.nota && (
-                  <p className="text-sm text-cream/75">
-                    <strong className="text-gold">Nota:</strong> {a.nota}
-                  </p>
-                )}
+                <div className="flex items-start gap-4">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-extrabold text-cream uppercase">
+                      {a.tajuk}
+                      {a.is_batal && <span className="ml-2 text-xs text-destructive">(DITANGGUHKAN)</span>}
+                    </h3>
+                    <p className="mt-1 text-sm text-cream/75">
+                      <strong className="text-gold">Tarikh:</strong> {a.tarikh} ({d.day})
+                    </p>
+                    <p className="text-sm text-cream/75">
+                      <strong className="text-gold">Masa:</strong> {masaDisplay(a)}
+                    </p>
+                    <p className="text-sm text-cream/75">
+                      <strong className="text-gold">Penceramah:</strong> {a.penceramah || "-"}
+                    </p>
+                    {a.nota && (
+                      <p className="text-sm text-cream/75">
+                        <strong className="text-gold">Nota:</strong> {a.nota}
+                      </p>
+                    )}
+                  </div>
+                  {speakerPhoto && (
+                    <img
+                      src={speakerPhoto}
+                      alt={a.penceramah || a.tajuk}
+                      className="h-16 w-16 shrink-0 rounded-xl border border-gold/30 object-cover object-top"
+                    />
+                  )}
+                </div>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <button
                     onClick={() => handleToggleBatal(a)}

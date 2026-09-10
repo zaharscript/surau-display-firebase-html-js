@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { collection, getDocs, addDoc, query, orderBy } from "firebase/firestore";
+import { addDoc, collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 export interface Activity {
@@ -20,39 +21,57 @@ export interface Activity {
 }
 
 export function useActivities(orderDirection: "asc" | "desc" = "asc") {
+  const queryClient = useQueryClient();
+  const queryKey = ["activities", orderDirection];
   const queryResult = useQuery({
-    queryKey: ["activities", orderDirection],
+    queryKey,
     queryFn: async () => {
-      try {
-        // Sort by 'tarikh' first, then fallback to 'date' or fetch all
-        const q = query(collection(db, "activities"));
-        const snapshot = await getDocs(q);
-        
-        return snapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            ...data,
-            // Normalize Malay fields to standard UI interface
-            date: data.tarikh || data.date || "",
-            title: data.tajuk || data.title || "",
-            speaker: data.penceramah || data.speaker || "",
-            notes: data.nota || data.notes || "",
-            timeSlot: data.masa || data.timeSlot || "",
-          } as Activity;
-        });
-      } catch (error) {
-        console.error("Error fetching activities:", error);
-        return [] as Activity[];
-      }
+      const snapshot = await getDocs(collection(db, "activities"));
+      return sortActivities(snapshot.docs.map((doc) => normalizeActivity(doc.id, doc.data())), orderDirection);
     },
     initialData: [],
   });
+
+  useEffect(() => {
+    const activitiesQuery = collection(db, "activities");
+    return onSnapshot(
+      activitiesQuery,
+      (snapshot) => {
+        queryClient.setQueryData(
+          queryKey,
+          sortActivities(snapshot.docs.map((doc) => normalizeActivity(doc.id, doc.data())), orderDirection),
+        );
+      },
+      (error) => {
+        console.error("Error listening to activities:", error);
+        queryClient.setQueryData(queryKey, []);
+      },
+    );
+  }, [orderDirection, queryClient]);
 
   return {
     ...queryResult,
     activities: queryResult.data ?? [],
   };
+}
+
+function normalizeActivity(id: string, data: Record<string, any>): Activity {
+  return {
+    id,
+    ...data,
+    date: data.tarikh || data.date || "",
+    title: data.tajuk || data.title || "",
+    speaker: data.penceramah || data.speaker || "",
+    notes: data.nota || data.notes || "",
+    timeSlot: data.masa || data.timeSlot || "",
+  } as Activity;
+}
+
+function sortActivities(activities: Activity[], direction: "asc" | "desc") {
+  return activities.sort((a, b) => {
+    const dateCompare = (a.tarikh || a.date).localeCompare(b.tarikh || b.date);
+    return direction === "asc" ? dateCompare : -dateCompare;
+  });
 }
 
 export function useAddActivity() {
