@@ -267,13 +267,12 @@ document.addEventListener("DOMContentLoaded", () => {
       "img/surau_poster/quote.jpg",
       "img/surau_poster/Tabung_qurban27.jpeg",
       "img/surau_poster/quote_2.jpg",
-      "img/surau_poster/kuliah_subuh.jpg",
       "img/surau_poster/quote_3.jpg",
       "img/surau_poster/quote_4.jpg",
-      "img/surau_poster/tausiah_subuh.jpg",
+      "img/surau_poster/mesyuarat_agong.jpeg",
       "img/surau_poster/quote_5.jpg",
       "img/surau_poster/quote_6.jpg",
-      "img/surau_poster/Selawat_bulanan.jpg",
+      "img/surau_poster/Selawat_bulanan.jpeg",
     ];
 
     if (!sliderWrapper) return;
