@@ -52,7 +52,7 @@ export function PrayerPanel() {
         </div>
       </div>
 
-      <div className="mt-5 grid grid-cols-3 gap-2 lg:grid-cols-6 xl:grid-cols-3">
+      {/* <div className="mt-5 grid grid-cols-3 gap-2 lg:grid-cols-6 xl:grid-cols-3">
         {slots.map((s) => {
           const active = s.key === current.key;
           return (
@@ -69,7 +69,7 @@ export function PrayerPanel() {
             </div>
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 }
