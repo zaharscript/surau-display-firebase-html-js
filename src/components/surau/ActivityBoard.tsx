@@ -63,9 +63,9 @@ export function ActivityBoard({ activities }: { activities: Activity[] }) {
           </div>
         )}
       </div>
-      <div className="mt-3 flex items-center justify-center gap-2 rounded-2xl border border-gold/20 bg-emerald-dark/50 py-3 text-sm font-semibold text-cream">
+      {/* <div className="mt-3 flex items-center justify-center gap-2 rounded-2xl border border-gold/20 bg-emerald-dark/50 py-3 text-sm font-semibold text-cream">
         Lihat jadual penuh <ArrowRight className="h-4 w-4 text-gold" />
-      </div>
+      </div> */}
     </div>
   );
 }
