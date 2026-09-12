@@ -41,8 +41,8 @@ export function ActivityBoard({ activities }: { activities: Activity[] }) {
   const duration = Math.max(24, list.length * 6);
 
   return (
-    <div className="glass-panel flex h-full min-h-0 flex-col rounded-3xl p-4">
-      <h3 className="text-sm font-extrabold tracking-[0.25em] text-gold uppercase">Aktiviti Seterusnya</h3>
+    <div className="glass-panel flex h-full min-h-0 flex-col rounded-3xl p-4 lg:p-[clamp(1rem,1.5vw,1.5rem)]">
+      <h3 className="text-sm font-extrabold tracking-[0.25em] text-gold uppercase lg:text-base">Aktiviti Seterusnya</h3>
       <div className="mt-3 min-h-0 flex-1 overflow-hidden">
         {list.length === 0 ? (
           <p className="py-8 text-center text-sm text-cream/60">Tiada aktiviti dijadualkan.</p>

@@ -1,5 +1,6 @@
-import { Quote, QrCode } from "lucide-react";
+import { Quote } from "lucide-react";
 import arabesque from "@/assets/arabesque.jpg";
+import qrImage from "@/assets/system/surau_qr.jpeg";
 
 export function HadisCard() {
   return (
@@ -36,8 +37,8 @@ export function QrCard() {
         Imbas Untuk Menyumbang
       </p>
       <p className="text-[0.7rem] text-bronze">DuitNow QR</p>
-      <div className="mt-3 grid aspect-square w-full max-w-[190px] place-items-center rounded-2xl border-2 border-dashed border-bronze/40 bg-white">
-        <QrCode className="h-20 w-20 text-emerald-deep/70" />
+      <div className="mt-3 grid aspect-square w-full max-w-[190px] place-items-center rounded-2xl border-2 border-dashed border-bronze/40 bg-white p-2">
+        <img src={qrImage} alt="Kod QR sumbangan Surau Seri Dahlia" className="h-full w-full rounded-xl object-contain" />
       </div>
       <p className="mt-3 text-sm font-bold text-emerald-deep">Surau Seri Dahlia</p>
     </div>

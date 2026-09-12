@@ -6,7 +6,11 @@ import { getSpeakerPhoto } from "@/lib/speakerPhoto";
 export function LiveNowCard({ activity }: { activity: Activity | null }) {
   const speakerPhoto = activity ? getSpeakerPhoto(activity.penceramah, activity.tajuk) : null;
   return (
-    <div className="glass-panel relative overflow-hidden rounded-3xl">
+    <div
+      className={`glass-panel relative overflow-hidden rounded-3xl ${
+        activity ? "lg:min-h-[clamp(22rem,39vh,34rem)]" : "lg:min-h-[clamp(14rem,25vh,22rem)]"
+      }`}
+    >
       <img
         src={quranLantern}
         alt="Suasana kelas Al-Quran di surau"
@@ -15,7 +19,7 @@ export function LiveNowCard({ activity }: { activity: Activity | null }) {
         className="absolute inset-0 h-full w-full object-cover opacity-45"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-emerald-dark via-emerald-dark/85 to-transparent" />
-      <div className="relative p-6">
+      <div className="relative flex h-full flex-col justify-center p-6 lg:p-[clamp(1.25rem,2vw,2.5rem)]">
         <span className="inline-flex items-center gap-2 rounded-lg bg-destructive px-3 py-1.5 text-xs font-extrabold tracking-widest text-destructive-foreground">
           <Radio className="h-4 w-4" /> LANGSUNG SEKARANG
         </span>
