@@ -69,12 +69,12 @@ export function ActivityBoard({ activities }: { activities: Activity[] }) {
           </div>
         )}
       </div>
-      <Link
+      {/* <Link
         to="/admin/activities"
         className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-gold/25 bg-emerald-dark/45 py-2.5 text-xs font-bold text-cream transition-colors hover:border-gold/50 hover:bg-gold/10 sm:text-sm"
       >
         Lihat jadual penuh <ArrowRight className="h-4 w-4 text-gold" />
-      </Link>
+      </Link> */}
     </div>
   );
 }
