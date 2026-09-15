@@ -172,4 +172,3 @@
 @utility animate-marquee-y {
   animation: marquee-y var(--marquee-duration, 30s) linear infinite;
 }
-

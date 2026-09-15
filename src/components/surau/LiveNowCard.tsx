@@ -40,8 +40,12 @@ export function LiveNowCard({ activity }: { activity: Activity | null }) {
               {activity.tajuk}
             </h2>
             <div className="mt-4">
-              <p className="text-xs font-bold tracking-[0.16em] text-gold uppercase sm:text-sm">Imam / Surau</p>
-              <p className="mt-1 text-base font-medium text-cream/95 sm:text-lg">{activity.penceramah || "-"}</p>
+              <p className="text-xs font-bold tracking-[0.16em] text-gold uppercase sm:text-sm">
+                Imam / Surau
+              </p>
+              <p className="mt-1 text-base font-medium text-cream/95 sm:text-lg">
+                {activity.penceramah || "-"}
+              </p>
             </div>
 
             <div className="mt-5 flex w-fit flex-wrap items-center gap-x-4 gap-y-2 rounded-xl border border-gold/35 bg-emerald-dark/75 px-3 py-2 text-xs font-semibold text-cream shadow-lg backdrop-blur-md sm:px-4 sm:text-sm">

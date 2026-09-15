@@ -171,12 +171,19 @@ function AdminActivities() {
 
   async function handleToggleBatal(a: Activity) {
     const next = !a.is_batal;
-    if (!confirm(`Adakah anda pasti mahu ${next ? "menangguhkan" : "mengaktifkan semula"} aktiviti ini?`))
+    if (
+      !confirm(
+        `Adakah anda pasti mahu ${next ? "menangguhkan" : "mengaktifkan semula"} aktiviti ini?`,
+      )
+    )
       return;
     try {
       setSync("syncing");
       const { db } = await getFirebase();
-      await updateDoc(doc(db, "activities", a.id), { is_batal: next, updatedAt: serverTimestamp() });
+      await updateDoc(doc(db, "activities", a.id), {
+        is_batal: next,
+        updatedAt: serverTimestamp(),
+      });
       setSync("synced");
     } catch {
       setSync("error");
@@ -215,7 +222,9 @@ function AdminActivities() {
       <div className="mx-auto max-w-3xl space-y-6">
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
           <div className="min-w-0">
-            <h1 className="truncate font-serif text-2xl font-bold text-gold">Pendaftaran Aktiviti</h1>
+            <h1 className="truncate font-serif text-2xl font-bold text-gold">
+              Pendaftaran Aktiviti
+            </h1>
             <p className="truncate text-sm text-cream/70">Surau Seri Dahlia</p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
@@ -336,7 +345,9 @@ function AdminActivities() {
           <h2 className="inline-flex items-center gap-2 text-lg font-bold text-gold">
             <ListChecks className="h-5 w-5" /> Senarai Aktiviti Terkini
           </h2>
-          {currentActivities.length === 0 && <p className="text-sm text-cream/60">Tiada aktiviti dijumpai.</p>}
+          {currentActivities.length === 0 && (
+            <p className="text-sm text-cream/60">Tiada aktiviti dijumpai.</p>
+          )}
           {currentActivities.map((a) => {
             const d = formatShortMalayDate(a.tarikh);
             const speakerPhoto = getSpeakerPhoto(a.penceramah, a.tajuk);
@@ -346,7 +357,9 @@ function AdminActivities() {
                   <div className="min-w-0 flex-1">
                     <h3 className="font-extrabold text-cream uppercase">
                       {a.tajuk}
-                      {a.is_batal && <span className="ml-2 text-xs text-destructive">(DITANGGUHKAN)</span>}
+                      {a.is_batal && (
+                        <span className="ml-2 text-xs text-destructive">(DITANGGUHKAN)</span>
+                      )}
                     </h3>
                     <p className="mt-1 text-sm text-cream/75">
                       <strong className="text-gold">Tarikh:</strong> {a.tarikh} ({d.day})
@@ -468,7 +481,9 @@ function SyncBadge({ state }: { state: SyncState }) {
   } as const;
   const { Icon, text, cls } = map[state];
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${cls}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${cls}`}
+    >
       <Icon className={`h-3.5 w-3.5 ${state === "syncing" ? "animate-spin" : ""}`} /> {text}
     </span>
   );

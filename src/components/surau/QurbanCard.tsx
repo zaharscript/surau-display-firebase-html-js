@@ -1,11 +1,13 @@
 import { Timer, ClipboardList, HandCoins, Beef } from "lucide-react";
 import qurban from "@/assets/qurban.jpg";
 import { useNow } from "@/hooks/useNow";
+import { useQurbanStats } from "@/hooks/useQurbanStats";
 
 const TARGET = new Date(2027, 4, 17, 8, 0, 0); // Isnin, 17 Mei 2027
 
 export function QurbanCard() {
   const now = useNow();
+  const { stats, isLoading, hasError } = useQurbanStats();
   const diff = Math.max(0, TARGET.getTime() - now.getTime());
   const total = Math.floor(diff / 1000);
   const parts = [
@@ -50,10 +52,56 @@ export function QurbanCard() {
           ))}
         </div>
 
+        <div className="mt-3 grid max-w-xl grid-cols-1 gap-2 sm:grid-cols-3">
+          {[
+            {
+              label: "JUMLAH SIMPANAN TERKUMPUL",
+              value: stats
+                ? `RM ${stats.totalSavings.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
+                : "—",
+            },
+            {
+              label: "JUMLAH AHLI BERDAFTAR",
+              value: stats ? String(stats.registeredMembers) : "—",
+            },
+            {
+              label: "JUMLAH BAHAGIAN KOMITED",
+              value: stats ? `${stats.committedShares} Bahagian` : "—",
+            },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="min-w-0 rounded-xl border border-gold/35 bg-cream/90 px-3 py-2 text-center shadow-sm"
+              aria-busy={isLoading}
+            >
+              <p className="min-h-7 text-[0.58rem] font-extrabold leading-tight tracking-[0.08em] text-bronze">
+                {item.label}
+              </p>
+              <p className="mt-1 truncate text-base font-black tracking-tight text-emerald-deep xl:text-lg">
+                {item.value}
+              </p>
+            </div>
+          ))}
+        </div>
+        {hasError && (
+          <p className="mt-2 text-[0.65rem] font-semibold text-bronze/80">
+            Data sedang dikemaskini
+          </p>
+        )}
+
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
           {[
-            { Icon: ClipboardList, t: "Boleh buat simpanan pada bila-bila masa dalam tempoh 1 tahun." },
-            { Icon: HandCoins, t: "Tidak terhad kepada berapa jumlah simpanan bagi satu-satu transaksi." },
+            {
+              Icon: ClipboardList,
+              t: "Boleh buat simpanan pada bila-bila masa dalam tempoh 1 tahun.",
+            },
+            {
+              Icon: HandCoins,
+              t: "Tidak terhad kepada berapa jumlah simpanan bagi satu-satu transaksi.",
+            },
             { Icon: Beef, t: "Anggaran harga lembu 1 bahagian pada tahun 2027 adalah RM900." },
           ].map(({ Icon, t }) => (
             <div key={t} className="flex min-w-0 gap-2">

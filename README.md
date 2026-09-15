@@ -1,5 +1,7 @@
 # Surau Seri Dahlia Hub
+
 ---
+
 ### 1. PROJECT OVERVIEW & ARCHITECTURE
 
 1. Tech Stack: React (Vite), Tailwind CSS, Framer Motion (animations), Firebase JS SDK v10+ (Firestore & Auth), Lucide-React / FontAwesome icons.
@@ -20,10 +22,12 @@
 ### 2. PAGE 1: TV DASHBOARD & MOBILE WEB VIEW (`/` and responsive layouts)
 
 #### Layout Structure (Desktop TV Kiosk Mode vs. Mobile Web View)
+
 - Desktop View (`> 1024px`): Multi-card grid dashboard matching the attached proposed layout design. Glassmorphism dark cards on a subtle animated dark emerald background.
 - Mobile View (`< 768px`): Vertical single-column feed matching the proposed mobile layout design with rich Islamic textured backgrounds and Mihrab card styling.
 
 #### Core Modules & Technical Logic:
+
 1. Live Clock & Dynamic Hijri/Gregorian Calendar:
    - Automated 12-hour digital clock with seconds indicator.
    - Live updates for Gregorian date (e.g., "Khamis, 13 Ogos 2026") and estimated Hijri date (e.g., "29 Safar 1448").
@@ -50,14 +54,15 @@
    - Continuous Ticker Footer: Infinite smooth scrolling horizontal ticker at the bottom displaying announcements fetched from Firestore `/announcements` array or fallback notice items.
 
 6. Daily Inspiration & QR Donation Tile:
-   - "Hadis Hari Ini" Card: Dark emerald frame with gold Calligraphy art ("الرَّحْمَنُ الرَّحِيمُ"), Malay translation (*"Orang yang penyayang akan disayangi Allah"*), and source reference (*HR. Tirmizi*).
-   - DuitNow QR Infaq Card: Clean white tile housing DuitNow QR image (`img/surau_qr.jpeg`) titled *"IMBAS UNTUK MENYUMBANG"* with Surau Seri Dahlia branding.
+   - "Hadis Hari Ini" Card: Dark emerald frame with gold Calligraphy art ("الرَّحْمَنُ الرَّحِيمُ"), Malay translation (_"Orang yang penyayang akan disayangi Allah"_), and source reference (_HR. Tirmizi_).
+   - DuitNow QR Infaq Card: Clean white tile housing DuitNow QR image (`img/surau_qr.jpeg`) titled _"IMBAS UNTUK MENYUMBANG"_ with Surau Seri Dahlia branding.
 
 ---
 
 ### 3. PAGE 2: ADMIN LOGIN (`/login`)
 
 Redesign the login page to match the new luxury Islamic dark-emerald theme:
+
 - Center card with blurred glassmorphism backdrop (`backdrop-blur-xl`), gold accent borders (`border-[#D4AF37]/30`), and Surau logo at the top inside a golden ring.
 - Title: "Log Masuk" (Subtext: "Akses Pengurusan Surau Seri Dahlia").
 - Inputs: Email (`E-mel`) and Password (`Kata Laluan`) with gold vector icons inside fields.
@@ -70,6 +75,7 @@ Redesign the login page to match the new luxury Islamic dark-emerald theme:
 ### 4. PAGE 3: ACTIVITY MANAGEMENT FORM (`/admin/activities`)
 
 Redesign the admin portal form to align with the new design system:
+
 - Auth Guard: Protected route; redirects unauthenticated users back to `/login`.
 - Sync Status Badge: Header badge showing live Firebase connection state ("Bersama" / "Menyinkron..." / "Offline").
 - Activity Entry Form (Create & Edit):
@@ -91,7 +97,9 @@ Redesign the admin portal form to align with the new design system:
 ---
 
 ### 5. FIRESTORE DATA STRUCTURE
+
 Ensure Firestore operations target the following collection schema:
+
 - Collection: `activities`
   - `tarikh`: string ("YYYY-MM-DD")
   - `hari`: string ("Rabu", "Khamis", etc.)

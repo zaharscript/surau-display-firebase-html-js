@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { Moon } from "lucide-react";
-import { fetchPrayerTimes, currentAndNext, countdownTo, addMinutes, type PrayerSlot } from "@/lib/prayer";
+import {
+  fetchPrayerTimes,
+  currentAndNext,
+  countdownTo,
+  addMinutes,
+  type PrayerSlot,
+} from "@/lib/prayer";
 import { formatTime12h, pad } from "@/lib/surau";
 import { useNow } from "@/hooks/useNow";
 
@@ -37,14 +43,18 @@ export function PrayerPanel() {
         <p className="text-[0.7rem] font-semibold tracking-[0.3em] text-gold/80">SEKARANG</p>
         <h2 className="mt-1 text-3xl font-extrabold text-cream xl:text-4xl">{current.name}</h2>
         <p className="font-arabic text-xl text-gold-soft/80">{current.arabic}</p>
-        <p className="mt-1 text-2xl font-bold text-gold xl:text-3xl">{formatTime12h(current.time)}</p>
+        <p className="mt-1 text-2xl font-bold text-gold xl:text-3xl">
+          {formatTime12h(current.time)}
+        </p>
 
         <div className="my-4 h-px bg-gold/20" />
 
         <p className="text-[0.7rem] font-semibold tracking-[0.3em] text-gold/80">SETERUSNYA</p>
         <h3 className="mt-1 text-2xl font-extrabold text-cream xl:text-3xl">{next.name}</h3>
         <p className="text-2xl font-bold text-gold">{formatTime12h(next.time)}</p>
-        <p className="mt-1 text-xs text-cream/70">Iqamah {formatTime12h(addMinutes(next.time, 10))}</p>
+        <p className="mt-1 text-xs text-cream/70">
+          Iqamah {formatTime12h(addMinutes(next.time, 10))}
+        </p>
 
         <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-emerald-dark/60 px-4 py-1.5 text-sm font-semibold text-gold">
           <Moon className="h-4 w-4" />

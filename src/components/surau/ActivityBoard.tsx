@@ -21,7 +21,9 @@ function Row({ a }: { a: Activity }) {
           {a.tajuk}
           {a.is_batal && <span className="ml-2 text-xs text-destructive">(DITANGGUHKAN)</span>}
         </h4>
-        <p className="truncate text-xs tracking-wide text-cream/60 uppercase sm:text-sm">{a.penceramah || "-"}</p>
+        <p className="truncate text-xs tracking-wide text-cream/60 uppercase sm:text-sm">
+          {a.penceramah || "-"}
+        </p>
         <p className="truncate text-xs text-cream/50">{a.nota || `${d.dd} ${d.mon}`}</p>
       </div>
       {speakerPhoto ? (
@@ -46,7 +48,9 @@ export function ActivityBoard({ activities }: { activities: Activity[] }) {
   return (
     <div className="glass-panel flex h-full min-h-0 flex-col rounded-3xl p-4 lg:p-[clamp(1rem,1.5vw,1.5rem)]">
       <div className="flex items-center justify-between gap-3">
-        <h3 className="text-sm font-extrabold tracking-[0.25em] text-gold uppercase lg:text-base">Aktiviti Seterusnya</h3>
+        <h3 className="text-sm font-extrabold tracking-[0.25em] text-gold uppercase lg:text-base">
+          Aktiviti Seterusnya
+        </h3>
         <span className="text-[0.65rem] tracking-[0.18em] text-cream/45 uppercase">Jadual</span>
       </div>
       <div className="mt-3 min-h-0 flex-1 overflow-hidden">

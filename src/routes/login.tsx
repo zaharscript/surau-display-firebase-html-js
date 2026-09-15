@@ -51,7 +51,12 @@ function LoginPage() {
 
   return (
     <main className="relative grid min-h-screen place-items-center px-4 py-10">
-      <img src={arabesque} alt="" aria-hidden className="fixed inset-0 h-full w-full object-cover opacity-20" />
+      <img
+        src={arabesque}
+        alt=""
+        aria-hidden
+        className="fixed inset-0 h-full w-full object-cover opacity-20"
+      />
       <div className="fixed inset-0 bg-gradient-to-br from-background via-emerald-dark to-background" />
 
       <div className="glass-panel relative w-full max-w-md rounded-3xl border-gold/30 p-8 backdrop-blur-xl">

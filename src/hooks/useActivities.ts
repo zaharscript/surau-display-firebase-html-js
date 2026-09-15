@@ -11,7 +11,7 @@ export interface Activity {
   speaker: string;
   notes?: string;
   is_batal?: boolean;
-  createdAt?: any;
+  createdAt?: Date | string | number | null;
   // Malay field aliases
   tarikh?: string;
   tajuk?: string;
@@ -27,7 +27,10 @@ export function useActivities(orderDirection: "asc" | "desc" = "asc") {
     queryKey,
     queryFn: async () => {
       const snapshot = await getDocs(collection(db, "activities"));
-      return sortActivities(snapshot.docs.map((doc) => normalizeActivity(doc.id, doc.data())), orderDirection);
+      return sortActivities(
+        snapshot.docs.map((doc) => normalizeActivity(doc.id, doc.data())),
+        orderDirection,
+      );
     },
     initialData: [],
   });
@@ -39,7 +42,10 @@ export function useActivities(orderDirection: "asc" | "desc" = "asc") {
       (snapshot) => {
         queryClient.setQueryData(
           queryKey,
-          sortActivities(snapshot.docs.map((doc) => normalizeActivity(doc.id, doc.data())), orderDirection),
+          sortActivities(
+            snapshot.docs.map((doc) => normalizeActivity(doc.id, doc.data())),
+            orderDirection,
+          ),
         );
       },
       (error) => {
@@ -55,21 +61,42 @@ export function useActivities(orderDirection: "asc" | "desc" = "asc") {
   };
 }
 
-function normalizeActivity(id: string, data: Record<string, any>): Activity {
+function normalizeActivity(id: string, data: Record<string, unknown>): Activity {
+  const date =
+    typeof data.tarikh === "string" ? data.tarikh : typeof data.date === "string" ? data.date : "";
+  const title =
+    typeof data.tajuk === "string" ? data.tajuk : typeof data.title === "string" ? data.title : "";
+  const speaker =
+    typeof data.penceramah === "string"
+      ? data.penceramah
+      : typeof data.speaker === "string"
+        ? data.speaker
+        : "";
+  const notes =
+    typeof data.nota === "string" ? data.nota : typeof data.notes === "string" ? data.notes : "";
+  const timeSlot =
+    typeof data.masa === "string"
+      ? data.masa
+      : typeof data.timeSlot === "string"
+        ? data.timeSlot
+        : "";
+
   return {
     id,
     ...data,
-    date: data.tarikh || data.date || "",
-    title: data.tajuk || data.title || "",
-    speaker: data.penceramah || data.speaker || "",
-    notes: data.nota || data.notes || "",
-    timeSlot: data.masa || data.timeSlot || "",
+    date,
+    title,
+    speaker,
+    notes,
+    timeSlot,
   } as Activity;
 }
 
 function sortActivities(activities: Activity[], direction: "asc" | "desc") {
   return activities.sort((a, b) => {
-    const dateCompare = (a.tarikh || a.date).localeCompare(b.tarikh || b.date);
+    const dateCompare = String(a.tarikh ?? a.date ?? "").localeCompare(
+      String(b.tarikh ?? b.date ?? ""),
+    );
     return direction === "asc" ? dateCompare : -dateCompare;
   });
 }

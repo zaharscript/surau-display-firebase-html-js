@@ -36,7 +36,9 @@ export function PosterSlider({ className = "" }: { className?: string }) {
   }, []);
 
   return (
-    <div className={`relative overflow-hidden rounded-3xl border border-gold/20 bg-emerald-dark ${className}`}>
+    <div
+      className={`relative overflow-hidden rounded-3xl border border-gold/20 bg-emerald-dark ${className}`}
+    >
       {POSTERS.map((p, idx) => {
         const isCurrent = idx === current;
         const isPrevious = idx === previous;

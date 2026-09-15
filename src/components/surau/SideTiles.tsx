@@ -18,7 +18,10 @@ export function HadisCard() {
         <p className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.25em] text-gold uppercase">
           <Quote className="h-4 w-4" /> Hadis Hari Ini
         </p>
-        <p className="mt-4 text-center font-arabic text-3xl leading-relaxed text-gold-soft" dir="rtl">
+        <p
+          className="mt-4 text-center font-arabic text-3xl leading-relaxed text-gold-soft"
+          dir="rtl"
+        >
           الرَّحْمَنُ الرَّحِيمُ
         </p>
         <p className="mt-4 font-serif text-lg leading-relaxed text-cream">
@@ -38,7 +41,11 @@ export function QrCard() {
       </p>
       <p className="text-[0.7rem] text-bronze">DuitNow QR</p>
       <div className="mt-3 grid aspect-square w-full max-w-[190px] place-items-center rounded-2xl border-2 border-dashed border-bronze/40 bg-white p-2">
-        <img src={qrImage} alt="Kod QR sumbangan Surau Seri Dahlia" className="h-full w-full rounded-xl object-contain" />
+        <img
+          src={qrImage}
+          alt="Kod QR sumbangan Surau Seri Dahlia"
+          className="h-full w-full rounded-xl object-contain"
+        />
       </div>
       <p className="mt-3 text-sm font-bold text-emerald-deep">Surau Seri Dahlia</p>
     </div>

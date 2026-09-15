@@ -69,7 +69,6 @@ export function from24h(t?: string) {
   return { hour12: String(h), minute: ms, ampm };
 }
 
-
 export function activityWindow(a: Activity) {
   const opt = a.masa_option ?? "maghrib";
   if (opt === "lain") {

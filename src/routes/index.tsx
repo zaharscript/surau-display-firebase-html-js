@@ -53,7 +53,7 @@ function Dashboard() {
       />
       <div className="fixed inset-0 bg-gradient-to-br from-background via-emerald-dark to-background" />
 
-      <div className="relative mx-auto flex min-h-screen w-full flex-col gap-4 p-3 sm:p-4 lg:h-screen lg:max-w-none lg:gap-[clamp(0.75rem,1.25vw,1.5rem)] lg:p-[clamp(1rem,2.5vw,3rem)]">
+      <div className="relative mx-auto flex w-full flex-col gap-4 p-3 sm:p-4 lg:h-[100dvh] lg:max-h-[100dvh] lg:min-h-0 lg:max-w-none lg:gap-[clamp(0.75rem,1.25vw,1.5rem)] lg:px-[clamp(1rem,2.5vw,3rem)] lg:pb-0 lg:pt-[clamp(1rem,2.5vw,3rem)]">
         <h1 className="sr-only">Paparan Digital Surau Seri Dahlia</h1>
 
         <div className="grid flex-1 grid-cols-1 gap-4 lg:min-h-0 lg:grid-cols-12 lg:gap-[clamp(0.75rem,1.25vw,1.5rem)]">
@@ -70,7 +70,9 @@ function Dashboard() {
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:h-[min(30%,15rem)] lg:min-h-44">
               <div className="hidden rounded-3xl border border-gold/20 bg-emerald-dark/60 p-5 sm:block">
-                <p className="text-xs font-extrabold tracking-[0.25em] text-gold uppercase">Cahaya Islam</p>
+                <p className="text-xs font-extrabold tracking-[0.25em] text-gold uppercase">
+                  Cahaya Islam
+                </p>
                 <p className="mt-5 font-serif text-3xl leading-tight text-cream xl:text-4xl">
                   Ilmu menerangi hati dan menguatkan ummah.
                 </p>
@@ -90,9 +92,11 @@ function Dashboard() {
           </section>
         </div>
 
-        <BottomBar />
+        <div className="lg:flex-shrink-0">
+          <BottomBar />
+        </div>
 
-        <div className="flex justify-center pb-2">
+        <div className="flex justify-center pb-2 lg:pb-0">
           <Link
             to="/login"
             className="inline-flex items-center gap-2 rounded-full border border-gold/30 px-4 py-2 text-xs font-semibold text-gold/80 transition-colors hover:bg-gold/10 lg:hidden"

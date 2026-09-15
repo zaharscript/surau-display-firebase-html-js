@@ -9,13 +9,15 @@ const NOTICES = [
   "Semoga menjadi amal jariah kita bersama.",
 ];
 
-export function BottomBar() {
+export function BottomBar({ className = "" }: { className?: string }) {
   const now = useNow();
   const h12 = now.getHours() % 12 || 12;
   const ampm = now.getHours() >= 12 ? "PM" : "AM";
 
   return (
-    <footer className="rounded-3xl border border-gold/20 bg-cream/95 text-emerald-dark">
+    <footer
+      className={`rounded-3xl border border-gold/20 bg-cream/95 text-emerald-dark ${className}`}
+    >
       <div className="grid grid-cols-1 items-center gap-4 px-5 py-4 sm:grid-cols-[auto_auto_minmax(0,1fr)]">
         <div className="flex items-center justify-center gap-3 text-center sm:justify-start sm:text-left">
           <img
