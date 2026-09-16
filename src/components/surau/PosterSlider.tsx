@@ -37,7 +37,7 @@ export function PosterSlider({ className = "" }: { className?: string }) {
 
   return (
     <div
-      className={`relative overflow-hidden rounded-3xl border border-gold/20 bg-emerald-dark ${className}`}
+      className={`relative h-full min-h-0 w-full overflow-hidden rounded-3xl border border-gold/20 bg-emerald-dark ${className}`}
     >
       {POSTERS.map((p, idx) => {
         const isCurrent = idx === current;

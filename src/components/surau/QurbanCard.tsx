@@ -1,5 +1,6 @@
-import { Timer, ClipboardList, HandCoins, Beef } from "lucide-react";
+import { Timer, ClipboardList, HandCoins, Beef, Coins, Users, Layers } from "lucide-react";
 import qurban from "@/assets/qurban.jpg";
+import arabesque from "@/assets/arabesque.jpg";
 import { useNow } from "@/hooks/useNow";
 import { useQurbanStats } from "@/hooks/useQurbanStats";
 
@@ -18,44 +19,72 @@ export function QurbanCard() {
   ];
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-gold/25 bg-cream text-emerald-dark">
+    <div className="relative isolate overflow-hidden rounded-3xl border border-gold/45 bg-emerald-dark text-emerald-dark shadow-[0_22px_50px_-30px_oklch(0.1_0.03_166_/_0.95)]">
+      <img
+        src={qurban}
+        alt=""
+        aria-hidden
+        className="absolute inset-0 h-full w-full object-cover object-center opacity-55"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(247,242,224,0.97)_0%,rgba(247,242,224,0.9)_39%,rgba(14,67,53,0.68)_73%,rgba(7,43,35,0.9)_100%)]" />
+      <div className="absolute inset-0 bg-emerald-dark/15" />
       <img
         src={qurban}
         alt="Ternakan qurban di hadapan masjid"
         width={1024}
         height={768}
         loading="lazy"
-        className="absolute inset-y-0 right-0 h-full w-1/2 object-cover"
+        className="pointer-events-none absolute right-[-7%] top-[7%] z-10 h-[44%] w-[48%] object-cover object-[58%_34%] opacity-95 mix-blend-multiply sm:right-[-4%] sm:h-[51%] sm:w-[43%] lg:h-[57%] lg:w-[45%]"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-cream via-cream/95 to-transparent" />
-      <div className="relative p-6">
-        <h2 className="font-serif text-3xl leading-tight font-bold text-emerald-deep xl:text-4xl">
-          Tabung Qurban
-          <br />
-          Surau Seri Dahlia 2027
-        </h2>
-        <p className="mt-3 max-w-xs text-sm text-bronze">
-          Kumpulkan simpanan dengan konsisten sebelum tibanya tarikh qurban bagi melancarkan urusan
-          pembelian ternakan.
-        </p>
 
-        <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-gold/50 bg-gold/15 px-4 py-2 text-sm font-semibold text-emerald-deep">
-          <Timer className="h-4 w-4 text-bronze" /> Countdown ke Hari Raya Qurban
+      <div className="relative z-20 p-4 sm:p-5">
+        <div className="relative max-w-[72%] text-emerald-deep sm:max-w-[69%]">
+          <p className="text-[0.58rem] font-extrabold tracking-[0.3em] text-bronze uppercase sm:text-[0.65rem]">
+            Tabung Qurban
+          </p>
+          <h2 className="mt-1 font-serif text-2xl leading-tight font-bold sm:text-3xl xl:text-4xl">
+            Surau Seri Dahlia <span className="text-bronze">2027</span>
+          </h2>
+          <p className="mt-2 text-[0.65rem] leading-relaxed text-emerald-deep/80 sm:text-xs">
+            Kumpulkan simpanan dengan konsisten sebelum tibanya hari qurban bagi melancarkan urusan
+            pembelian ternakan.
+          </p>
         </div>
 
-        <div className="mt-4 grid max-w-md grid-cols-4 overflow-hidden rounded-2xl border border-emerald-deep/20 bg-emerald-deep text-center">
-          {parts.map((p) => (
-            <div key={p.l} className="border-r border-gold/20 px-2 py-3 last:border-r-0">
-              <p className="text-2xl font-black text-cream xl:text-3xl">{p.v}</p>
-              <p className="text-[0.65rem] font-semibold tracking-widest text-gold">{p.l}</p>
-            </div>
-          ))}
+        <div className="absolute right-3 top-4 z-20 hidden w-[27%] text-emerald-deep sm:block">
+          <span className="font-serif text-3xl leading-none text-bronze/70">“</span>
+          <p className="text-[0.62rem] font-semibold leading-snug">
+            Sesungguhnya sembahyangku, ibadahku, hidupku dan matiku hanyalah kerana Allah SWT.
+          </p>
+          <p className="mt-1 text-[0.52rem] font-semibold text-bronze">(Surah Al-An'am: 162)</p>
         </div>
 
-        <div className="mt-3 grid max-w-xl grid-cols-1 gap-2 sm:grid-cols-3">
+        <div className="relative z-30 mt-4 rounded-2xl border border-gold/70 bg-emerald-dark/95 p-2.5 text-cream shadow-[0_8px_20px_-10px_oklch(0.1_0.03_166_/_0.9)] sm:mt-5 sm:p-3">
+          <div className="flex items-center gap-2 text-[0.58rem] font-extrabold tracking-[0.13em] text-gold uppercase sm:text-[0.66rem]">
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg border border-gold/40 bg-gold/10">
+              <Timer className="h-4 w-4" />
+            </span>
+            Countdown ke Hari Raya Qurban
+          </div>
+          <div className="mt-2 grid grid-cols-4 divide-x divide-gold/25 rounded-xl border border-gold/20 bg-emerald-deep/60">
+            {parts.map((p) => (
+              <div key={p.l} className="min-w-0 px-1.5 py-2 text-center sm:px-2">
+                <p className="font-mono text-xl font-black leading-none text-cream sm:text-2xl xl:text-3xl">
+                  {p.v}
+                </p>
+                <p className="mt-1 text-[0.5rem] font-bold tracking-[0.1em] text-gold sm:text-[0.58rem]">
+                  {p.l}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative z-30 mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
           {[
             {
-              label: "JUMLAH SIMPANAN TERKUMPUL",
+              Icon: Coins,
+              label: "Jumlah Simpanan Terkumpul",
               value: stats
                 ? `RM ${stats.totalSavings.toLocaleString("en-US", {
                     minimumFractionDigits: 2,
@@ -64,24 +93,31 @@ export function QurbanCard() {
                 : "—",
             },
             {
-              label: "JUMLAH AHLI BERDAFTAR",
+              Icon: Users,
+              label: "Jumlah Ahli Berdaftar",
               value: stats ? String(stats.registeredMembers) : "—",
             },
             {
-              label: "JUMLAH BAHAGIAN KOMITED",
+              Icon: Layers,
+              label: "Jumlah Bahagian Komited",
               value: stats ? `${stats.committedShares} Bahagian` : "—",
             },
-          ].map((item) => (
+          ].map(({ Icon, label, value }) => (
             <div
-              key={item.label}
-              className="min-w-0 rounded-xl border border-gold/35 bg-cream/90 px-3 py-2 text-center shadow-sm"
+              key={label}
+              className="min-w-0 rounded-2xl border border-gold/55 bg-cream/95 p-2.5 shadow-[0_8px_22px_-12px_oklch(0.1_0.03_166_/_0.75)] sm:p-3"
               aria-busy={isLoading}
             >
-              <p className="min-h-7 text-[0.58rem] font-extrabold leading-tight tracking-[0.08em] text-bronze">
-                {item.label}
-              </p>
-              <p className="mt-1 truncate text-base font-black tracking-tight text-emerald-deep xl:text-lg">
-                {item.value}
+              <div className="flex items-start gap-2">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gold-soft/70 text-bronze">
+                  <Icon className="h-4 w-4" />
+                </span>
+                <p className="pt-1 text-[0.56rem] font-extrabold leading-tight tracking-[0.06em] text-emerald-deep uppercase">
+                  {label}
+                </p>
+              </div>
+              <p className="mt-2 truncate text-lg font-black tracking-tight text-emerald-deep sm:text-xl xl:text-2xl">
+                {value}
               </p>
             </div>
           ))}
@@ -92,7 +128,7 @@ export function QurbanCard() {
           </p>
         )}
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+        <div className="relative z-30 mt-3 grid gap-2 rounded-2xl border border-gold/30 bg-cream/80 p-2.5 sm:grid-cols-3 sm:p-3">
           {[
             {
               Icon: ClipboardList,
@@ -105,12 +141,37 @@ export function QurbanCard() {
             { Icon: Beef, t: "Anggaran harga lembu 1 bahagian pada tahun 2027 adalah RM900." },
           ].map(({ Icon, t }) => (
             <div key={t} className="flex min-w-0 gap-2">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-gold/50 bg-cream">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-gold/55 bg-gold-soft/50">
                 <Icon className="h-4 w-4 text-bronze" />
               </span>
-              <p className="text-xs leading-snug text-emerald-deep/80">{t}</p>
+              <p className="text-[0.62rem] leading-snug text-emerald-deep/85">{t}</p>
             </div>
           ))}
+        </div>
+
+        <div className="relative z-30 mt-3 overflow-hidden rounded-2xl border border-gold/70 bg-emerald-dark/95 px-3 py-3 text-cream sm:px-4 sm:py-3.5">
+          <img
+            src={arabesque}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20"
+          />
+          <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-gold/20 via-gold to-gold/20" />
+          <div className="relative flex gap-3">
+            <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-gold/45 bg-gold/10 text-gold">
+              <Users className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="font-serif text-lg font-bold text-gold sm:text-xl">
+                Ingin Mendaftar Bahagian Qurban?
+              </p>
+              <p className="mt-1 text-[0.62rem] leading-relaxed text-cream/85 sm:text-[0.68rem]">
+                Sila hubungi Haji Zaharin (Bendahari Surau) atau mana-mana AJK bertugas untuk
+                menetapkan sasaran bulanan dan mendaftarkan butiran anda ke dalam pangkalan data
+                selamat kami.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

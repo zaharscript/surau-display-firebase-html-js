@@ -26,8 +26,8 @@ export function BottomBar({ className = "" }: { className?: string }) {
             className="h-12 w-12 shrink-0 rounded-full object-cover"
           />
           <div>
-            <p className="font-serif text-xl font-bold text-emerald-deep">Surau Seri Dahlia</p>
-            <p className="text-[0.7rem] tracking-widest text-bronze uppercase">Bandar Seri Putra</p>
+            <p className="font-serif text-lg font-bold text-emerald-deep">Surau Seri Dahlia</p>
+            <p className="text-[0.9rem] tracking-widest text-bronze uppercase">Bandar Seri Putra</p>
           </div>
         </div>
         <div className="flex items-center justify-center gap-3">
@@ -41,13 +41,13 @@ export function BottomBar({ className = "" }: { className?: string }) {
         <div className="flex min-w-0 items-center justify-center gap-2 sm:justify-end">
           <CalendarDays className="h-5 w-5 shrink-0 text-emerald-deep" />
           <div className="min-w-0 text-center sm:text-right">
-            <p className="truncate text-sm font-bold text-emerald-deep">{formatMalayDate(now)}</p>
-            <p className="truncate text-sm text-bronze">{formatHijri(now)}</p>
+            <p className="truncate text-lg font-bold text-emerald-deep">{formatMalayDate(now)}</p>
+            <p className="truncate text-lg text-bronze">{formatHijri(now)}</p>
           </div>
         </div>
       </div>
       <div className="overflow-hidden rounded-b-3xl border-t border-bronze/20 bg-emerald-deep py-2">
-        <div className="animate-marquee-x flex w-max gap-12 pl-4 text-sm text-cream/90">
+        <div className="animate-marquee-x flex w-max gap-12 pl-4 text-xl text-cream/90">
           {[...NOTICES, ...NOTICES].map((n, i) => (
             <span key={i} className="whitespace-nowrap">
               ✦ {n}

@@ -56,7 +56,7 @@ function Dashboard() {
       <div className="relative mx-auto flex w-full flex-col gap-4 p-3 sm:p-4 lg:h-[100dvh] lg:max-h-[100dvh] lg:min-h-0 lg:max-w-none lg:gap-[clamp(0.75rem,1.25vw,1.5rem)] lg:px-[clamp(1rem,2.5vw,3rem)] lg:pb-0 lg:pt-[clamp(1rem,2.5vw,3rem)]">
         <h1 className="sr-only">Paparan Digital Surau Seri Dahlia</h1>
 
-        <div className="grid flex-1 grid-cols-1 gap-4 lg:min-h-0 lg:grid-cols-12 lg:gap-[clamp(0.75rem,1.25vw,1.5rem)]">
+        <div className="grid flex-1 grid-cols-1 gap-4 lg:min-h-0 lg:grid-cols-12 lg:gap-[clamp(0.75rem,1.25vw,1.5rem)] lg:overflow-y-auto">
           <section className="flex flex-col gap-4 lg:col-span-5 lg:min-h-0">
             <LiveNowCard activity={live} />
             <div className="min-h-[22rem] flex-1 lg:min-h-0">
@@ -65,8 +65,11 @@ function Dashboard() {
           </section>
 
           <section className="flex flex-col gap-4 lg:col-span-4 lg:min-h-0">
-            <div className="flex-1 lg:min-h-0">
+            <div className="min-h-0 flex-[1.4]">
               <QurbanCard />
+            </div>
+            <div className="self-end lg:w-[55%] lg:min-h-0 lg:flex-[0.6]">
+              <HadisCard />
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:h-[min(30%,15rem)] lg:min-h-44">
               <div className="hidden rounded-3xl border border-gold/20 bg-emerald-dark/60 p-5 sm:block">
@@ -82,13 +85,12 @@ function Dashboard() {
           </section>
 
           <section className="flex flex-col gap-4 lg:col-span-3 lg:min-h-0">
-            <div className="lg:flex-[1.2] lg:min-h-0">
+            <div className="shrink-0">
               <PrayerPanel />
             </div>
-            <div className="lg:flex-1 lg:min-h-0">
-              <HadisCard />
+            <div className="min-h-0 flex-1">
+              <PosterSlider className="h-full w-full min-h-0" />
             </div>
-            <PosterSlider className="aspect-[4/3] lg:flex-1 lg:aspect-auto lg:min-h-48" />
           </section>
         </div>
 
