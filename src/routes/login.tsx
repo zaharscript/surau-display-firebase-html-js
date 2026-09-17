@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { AlertCircle, Lock, Mail, Moon } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, Lock, Mail, Moon } from "lucide-react";
 import { getFirebase } from "@/lib/firebase";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import arabesque from "@/assets/arabesque.jpg";
@@ -10,9 +10,15 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       { title: "Log Masuk — Surau Seri Dahlia" },
-      { name: "description", content: "Akses pengurusan aktiviti Surau Seri Dahlia." },
+      {
+        name: "description",
+        content: "Akses pengurusan aktiviti Surau Seri Dahlia.",
+      },
       { property: "og:title", content: "Log Masuk — Surau Seri Dahlia" },
-      { property: "og:description", content: "Akses pengurusan aktiviti Surau Seri Dahlia." },
+      {
+        property: "og:description",
+        content: "Akses pengurusan aktiviti Surau Seri Dahlia.",
+      },
     ],
   }),
   component: LoginPage,
@@ -23,6 +29,7 @@ function LoginPage() {
   const { user, ready } = useAuthUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -33,11 +40,14 @@ function LoginPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
     if (!email.trim() || !password) {
       setError("Sila isi e-mel dan kata laluan.");
       return;
     }
+
     setLoading(true);
+
     try {
       const { auth } = await getFirebase();
       await signInWithEmailAndPassword(auth, email.trim(), password);
@@ -57,14 +67,21 @@ function LoginPage() {
         aria-hidden
         className="fixed inset-0 h-full w-full object-cover opacity-20"
       />
+
       <div className="fixed inset-0 bg-gradient-to-br from-background via-emerald-dark to-background" />
 
       <div className="glass-panel relative w-full max-w-md rounded-3xl border-gold/30 p-8 backdrop-blur-xl">
         <div className="mx-auto grid h-20 w-20 place-items-center rounded-full border-4 border-gold/70 bg-cream">
           <Moon className="h-9 w-9 text-emerald-deep" />
         </div>
-        <h1 className="mt-6 text-center font-serif text-4xl font-bold text-gold">Log Masuk</h1>
-        <p className="mt-2 text-center text-sm text-cream/70">Akses Pengurusan Surau Seri Dahlia</p>
+
+        <h1 className="mt-6 text-center font-serif text-4xl font-bold text-gold">
+          Log Masuk
+        </h1>
+
+        <p className="mt-2 text-center text-sm text-cream/70">
+          Akses Pengurusan Surau Seri Dahlia
+        </p>
 
         {error && (
           <div className="mt-5 flex items-start gap-2 rounded-xl border border-destructive/50 bg-destructive/15 px-3 py-2 text-sm text-destructive-foreground">
@@ -75,11 +92,16 @@ function LoginPage() {
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <div>
-            <label htmlFor="email" className="text-sm font-semibold text-cream">
+            <label
+              htmlFor="email"
+              className="text-sm font-semibold text-cream"
+            >
               E-mel
             </label>
+
             <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-gold/30 bg-emerald-dark/60 px-3">
               <Mail className="h-4 w-4 text-gold" />
+
               <input
                 id="email"
                 type="email"
@@ -94,21 +116,42 @@ function LoginPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="text-sm font-semibold text-cream">
+            <label
+              htmlFor="password"
+              className="text-sm font-semibold text-cream"
+            >
               Kata Laluan
             </label>
+
             <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-gold/30 bg-emerald-dark/60 px-3">
-              <Lock className="h-4 w-4 text-gold" />
+              <Lock className="h-4 w-4 shrink-0 text-gold" />
+
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 maxLength={128}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-transparent py-3 text-cream placeholder:text-cream/40 focus:outline-none"
+                className="w-full min-w-0 bg-transparent py-3 text-cream placeholder:text-cream/40 focus:outline-none"
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="shrink-0 p-1 text-cream/60 transition-colors hover:text-gold focus:outline-none"
+                aria-label={
+                  showPassword ? "Sembunyikan kata laluan" : "Tunjukkan kata laluan"
+                }
+                title={showPassword ? "Sembunyikan kata laluan" : "Tunjukkan kata laluan"}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
+              </button>
             </div>
           </div>
 
@@ -122,7 +165,10 @@ function LoginPage() {
         </form>
 
         <div className="mt-6 text-center">
-          <Link to="/" className="text-sm text-cream/60 transition-colors hover:text-gold">
+          <Link
+            to="/"
+            className="text-sm text-cream/60 transition-colors hover:text-gold"
+          >
             ← Kembali ke Paparan Utama
           </Link>
         </div>
@@ -130,3 +176,5 @@ function LoginPage() {
     </main>
   );
 }
+
+

@@ -64,22 +64,14 @@ function Dashboard() {
             </div>
           </section>
 
-          <section className="flex flex-col gap-4 lg:col-span-4 lg:min-h-0">
-            <div className="min-h-0 flex-[1.4]">
+          <section className="grid grid-cols-1 gap-4 lg:col-span-4 lg:min-h-0 lg:grid-cols-2 lg:grid-rows-[minmax(17rem,1fr)_auto_auto]">
+            <div className="min-h-0 lg:col-span-2 lg:row-start-1">
               <QurbanCard />
             </div>
-            <div className="self-end lg:w-[55%] lg:min-h-0 lg:flex-[0.6]">
+            <div className="self-end lg:col-start-2 lg:row-start-2 lg:w-[82%] lg:justify-self-end">
               <HadisCard />
             </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:h-[min(30%,15rem)] lg:min-h-44">
-              <div className="hidden rounded-3xl border border-gold/20 bg-emerald-dark/60 p-5 sm:block">
-                <p className="text-xs font-extrabold tracking-[0.25em] text-gold uppercase">
-                  Cahaya Islam
-                </p>
-                <p className="mt-5 font-serif text-3xl leading-tight text-cream xl:text-4xl">
-                  Ilmu menerangi hati dan menguatkan ummah.
-                </p>
-              </div>
+            <div className="lg:col-start-1 lg:row-start-3 lg:w-[90%] lg:justify-self-start">
               <QrCard />
             </div>
           </section>
