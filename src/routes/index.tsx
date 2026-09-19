@@ -1,3 +1,4 @@
+//index.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LogIn } from "lucide-react";
 import { useActivities } from "@/hooks/useActivities";
@@ -7,7 +8,8 @@ import { PrayerPanel } from "@/components/surau/PrayerPanel";
 import { LiveNowCard } from "@/components/surau/LiveNowCard";
 import { ActivityBoard } from "@/components/surau/ActivityBoard";
 import { QurbanCard } from "@/components/surau/QurbanCard";
-import { HadisCard, QrCard } from "@/components/surau/SideTiles";
+import { HadisCard} from "@/components/surau/HadisCard";
+import { QrCard } from "@/components/surau/QrCard";
 import { PosterSlider } from "@/components/surau/PosterSlider";
 import { BottomBar } from "@/components/surau/BottomBar";
 import arabesque from "@/assets/arabesque.jpg";

@@ -49,7 +49,7 @@ export function QurbanCard() {
             Surau Seri Dahlia <span className="text-bronze">2027</span>
           </h2>
 
-          <p className="mt-2 text-[0.78rem] leading-relaxed text-emerald-deep/80 sm:text-sm">
+          <p className="mt-2 text-[1.25rem] leading-relaxed text-emerald-deep/80 sm:text-lg">
             Kumpulkan simpanan dengan konsisten sebelum tibanya hari qurban bagi melancarkan urusan
             pembelian ternakan.
           </p>
@@ -58,11 +58,11 @@ export function QurbanCard() {
         <div className="absolute right-3 top-4 z-20 hidden w-[27%] text-emerald-deep sm:block">
           <span className="font-serif text-3xl leading-none text-bronze/70">“</span>
 
-          <p className="text-[0.75rem] font-semibold leading-snug">
+          <p className="text-[1rem] font-semibold leading-snug">
             Sesungguhnya sembahyangku, ibadahku, hidupku dan matiku hanyalah kerana Allah SWT.
           </p>
 
-          <p className="mt-1 text-[0.65rem] font-semibold text-bronze">
+          <p className="mt-1 text-[0.98rem] font-semibold text-bronze">
             (Surah Al-An'am: 162)
           </p>
         </div>
