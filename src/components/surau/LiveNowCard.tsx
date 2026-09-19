@@ -30,7 +30,7 @@ export function LiveNowCard({ activity }: { activity: Activity | null }) {
         height={768}
         className={`absolute inset-y-0 right-0 h-full w-full object-cover object-top transition-all duration-700 ${
           activity
-            ? "opacity-100 saturate-110 contrast-[1.05] brightness-[1.04] lg:w-[48%] lg:min-w-[20rem]"
+            ? "opacity-100 saturate-110 contrast-[1.05] brightness-[1.04] lg:w-[65%] lg:min-w-[23rem]"
             : "opacity-45 saturate-90"
         }`}
       />
