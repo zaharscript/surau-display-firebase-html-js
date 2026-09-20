@@ -84,6 +84,11 @@ function normalizeActivity(id: string, data: Record<string, unknown>): Activity 
   return {
     id,
     ...data,
+    tarikh: date,
+    tajuk: title,
+    penceramah: speaker,
+    nota: notes,
+    masa: timeSlot,
     date,
     title,
     speaker,

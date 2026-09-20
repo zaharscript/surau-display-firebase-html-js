@@ -15,7 +15,7 @@
    - PROD Config:
      apiKey: "@secret:GOOGLE_API_KEY ", projectId: "surau-digital-display", authDomain: "surau-digital-display.firebaseapp.com", storageBucket: "surau-digital-display.firebasestorage.app", messagingSenderId: "968646006236", appId: "1:968646006236:web:1cbd212aaec55d12172b19"
    - DEV Config:
-     apiKey: "@secret:GOOGLE_API_KEY ", projectId: "surau-display-dev", authDomain: "surau-display-dev.firebaseapp.com", storageBucket: "surau-display-dev.firebasestorage.app", messagingSenderId: "1040738333772", appId: "1:1040738333772:web:a28e30ffe24b0b6db5f0e9"
+     apiKey: "@secret:GOOGLE_API_KEY ", projectId: "surau-digital-display", authDomain: "surau-digital-display.firebaseapp.com", storageBucket: "surau-digital-display.firebasestorage.app", messagingSenderId: "968646006236", appId: "1:968646006236:web:1cbd212aaec55d12172b19"
 
 ---
 

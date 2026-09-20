@@ -83,9 +83,39 @@ export function activityStartDate(a: Activity) {
 }
 
 /** Returns a scheduled activity date in the Surau's Malaysia time zone (UTC+08:00). */
-export function activityDateAt(tarikh: string, time: string) {
-  const [y = 1970, m = 1, d = 1] = tarikh.split("-").map(Number);
-  const [hh = 0, mm = 0] = time.split(":").map(Number);
+export function activityDateAt(tarikh: string | undefined, time: string | undefined) {
+  if (!tarikh || !/^\d{4}-\d{2}-\d{2}$/.test(tarikh) || !time || !/^\d{1,2}:\d{2}$/.test(time)) {
+    return new Date(Number.NaN);
+  }
+
+  const [y, m, d] = tarikh.split("-").map(Number);
+  const [hh, mm] = time.split(":").map(Number);
+  if (
+    !Number.isInteger(y) ||
+    !Number.isInteger(m) ||
+    !Number.isInteger(d) ||
+    !Number.isInteger(hh) ||
+    !Number.isInteger(mm) ||
+    m < 1 ||
+    m > 12 ||
+    d < 1 ||
+    hh < 0 ||
+    hh > 23 ||
+    mm < 0 ||
+    mm > 59
+  ) {
+    return new Date(Number.NaN);
+  }
+
+  const calendarDate = new Date(Date.UTC(y, m - 1, d));
+  if (
+    calendarDate.getUTCFullYear() !== y ||
+    calendarDate.getUTCMonth() !== m - 1 ||
+    calendarDate.getUTCDate() !== d
+  ) {
+    return new Date(Number.NaN);
+  }
+
   return new Date(Date.UTC(y, m - 1, d, hh - 8, mm, 0, 0));
 }
 

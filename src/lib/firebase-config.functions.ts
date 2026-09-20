@@ -1,12 +1,10 @@
 const config = {
-  apiKey: "AIzaSyCIeMwMy7jLyT3_azmrUh2M7oYnu5frL4U",
-  authDomain: "surau-display-dev.firebaseapp.com",
-  databaseURL: "https://surau-display-dev-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "surau-display-dev",
-  storageBucket: "surau-display-dev.firebasestorage.app",
-  messagingSenderId: "1040738333772",
-  appId: "1:1040738333772:web:a28e30ffe24b0b6db5f0e9",
-  measurementId: "G-VMHZBNQNN1",
+  apiKey: "AIzaSyB_rlJIsxAJGzPqMZqq5BX6l9eEM8KQU2g",
+  authDomain: "surau-digital-display.firebaseapp.com",
+  projectId: "surau-digital-display",
+  storageBucket: "surau-digital-display.firebasestorage.app",
+  messagingSenderId: "968646006236",
+  appId: "1:968646006236:web:1cbd212aaec55d12172b19",
 };
 
 export const getFirebaseApiKey = async () => config.apiKey;
