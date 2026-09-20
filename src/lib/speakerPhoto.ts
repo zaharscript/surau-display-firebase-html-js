@@ -25,6 +25,7 @@ import jamir from "@/assets/ustaz/jamir_kodiang.png";
 import imamSurau from "@/assets/ustaz/yassin.jpg";
 import ajk from "@/assets/ustaz/kelas_mengaji.png";
 import ziarah from "@/assets/ustaz/ziarah.jpeg";
+import mengaji from "@/assets/ustaz/kelas_mengaji.png";
 import liveAbuZaki from "@/assets/ustaz_live/dr-abu-zaki.png";
 import liveKhairatul from "@/assets/ustaz_live/dr_khairatul.png";
 import liveRamli from "@/assets/ustaz_live/Hj_ramli.png";
@@ -51,7 +52,8 @@ import liveDzikri from "@/assets/ustaz_live/ust_dzikri.png";
 import liveJamir from "@/assets/ustaz_live/jamir_kodiang.png";
 import liveImamSurau from "@/assets/ustaz_live/yassin.png";
 import liveAjk from "@/assets/ustaz_live/kelas_mengaji.png";
-import liveZiarah from "@/assets/ustaz_live/ziarah.jpeg";
+import liveZiarah from "@/assets/ustaz_live/ziarah.png";
+import livemengaji from "@/assets/ustaz_live/kelas_mengaji.png";
 
 const SPEAKER_PHOTOS: Record<string, string> = {
   fahmi,
@@ -119,6 +121,7 @@ function findSpeakerPhoto(
   tajuk: string | undefined,
   photos: Record<string, string>,
   rayaPhoto: string,
+  mengajiPhoto: string
 ) {
   const search = `${penceramah ?? ""} ${tajuk ?? ""}`.toLocaleLowerCase("ms-MY");
   if (!search.trim()) return null;
@@ -126,16 +129,18 @@ function findSpeakerPhoto(
   // Raya artwork always takes priority over a named speaker.
   if (search.includes("aidiladha")) return rayaPhoto;
 
+  if (search.includes("mengaji")) return mengajiPhoto;
+
   for (const [keyword, photo] of Object.entries(photos)) {
-    if (search.includes(keyword)) return photo;
+    if (search.includes(keyword)) return photo;``
   }
   return null;
 }
 
 export function getSpeakerPhoto(penceramah?: string, tajuk?: string) {
-  return findSpeakerPhoto(penceramah, tajuk, SPEAKER_PHOTOS, solatRaya);
+  return findSpeakerPhoto(penceramah, tajuk, SPEAKER_PHOTOS, solatRaya, mengaji);
 }
 
 export function getLiveSpeakerPhoto(penceramah?: string, tajuk?: string) {
-  return findSpeakerPhoto(penceramah, tajuk, LIVE_SPEAKER_PHOTOS, liveSolatRaya);
+  return findSpeakerPhoto(penceramah, tajuk, LIVE_SPEAKER_PHOTOS, liveSolatRaya, livemengaji);
 }
