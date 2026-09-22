@@ -25,7 +25,7 @@ export function LiveNowCard({ activity }: { activity: Activity | null }) {
       <div className="absolute inset-0 bg-gradient-to-t from-emerald-dark/45 via-transparent to-emerald-dark/5" />
       <img
         src={heroImage}
-        alt={activity ? activity.penceramah || activity.tajuk : "Suasana kelas Al-Quran di surau"}
+        alt={activity ? activity.penceramah || activity.tajuk : ""}
         width={1024}
         height={768}
         className={`absolute inset-y-0 right-0 h-full w-full object-cover object-top transition-all duration-700 ${

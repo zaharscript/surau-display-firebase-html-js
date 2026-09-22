@@ -6,8 +6,10 @@ import quote3 from "@/assets/surau_poster/quote_3.jpg";
 import quote4 from "@/assets/surau_poster/quote_4.jpg";
 import quote5 from "@/assets/surau_poster/quote_5.jpg";
 import quote6 from "@/assets/surau_poster/quote_6.jpg";
-import selawat from "@/assets/surau_poster/Selawat_bulanan.jpg";
-import tausiah from "@/assets/surau_poster/tausiah_subuh.jpg";
+import mesyuarat from "@/assets/surau_poster/mesyuarat.jpeg";
+import tahlil from "@/assets/surau_poster/jemputan_tahlil.jpeg";
+// import selawat from "@/assets/surau_poster/Selawat_bulanan.jpg";
+// import tausiah from "@/assets/surau_poster/tausiah_subuh.jpg";
 
 const POSTERS = [
   { src: quote, alt: "Poster kata-kata hikmah" },
@@ -15,10 +17,12 @@ const POSTERS = [
   { src: quote2, alt: "Poster kata-kata hikmah" },
   { src: quote3, alt: "Poster kata-kata hikmah" },
   { src: quote4, alt: "Poster kata-kata hikmah" },
-  { src: tausiah, alt: "Poster tausiah subuh" },
+  { src: mesyuarat, alt: "Poster mesyuarat" },
+  // { src: tausiah, alt: "Poster tausiah subuh" },
   { src: quote5, alt: "Poster kata-kata hikmah" },
   { src: quote6, alt: "Poster kata-kata hikmah" },
-  { src: selawat, alt: "Poster selawat bulanan" },
+  // { src: selawat, alt: "Poster selawat bulanan" },
+  { src: tahlil, alt: "Poster jemputan tahlil" },
 ];
 
 export function PosterSlider({ className = "" }: { className?: string }) {
