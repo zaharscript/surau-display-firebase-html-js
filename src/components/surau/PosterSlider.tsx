@@ -9,7 +9,7 @@ import quote6 from "@/assets/surau_poster/quote_6.jpg";
 import mesyuarat from "@/assets/surau_poster/mesyuarat.jpeg";
 import tahlil from "@/assets/surau_poster/jemputan_tahlil.jpeg";
 // import selawat from "@/assets/surau_poster/Selawat_bulanan.jpg";
-// import tausiah from "@/assets/surau_poster/tausiah_subuh.jpg";
+
 
 const POSTERS = [
   { src: quote, alt: "Poster kata-kata hikmah" },
@@ -18,7 +18,6 @@ const POSTERS = [
   { src: quote3, alt: "Poster kata-kata hikmah" },
   { src: quote4, alt: "Poster kata-kata hikmah" },
   { src: mesyuarat, alt: "Poster mesyuarat" },
-  // { src: tausiah, alt: "Poster tausiah subuh" },
   { src: quote5, alt: "Poster kata-kata hikmah" },
   { src: quote6, alt: "Poster kata-kata hikmah" },
   // { src: selawat, alt: "Poster selawat bulanan" },
