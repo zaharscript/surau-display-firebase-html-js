@@ -101,7 +101,7 @@ function Dashboard() {
               <PrayerPanel />
             </div>
 
-            <div className="min-h-0 flex-1">
+            <div className="min-h-[18rem] flex-1 lg:min-h-0">
               <PosterSlider className="h-full w-full min-h-0" />
             </div>
           </section>

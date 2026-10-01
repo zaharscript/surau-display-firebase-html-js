@@ -11,11 +11,18 @@
    - High Contrast & Kiosk-Optimized: Crisp typography (Amiri / Serif for Arabic/Quotes, Montserrat or Inter for UI text) with high legibility for large TV displays (15m distance) and smooth scaling for mobile web viewports (390px-430px).
 
 3. Multi-Environment Configuration:
-   Detect environment automatically based on hostname (localhost / dev parameter = DEV, production URL = PROD):
-   - PROD Config:
-     apiKey: "@secret:GOOGLE_API_KEY ", projectId: "surau-digital-display", authDomain: "surau-digital-display.firebaseapp.com", storageBucket: "surau-digital-display.firebasestorage.app", messagingSenderId: "968646006236", appId: "1:968646006236:web:1cbd212aaec55d12172b19"
-   - DEV Config:
-     apiKey: "@secret:GOOGLE_API_KEY ", projectId: "surau-digital-display", authDomain: "surau-digital-display.firebaseapp.com", storageBucket: "surau-digital-display.firebasestorage.app", messagingSenderId: "968646006236", appId: "1:968646006236:web:1cbd212aaec55d12172b19"
+   - Vite development mode connects only to `surau-display-dev` and its
+     `surau-display-dev.firebasestorage.app` bucket. Supply the development web
+     app's `VITE_FIREBASE_DEV_API_KEY`, `VITE_FIREBASE_DEV_MESSAGING_SENDER_ID`,
+     and `VITE_FIREBASE_DEV_APP_ID` in an ignored local `.env.development.local`.
+     Its auth domain is `surau-display-dev.firebaseapp.com`.
+   - Production builds keep the existing `surau-digital-display` Firebase
+     configuration. Do not set development credentials in production builds.
+
+Poster uploads use the authenticated-user model already used by the admin
+activity form; this project does not define a separate admin role or contain a
+Firestore rules file. Preserve the existing Firestore rules when adding access
+for public reads and authenticated writes to `posterSettings/main`.
 
 ---
 

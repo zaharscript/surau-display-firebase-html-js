@@ -1,10 +1,15 @@
 rules_version = '2';
 
-// Craft rules based on data in your Firestore database
-// allow write: if firestore.get(
-//    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
 service firebase.storage {
   match /b/{bucket}/o {
+    match /poster_uploads/{allPaths=**} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.contentType == 'image/jpeg';
+      allow delete: if request.auth != null;
+      allow update: if false;
+    }
+
     match /{allPaths=**} {
       allow read, write: if false;
     }

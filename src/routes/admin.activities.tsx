@@ -16,6 +16,7 @@ import { useAuthUser } from "@/hooks/useAuthUser";
 import { useActivities } from "@/hooks/useActivities";
 import { useNow } from "@/hooks/useNow";
 import { getSpeakerPhoto } from "@/lib/speakerPhoto";
+import { PosterManager } from "@/components/admin/PosterManager";
 import {
   MALAY_DAYS,
   MASA_LABELS,
@@ -340,6 +341,8 @@ function AdminActivities() {
             )}
           </div>
         </form>
+
+        {user && <PosterManager />}
 
         <section className="space-y-3">
           <h2 className="inline-flex items-center gap-2 text-lg font-bold text-gold">
