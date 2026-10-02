@@ -26,6 +26,7 @@ import imamSurau from "@/assets/ustaz/yassin.jpg";
 import ajk from "@/assets/ustaz/kelas_mengaji.png";
 import ziarah from "@/assets/ustaz/ziarah.jpeg";
 import mengaji from "@/assets/ustaz/kelas_mengaji.png";
+import agm from "@/assets/ustaz/MESYUARAT_AGUNG_KHAS.jpg";
 import liveAbuZaki from "@/assets/ustaz_live/dr-abu-zaki.png";
 import liveKhairatul from "@/assets/ustaz_live/dr_khairatul.png";
 import liveRamli from "@/assets/ustaz_live/Hj_ramli.png";
@@ -54,6 +55,7 @@ import liveImamSurau from "@/assets/ustaz_live/yassin.png";
 import liveAjk from "@/assets/ustaz_live/kelas_mengaji.png";
 import liveZiarah from "@/assets/ustaz_live/ziarah.png";
 import livemengaji from "@/assets/ustaz_live/kelas_mengaji.png";
+import liveagm from "@/assets/ustaz_live/MESYUARAT_AGUNG_KHAS.jpg";
 
 const SPEAKER_PHOTOS: Record<string, string> = {
   fahmi,
@@ -121,7 +123,8 @@ function findSpeakerPhoto(
   tajuk: string | undefined,
   photos: Record<string, string>,
   rayaPhoto: string,
-  mengajiPhoto: string
+  mengajiPhoto: string,
+  agmPhoto: string
 ) {
   const search = `${penceramah ?? ""} ${tajuk ?? ""}`.toLocaleLowerCase("ms-MY");
   if (!search.trim()) return null;
@@ -131,16 +134,23 @@ function findSpeakerPhoto(
 
   if (search.includes("mengaji")) return mengajiPhoto;
 
+  if (
+    search.includes("mesyuarat agung khas") ||
+    search.includes("mesyuarat agong khas")
+  ) {
+    return agmPhoto;
+  }
+
   for (const [keyword, photo] of Object.entries(photos)) {
-    if (search.includes(keyword)) return photo;``
+    if (search.includes(keyword)) return photo;
   }
   return null;
 }
 
 export function getSpeakerPhoto(penceramah?: string, tajuk?: string) {
-  return findSpeakerPhoto(penceramah, tajuk, SPEAKER_PHOTOS, solatRaya, mengaji);
+  return findSpeakerPhoto(penceramah, tajuk, SPEAKER_PHOTOS, solatRaya, mengaji, agm);
 }
 
 export function getLiveSpeakerPhoto(penceramah?: string, tajuk?: string) {
-  return findSpeakerPhoto(penceramah, tajuk, LIVE_SPEAKER_PHOTOS, liveSolatRaya, livemengaji);
+  return findSpeakerPhoto(penceramah, tajuk, LIVE_SPEAKER_PHOTOS, liveSolatRaya, livemengaji, liveagm);
 }
