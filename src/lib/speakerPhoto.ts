@@ -26,7 +26,7 @@ import imamSurau from "@/assets/ustaz/yassin.jpg";
 import ajk from "@/assets/ustaz/kelas_mengaji.png";
 import ziarah from "@/assets/ustaz/ziarah.jpeg";
 import mengaji from "@/assets/ustaz/kelas_mengaji.png";
-import agm from "@/assets/ustaz/MESYUARAT_AGUNG_KHAS.jpg";
+import agm from "@/assets/ustaz/mesyuarat_agung_khas.jpg";
 import liveAbuZaki from "@/assets/ustaz_live/dr-abu-zaki.png";
 import liveKhairatul from "@/assets/ustaz_live/dr_khairatul.png";
 import liveRamli from "@/assets/ustaz_live/Hj_ramli.png";
@@ -55,7 +55,7 @@ import liveImamSurau from "@/assets/ustaz_live/yassin.png";
 import liveAjk from "@/assets/ustaz_live/kelas_mengaji.png";
 import liveZiarah from "@/assets/ustaz_live/ziarah.png";
 import livemengaji from "@/assets/ustaz_live/kelas_mengaji.png";
-import liveagm from "@/assets/ustaz_live/MESYUARAT_AGUNG_KHAS.jpg";
+import liveagm from "@/assets/ustaz_live/mesyuarat_agung_khas.jpg";
 
 const SPEAKER_PHOTOS: Record<string, string> = {
   fahmi,
